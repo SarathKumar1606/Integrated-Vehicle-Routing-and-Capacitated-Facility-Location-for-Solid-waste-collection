@@ -68,9 +68,28 @@ Point 9 in the Appendix A example proves it: bin 3 (3.3 m³, 2.34 US$) fits its
 ## Run
 
 ```bash
-pip install numpy
+python -m venv .venv
+.venv\Scripts\activate            # Windows;  source .venv/bin/activate elsewhere
+pip install -r requirements.txt
 python src/validate_appendix.py
+python tests/test_decoder_equivalence.py
 ```
+
+## Decoder performance
+
+The decoder's five stages are compiled with Numba. A fitness evaluation on
+the Chennai instance takes about 13 µs, down from 1.2 ms in the original
+pure-Python version (~90×), and a full SA run is ~50× faster. The first run
+after a code change spends a few seconds compiling; the result is cached in
+`src/__pycache__`.
+
+The compiled decoder is **bit-for-bit identical** to the original. It even
+reproduces NumPy's pairwise summation order and `np.allclose`'s tolerances.
+`tests/test_decoder_equivalence.py` checks this against a frozen copy of the
+original (`tests/reference_decoder.py`) on thousands of random solutions per
+instance, comparing every waste value, bin, stop, duration, cost and penalty
+exactly. Seeded SA and GA runs give identical results, down to the full
+convergence history.
 
 ## Data
 

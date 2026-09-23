@@ -21,7 +21,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from decoder import accumulate, decode
+from decoder import accumulate, evaluate
 from loader import Instance
 
 
@@ -65,7 +65,7 @@ def repair(inst: Instance, mask: np.ndarray) -> np.ndarray:
 
 def fitness(inst: Instance, pop: np.ndarray, mask: np.ndarray,
             lam: float = 100.0, gamma: float = 1000.0) -> float:
-    return decode(inst, pop, mask, lam, gamma).fitness
+    return evaluate(inst, pop, mask, lam, gamma)
 
 
 # ---------------------------------------------------------------------------
