@@ -136,7 +136,17 @@ def load_instance(folder: str | Path,
     name = name or folder.name
 
     waste_rows = _read_rows(folder / "waste.txt")
-    ids = np.array([int(r[0]) for r in waste_rows])
+    # The larger instances (40, 80, 120, 163 points) label the depot row
+    # "Depot" rather than 0; keep such a label as a string. Every other row
+    # must have an integer id.
+    depot_id = waste_rows[0][0]
+    try:
+        depot_id = int(depot_id)
+    except ValueError:
+        pass
+    point_ids = [int(r[0]) for r in waste_rows[1:]]
+    ids = np.array([depot_id] + point_ids,
+                   dtype=object if isinstance(depot_id, str) else None)
     lon = np.array([float(r[1]) for r in waste_rows])
     lat = np.array([float(r[2]) for r in waste_rows])
     W = np.array([float(r[3]) for r in waste_rows])
