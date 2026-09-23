@@ -41,6 +41,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import time
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -60,6 +61,7 @@ AVG_SPEED_KMH = 18.0        # average Chennai arterial speed incl. signals
 STOP_PENALTY_MIN = 0.0      # extra per-leg penalty, if you want to model turns
 
 OSRM_URL = "https://router.project-osrm.org/table/v1/driving/"
+USER_AGENT = "ceg-guindy-waste-pvrp/1.0 (final-year project)"
 
 # ---------------------------------------------------------------------------
 # The depot.
@@ -153,6 +155,32 @@ def fallback_matrix(coords: list[tuple[float, float]]) -> np.ndarray:
     return M
 
 
+def osrm_get(url: str, timeout: int = 60, retries: int = 5,
+             backoff: float = 2.0) -> dict:
+    """GET an OSRM endpoint and return the parsed JSON, retrying with
+    exponential backoff (2, 4, 8, 16 s ...) when the public demo server
+    rate-limits (HTTP 429), has a transient 5xx, or the network drops.
+    Client errors other than 429 are not retried -- they will not go away."""
+    for attempt in range(retries + 1):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return json.loads(resp.read().decode())
+        except urllib.error.HTTPError as exc:
+            if (exc.code != 429 and exc.code < 500) or attempt == retries:
+                raise
+            reason = f"HTTP {exc.code}"
+        except (urllib.error.URLError, OSError, TimeoutError) as exc:
+            if attempt == retries:
+                raise
+            reason = str(exc)
+        wait = backoff * 2 ** attempt
+        print(f"  ! OSRM {reason}; retrying in {wait:.0f}s "
+              f"({attempt + 1}/{retries})")
+        time.sleep(wait)
+    raise AssertionError("unreachable")
+
+
 def osrm_matrix(coords: list[tuple[float, float]], timeout: int = 60) -> np.ndarray:
     """Real road travel times from the OSRM table service, in minutes.
 
@@ -161,8 +189,7 @@ def osrm_matrix(coords: list[tuple[float, float]], timeout: int = 60) -> np.ndar
     """
     locs = ";".join(f"{lon:.6f},{lat:.6f}" for lat, lon in coords)
     url = f"{OSRM_URL}{locs}?annotations=duration"
-    with urllib.request.urlopen(url, timeout=timeout) as resp:
-        data = json.loads(resp.read().decode())
+    data = osrm_get(url, timeout=timeout)
     if data.get("code") != "Ok":
         raise RuntimeError(f"OSRM returned {data.get('code')}")
     M = np.array(data["durations"], dtype=float) / 60.0      # seconds -> minutes

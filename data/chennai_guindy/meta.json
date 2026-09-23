@@ -1,0 +1,11 @@
+{
+  "instance": "chennai_guindy",
+  "n_points": 21,
+  "travel_time_source": "osrm",
+  "per_capita_kg_per_day": 0.71,
+  "msw_density_t_per_m3": 0.4,
+  "detour_factor": null,
+  "avg_speed_kmh": null,
+  "bin_combinations_source": "Gonzalez et al. (2025) dataset, containers.txt",
+  "depot_note": "PLACEHOLDER location - replace with the real GCC transfer station for this zone before publishing results"
+}
