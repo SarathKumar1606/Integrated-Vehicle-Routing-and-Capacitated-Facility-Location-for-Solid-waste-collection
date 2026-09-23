@@ -1,0 +1,23 @@
+id,name,lat,lon,population,waste_m3_day
+0,"GCC transfer station (PLACEHOLDER - verify)",13.007500,80.220000,0,0.00
+1,"College of Engineering Guindy (main gate)",13.010940,80.235446,620,1.10
+2,"Gandhi Mandapam",13.006625,80.237340,300,0.53
+3,"B.M. Birla Planetarium",13.011933,80.244037,420,0.75
+4,"Kotturpuram (Anna Univ. staff quarters)",13.011458,80.243103,520,0.92
+5,"Kotturpuram Urban Forest",13.023982,80.244411,340,0.60
+6,"Ashok Leyland, Sardar Patel Road",13.012486,80.222041,460,0.82
+7,"Alexander Square, Little Mount",13.011711,80.221195,390,0.69
+8,"Prestige Cosmopolitan, Guindy",13.012038,80.222764,500,0.89
+9,"SPIC Building, Anna Salai",13.011642,80.218609,440,0.78
+10,"Kalaignar Arch, Saidapet",13.020099,80.224521,660,1.17
+11,"Karaneeswarar Temple, Saidapet",13.024760,80.223176,560,0.99
+12,"ISKCON Saidapet, Jeenis Road",13.020687,80.221748,360,0.64
+13,"Kamakshi Amman Temple, Saidapet",13.020016,80.220156,390,0.69
+14,"Tholkappia Poonga, RA Puram",13.019192,80.264689,320,0.57
+15,"Adyar Banyan Tree (Theosophical Society)",13.010276,80.268307,260,0.46
+16,"Broken Bridge, Adyar",13.012725,80.275979,240,0.43
+17,"Besant Nagar Beach",12.999220,80.272869,680,1.21
+18,"Phoenix Marketcity, Velachery",12.991690,80.216942,700,1.24
+19,"Sri Dhandeeswaram Temple, Velachery",12.985750,80.223785,540,0.96
+20,"Grand Square Mall, Velachery",12.971821,80.220617,600,1.06
+21,"Velachery MRTS Station",12.967336,80.219345,690,1.22
