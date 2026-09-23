@@ -45,3 +45,11 @@ i.e. generations = round(mean SA evals / 100) − 1:
 The i.12.1 GA re-run at 3399 generations was stopped part-way. The
 uncalibrated Chennai GA results (and the partial i.12.1 GA files) were moved
 to `results/superseded/` rather than deleted. SA results are unchanged.
+
+## Outcome
+
+Nothing is left failing. All four tasks completed and were committed:
+the loader fix (bit-for-bit identical on all 12 dataset instances), 4 × 30
+feasible runs matched on evaluations, `results/summary.md` with figures,
+and the map JSON re-exported from the best solution (SA seed 28,
+223.72 US$/week, OSRM geometry on all 7 routes).

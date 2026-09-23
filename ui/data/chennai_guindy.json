@@ -34,60 +34,59 @@
       "lon": 80.235446,
       "waste_m3_per_day": 1.1,
       "bin": {
-        "combination": 2,
-        "capacity_m3": 2.4,
-        "service_min": 0.66,
-        "weekly_cost": 2.23
+        "combination": 4,
+        "capacity_m3": 3.5,
+        "service_min": 1.36,
+        "weekly_cost": 3.0
       },
-      "visits_per_week": 4,
+      "visits_per_week": 3,
       "collection_days": [
         "MON",
-        "WED",
-        "THU",
-        "SAT"
+        "TUE",
+        "FRI"
       ],
-      "peak_waste_m3": 2.2,
+      "peak_waste_m3": 3.3,
       "fill": [
         {
           "day": "MON",
-          "waste_m3": 2.2,
-          "fill_ratio": 0.9167,
+          "waste_m3": 3.3,
+          "fill_ratio": 0.9429,
           "collected": true
         },
         {
           "day": "TUE",
           "waste_m3": 1.1,
-          "fill_ratio": 0.4583,
-          "collected": false
+          "fill_ratio": 0.3143,
+          "collected": true
         },
         {
           "day": "WED",
-          "waste_m3": 2.2,
-          "fill_ratio": 0.9167,
-          "collected": true
-        },
-        {
-          "day": "THU",
           "waste_m3": 1.1,
-          "fill_ratio": 0.4583,
-          "collected": true
-        },
-        {
-          "day": "FRI",
-          "waste_m3": 1.1,
-          "fill_ratio": 0.4583,
+          "fill_ratio": 0.3143,
           "collected": false
         },
         {
-          "day": "SAT",
+          "day": "THU",
           "waste_m3": 2.2,
-          "fill_ratio": 0.9167,
+          "fill_ratio": 0.6286,
+          "collected": false
+        },
+        {
+          "day": "FRI",
+          "waste_m3": 3.3,
+          "fill_ratio": 0.9429,
           "collected": true
         },
         {
-          "day": "SUN",
+          "day": "SAT",
           "waste_m3": 1.1,
-          "fill_ratio": 0.4583,
+          "fill_ratio": 0.3143,
+          "collected": false
+        },
+        {
+          "day": "SUN",
+          "waste_m3": 2.2,
+          "fill_ratio": 0.6286,
           "collected": false
         }
       ]
@@ -106,50 +105,50 @@
       },
       "visits_per_week": 1,
       "collection_days": [
-        "THU"
+        "TUE"
       ],
       "peak_waste_m3": 3.71,
       "fill": [
         {
           "day": "MON",
-          "waste_m3": 2.12,
-          "fill_ratio": 0.493,
-          "collected": false
-        },
-        {
-          "day": "TUE",
-          "waste_m3": 2.65,
-          "fill_ratio": 0.6163,
-          "collected": false
-        },
-        {
-          "day": "WED",
           "waste_m3": 3.18,
           "fill_ratio": 0.7395,
           "collected": false
         },
         {
-          "day": "THU",
+          "day": "TUE",
           "waste_m3": 3.71,
           "fill_ratio": 0.8628,
           "collected": true
         },
         {
-          "day": "FRI",
+          "day": "WED",
           "waste_m3": 0.53,
           "fill_ratio": 0.1233,
           "collected": false
         },
         {
-          "day": "SAT",
+          "day": "THU",
           "waste_m3": 1.06,
           "fill_ratio": 0.2465,
           "collected": false
         },
         {
-          "day": "SUN",
+          "day": "FRI",
           "waste_m3": 1.59,
           "fill_ratio": 0.3698,
+          "collected": false
+        },
+        {
+          "day": "SAT",
+          "waste_m3": 2.12,
+          "fill_ratio": 0.493,
+          "collected": false
+        },
+        {
+          "day": "SUN",
+          "waste_m3": 2.65,
+          "fill_ratio": 0.6163,
           "collected": false
         }
       ]
@@ -168,50 +167,50 @@
       },
       "visits_per_week": 1,
       "collection_days": [
-        "WED"
+        "TUE"
       ],
       "peak_waste_m3": 5.25,
       "fill": [
         {
           "day": "MON",
-          "waste_m3": 3.75,
-          "fill_ratio": 0.6696,
-          "collected": false
-        },
-        {
-          "day": "TUE",
           "waste_m3": 4.5,
           "fill_ratio": 0.8036,
           "collected": false
         },
         {
-          "day": "WED",
+          "day": "TUE",
           "waste_m3": 5.25,
           "fill_ratio": 0.9375,
           "collected": true
         },
         {
-          "day": "THU",
+          "day": "WED",
           "waste_m3": 0.75,
           "fill_ratio": 0.1339,
           "collected": false
         },
         {
-          "day": "FRI",
+          "day": "THU",
           "waste_m3": 1.5,
           "fill_ratio": 0.2679,
           "collected": false
         },
         {
-          "day": "SAT",
+          "day": "FRI",
           "waste_m3": 2.25,
           "fill_ratio": 0.4018,
           "collected": false
         },
         {
-          "day": "SUN",
+          "day": "SAT",
           "waste_m3": 3.0,
           "fill_ratio": 0.5357,
+          "collected": false
+        },
+        {
+          "day": "SUN",
+          "waste_m3": 3.75,
+          "fill_ratio": 0.6696,
           "collected": false
         }
       ]
@@ -230,7 +229,7 @@
       },
       "visits_per_week": 2,
       "collection_days": [
-        "WED",
+        "TUE",
         "SAT"
       ],
       "peak_waste_m3": 3.68,
@@ -245,30 +244,30 @@
           "day": "TUE",
           "waste_m3": 2.76,
           "fill_ratio": 0.6419,
-          "collected": false
-        },
-        {
-          "day": "WED",
-          "waste_m3": 3.68,
-          "fill_ratio": 0.8558,
           "collected": true
         },
         {
-          "day": "THU",
+          "day": "WED",
           "waste_m3": 0.92,
           "fill_ratio": 0.214,
           "collected": false
         },
         {
-          "day": "FRI",
+          "day": "THU",
           "waste_m3": 1.84,
           "fill_ratio": 0.4279,
           "collected": false
         },
         {
-          "day": "SAT",
+          "day": "FRI",
           "waste_m3": 2.76,
           "fill_ratio": 0.6419,
+          "collected": false
+        },
+        {
+          "day": "SAT",
+          "waste_m3": 3.68,
+          "fill_ratio": 0.8558,
           "collected": true
         },
         {
@@ -348,58 +347,60 @@
       "lon": 80.222041,
       "waste_m3_per_day": 0.82,
       "bin": {
-        "combination": 4,
-        "capacity_m3": 3.5,
-        "service_min": 1.36,
-        "weekly_cost": 3.0
+        "combination": 2,
+        "capacity_m3": 2.4,
+        "service_min": 0.66,
+        "weekly_cost": 2.23
       },
-      "visits_per_week": 2,
+      "visits_per_week": 4,
       "collection_days": [
         "MON",
-        "THU"
+        "WED",
+        "FRI",
+        "SAT"
       ],
-      "peak_waste_m3": 3.28,
+      "peak_waste_m3": 1.64,
       "fill": [
         {
           "day": "MON",
-          "waste_m3": 3.28,
-          "fill_ratio": 0.9371,
+          "waste_m3": 1.64,
+          "fill_ratio": 0.6833,
           "collected": true
         },
         {
           "day": "TUE",
           "waste_m3": 0.82,
-          "fill_ratio": 0.2343,
+          "fill_ratio": 0.3417,
           "collected": false
         },
         {
           "day": "WED",
           "waste_m3": 1.64,
-          "fill_ratio": 0.4686,
-          "collected": false
-        },
-        {
-          "day": "THU",
-          "waste_m3": 2.46,
-          "fill_ratio": 0.7029,
+          "fill_ratio": 0.6833,
           "collected": true
         },
         {
-          "day": "FRI",
+          "day": "THU",
           "waste_m3": 0.82,
-          "fill_ratio": 0.2343,
+          "fill_ratio": 0.3417,
           "collected": false
+        },
+        {
+          "day": "FRI",
+          "waste_m3": 1.64,
+          "fill_ratio": 0.6833,
+          "collected": true
         },
         {
           "day": "SAT",
-          "waste_m3": 1.64,
-          "fill_ratio": 0.4686,
-          "collected": false
+          "waste_m3": 0.82,
+          "fill_ratio": 0.3417,
+          "collected": true
         },
         {
           "day": "SUN",
-          "waste_m3": 2.46,
-          "fill_ratio": 0.7029,
+          "waste_m3": 0.82,
+          "fill_ratio": 0.3417,
           "collected": false
         }
       ]
@@ -418,52 +419,52 @@
       },
       "visits_per_week": 3,
       "collection_days": [
-        "TUE",
-        "THU",
-        "SAT"
+        "MON",
+        "WED",
+        "FRI"
       ],
       "peak_waste_m3": 2.07,
       "fill": [
         {
           "day": "MON",
-          "waste_m3": 1.38,
-          "fill_ratio": 0.575,
-          "collected": false
-        },
-        {
-          "day": "TUE",
           "waste_m3": 2.07,
           "fill_ratio": 0.8625,
           "collected": true
         },
         {
-          "day": "WED",
+          "day": "TUE",
           "waste_m3": 0.69,
           "fill_ratio": 0.2875,
           "collected": false
+        },
+        {
+          "day": "WED",
+          "waste_m3": 1.38,
+          "fill_ratio": 0.575,
+          "collected": true
         },
         {
           "day": "THU",
-          "waste_m3": 1.38,
-          "fill_ratio": 0.575,
-          "collected": true
-        },
-        {
-          "day": "FRI",
           "waste_m3": 0.69,
           "fill_ratio": 0.2875,
           "collected": false
         },
         {
-          "day": "SAT",
+          "day": "FRI",
           "waste_m3": 1.38,
           "fill_ratio": 0.575,
           "collected": true
         },
         {
-          "day": "SUN",
+          "day": "SAT",
           "waste_m3": 0.69,
           "fill_ratio": 0.2875,
+          "collected": false
+        },
+        {
+          "day": "SUN",
+          "waste_m3": 1.38,
+          "fill_ratio": 0.575,
           "collected": false
         }
       ]
@@ -483,14 +484,14 @@
       "visits_per_week": 2,
       "collection_days": [
         "MON",
-        "THU"
+        "FRI"
       ],
       "peak_waste_m3": 3.56,
       "fill": [
         {
           "day": "MON",
-          "waste_m3": 3.56,
-          "fill_ratio": 0.8279,
+          "waste_m3": 2.67,
+          "fill_ratio": 0.6209,
           "collected": true
         },
         {
@@ -509,24 +510,24 @@
           "day": "THU",
           "waste_m3": 2.67,
           "fill_ratio": 0.6209,
-          "collected": true
+          "collected": false
         },
         {
           "day": "FRI",
+          "waste_m3": 3.56,
+          "fill_ratio": 0.8279,
+          "collected": true
+        },
+        {
+          "day": "SAT",
           "waste_m3": 0.89,
           "fill_ratio": 0.207,
           "collected": false
         },
         {
-          "day": "SAT",
+          "day": "SUN",
           "waste_m3": 1.78,
           "fill_ratio": 0.414,
-          "collected": false
-        },
-        {
-          "day": "SUN",
-          "waste_m3": 2.67,
-          "fill_ratio": 0.6209,
           "collected": false
         }
       ]
@@ -546,7 +547,7 @@
       "visits_per_week": 3,
       "collection_days": [
         "MON",
-        "THU",
+        "WED",
         "FRI"
       ],
       "peak_waste_m3": 2.34,
@@ -567,18 +568,18 @@
           "day": "WED",
           "waste_m3": 1.56,
           "fill_ratio": 0.65,
-          "collected": false
-        },
-        {
-          "day": "THU",
-          "waste_m3": 2.34,
-          "fill_ratio": 0.975,
           "collected": true
         },
         {
-          "day": "FRI",
+          "day": "THU",
           "waste_m3": 0.78,
           "fill_ratio": 0.325,
+          "collected": false
+        },
+        {
+          "day": "FRI",
+          "waste_m3": 1.56,
+          "fill_ratio": 0.65,
           "collected": true
         },
         {
@@ -602,58 +603,59 @@
       "lon": 80.224521,
       "waste_m3_per_day": 1.17,
       "bin": {
-        "combination": 6,
-        "capacity_m3": 4.8,
-        "service_min": 1.32,
-        "weekly_cost": 4.45
+        "combination": 5,
+        "capacity_m3": 4.3,
+        "service_min": 1.37,
+        "weekly_cost": 3.37
       },
-      "visits_per_week": 2,
+      "visits_per_week": 3,
       "collection_days": [
         "MON",
+        "WED",
         "FRI"
       ],
-      "peak_waste_m3": 4.68,
+      "peak_waste_m3": 3.51,
       "fill": [
         {
           "day": "MON",
           "waste_m3": 3.51,
-          "fill_ratio": 0.7312,
+          "fill_ratio": 0.8163,
           "collected": true
         },
         {
           "day": "TUE",
           "waste_m3": 1.17,
-          "fill_ratio": 0.2437,
+          "fill_ratio": 0.2721,
           "collected": false
         },
         {
           "day": "WED",
           "waste_m3": 2.34,
-          "fill_ratio": 0.4875,
-          "collected": false
+          "fill_ratio": 0.5442,
+          "collected": true
         },
         {
           "day": "THU",
-          "waste_m3": 3.51,
-          "fill_ratio": 0.7312,
+          "waste_m3": 1.17,
+          "fill_ratio": 0.2721,
           "collected": false
         },
         {
           "day": "FRI",
-          "waste_m3": 4.68,
-          "fill_ratio": 0.975,
+          "waste_m3": 2.34,
+          "fill_ratio": 0.5442,
           "collected": true
         },
         {
           "day": "SAT",
           "waste_m3": 1.17,
-          "fill_ratio": 0.2437,
+          "fill_ratio": 0.2721,
           "collected": false
         },
         {
           "day": "SUN",
           "waste_m3": 2.34,
-          "fill_ratio": 0.4875,
+          "fill_ratio": 0.5442,
           "collected": false
         }
       ]
@@ -665,58 +667,58 @@
       "lon": 80.223176,
       "waste_m3_per_day": 0.99,
       "bin": {
-        "combination": 5,
-        "capacity_m3": 4.3,
-        "service_min": 1.37,
-        "weekly_cost": 3.37
+        "combination": 7,
+        "capacity_m3": 5.6,
+        "service_min": 1.33,
+        "weekly_cost": 4.82
       },
       "visits_per_week": 2,
       "collection_days": [
-        "MON",
+        "WED",
         "FRI"
       ],
-      "peak_waste_m3": 3.96,
+      "peak_waste_m3": 4.95,
       "fill": [
         {
           "day": "MON",
           "waste_m3": 2.97,
-          "fill_ratio": 0.6907,
-          "collected": true
+          "fill_ratio": 0.5304,
+          "collected": false
         },
         {
           "day": "TUE",
-          "waste_m3": 0.99,
-          "fill_ratio": 0.2302,
+          "waste_m3": 3.96,
+          "fill_ratio": 0.7071,
           "collected": false
         },
         {
           "day": "WED",
-          "waste_m3": 1.98,
-          "fill_ratio": 0.4605,
-          "collected": false
+          "waste_m3": 4.95,
+          "fill_ratio": 0.8839,
+          "collected": true
         },
         {
           "day": "THU",
-          "waste_m3": 2.97,
-          "fill_ratio": 0.6907,
+          "waste_m3": 0.99,
+          "fill_ratio": 0.1768,
           "collected": false
         },
         {
           "day": "FRI",
-          "waste_m3": 3.96,
-          "fill_ratio": 0.9209,
+          "waste_m3": 1.98,
+          "fill_ratio": 0.3536,
           "collected": true
         },
         {
           "day": "SAT",
           "waste_m3": 0.99,
-          "fill_ratio": 0.2302,
+          "fill_ratio": 0.1768,
           "collected": false
         },
         {
           "day": "SUN",
           "waste_m3": 1.98,
-          "fill_ratio": 0.4605,
+          "fill_ratio": 0.3536,
           "collected": false
         }
       ]
@@ -728,58 +730,59 @@
       "lon": 80.221748,
       "waste_m3_per_day": 0.64,
       "bin": {
-        "combination": 4,
-        "capacity_m3": 3.5,
-        "service_min": 1.36,
-        "weekly_cost": 3.0
+        "combination": 2,
+        "capacity_m3": 2.4,
+        "service_min": 0.66,
+        "weekly_cost": 2.23
       },
-      "visits_per_week": 2,
+      "visits_per_week": 3,
       "collection_days": [
         "MON",
+        "WED",
         "FRI"
       ],
-      "peak_waste_m3": 2.56,
+      "peak_waste_m3": 1.92,
       "fill": [
         {
           "day": "MON",
           "waste_m3": 1.92,
-          "fill_ratio": 0.5486,
+          "fill_ratio": 0.8,
           "collected": true
         },
         {
           "day": "TUE",
           "waste_m3": 0.64,
-          "fill_ratio": 0.1829,
+          "fill_ratio": 0.2667,
           "collected": false
         },
         {
           "day": "WED",
           "waste_m3": 1.28,
-          "fill_ratio": 0.3657,
-          "collected": false
+          "fill_ratio": 0.5333,
+          "collected": true
         },
         {
           "day": "THU",
-          "waste_m3": 1.92,
-          "fill_ratio": 0.5486,
+          "waste_m3": 0.64,
+          "fill_ratio": 0.2667,
           "collected": false
         },
         {
           "day": "FRI",
-          "waste_m3": 2.56,
-          "fill_ratio": 0.7314,
+          "waste_m3": 1.28,
+          "fill_ratio": 0.5333,
           "collected": true
         },
         {
           "day": "SAT",
           "waste_m3": 0.64,
-          "fill_ratio": 0.1829,
+          "fill_ratio": 0.2667,
           "collected": false
         },
         {
           "day": "SUN",
           "waste_m3": 1.28,
-          "fill_ratio": 0.3657,
+          "fill_ratio": 0.5333,
           "collected": false
         }
       ]
@@ -791,57 +794,59 @@
       "lon": 80.220156,
       "waste_m3_per_day": 0.69,
       "bin": {
-        "combination": 7,
-        "capacity_m3": 5.6,
-        "service_min": 1.33,
-        "weekly_cost": 4.82
+        "combination": 2,
+        "capacity_m3": 2.4,
+        "service_min": 0.66,
+        "weekly_cost": 2.23
       },
-      "visits_per_week": 1,
+      "visits_per_week": 3,
       "collection_days": [
+        "MON",
+        "WED",
         "FRI"
       ],
-      "peak_waste_m3": 4.83,
+      "peak_waste_m3": 2.07,
       "fill": [
         {
           "day": "MON",
           "waste_m3": 2.07,
-          "fill_ratio": 0.3696,
-          "collected": false
+          "fill_ratio": 0.8625,
+          "collected": true
         },
         {
           "day": "TUE",
-          "waste_m3": 2.76,
-          "fill_ratio": 0.4929,
+          "waste_m3": 0.69,
+          "fill_ratio": 0.2875,
           "collected": false
         },
         {
           "day": "WED",
-          "waste_m3": 3.45,
-          "fill_ratio": 0.6161,
-          "collected": false
+          "waste_m3": 1.38,
+          "fill_ratio": 0.575,
+          "collected": true
         },
         {
           "day": "THU",
-          "waste_m3": 4.14,
-          "fill_ratio": 0.7393,
+          "waste_m3": 0.69,
+          "fill_ratio": 0.2875,
           "collected": false
         },
         {
           "day": "FRI",
-          "waste_m3": 4.83,
-          "fill_ratio": 0.8625,
+          "waste_m3": 1.38,
+          "fill_ratio": 0.575,
           "collected": true
         },
         {
           "day": "SAT",
           "waste_m3": 0.69,
-          "fill_ratio": 0.1232,
+          "fill_ratio": 0.2875,
           "collected": false
         },
         {
           "day": "SUN",
           "waste_m3": 1.38,
-          "fill_ratio": 0.2464,
+          "fill_ratio": 0.575,
           "collected": false
         }
       ]
@@ -922,50 +927,50 @@
       },
       "visits_per_week": 1,
       "collection_days": [
-        "WED"
+        "TUE"
       ],
       "peak_waste_m3": 3.22,
       "fill": [
         {
           "day": "MON",
-          "waste_m3": 2.3,
-          "fill_ratio": 0.697,
-          "collected": false
-        },
-        {
-          "day": "TUE",
           "waste_m3": 2.76,
           "fill_ratio": 0.8364,
           "collected": false
         },
         {
-          "day": "WED",
+          "day": "TUE",
           "waste_m3": 3.22,
           "fill_ratio": 0.9758,
           "collected": true
         },
         {
-          "day": "THU",
+          "day": "WED",
           "waste_m3": 0.46,
           "fill_ratio": 0.1394,
           "collected": false
         },
         {
-          "day": "FRI",
+          "day": "THU",
           "waste_m3": 0.92,
           "fill_ratio": 0.2788,
           "collected": false
         },
         {
-          "day": "SAT",
+          "day": "FRI",
           "waste_m3": 1.38,
           "fill_ratio": 0.4182,
           "collected": false
         },
         {
-          "day": "SUN",
+          "day": "SAT",
           "waste_m3": 1.84,
           "fill_ratio": 0.5576,
+          "collected": false
+        },
+        {
+          "day": "SUN",
+          "waste_m3": 2.3,
+          "fill_ratio": 0.697,
           "collected": false
         }
       ]
@@ -1046,7 +1051,7 @@
       },
       "visits_per_week": 2,
       "collection_days": [
-        "WED",
+        "TUE",
         "SAT"
       ],
       "peak_waste_m3": 4.84,
@@ -1061,30 +1066,30 @@
           "day": "TUE",
           "waste_m3": 3.63,
           "fill_ratio": 0.6482,
-          "collected": false
-        },
-        {
-          "day": "WED",
-          "waste_m3": 4.84,
-          "fill_ratio": 0.8643,
           "collected": true
         },
         {
-          "day": "THU",
+          "day": "WED",
           "waste_m3": 1.21,
           "fill_ratio": 0.2161,
           "collected": false
         },
         {
-          "day": "FRI",
+          "day": "THU",
           "waste_m3": 2.42,
           "fill_ratio": 0.4321,
           "collected": false
         },
         {
-          "day": "SAT",
+          "day": "FRI",
           "waste_m3": 3.63,
           "fill_ratio": 0.6482,
+          "collected": false
+        },
+        {
+          "day": "SAT",
+          "waste_m3": 4.84,
+          "fill_ratio": 0.8643,
           "collected": true
         },
         {
@@ -1109,51 +1114,51 @@
       },
       "visits_per_week": 2,
       "collection_days": [
-        "TUE",
-        "SAT"
+        "MON",
+        "THU"
       ],
       "peak_waste_m3": 4.96,
       "fill": [
         {
           "day": "MON",
-          "waste_m3": 2.48,
-          "fill_ratio": 0.4429,
-          "collected": false
-        },
-        {
-          "day": "TUE",
-          "waste_m3": 3.72,
-          "fill_ratio": 0.6643,
-          "collected": true
-        },
-        {
-          "day": "WED",
-          "waste_m3": 1.24,
-          "fill_ratio": 0.2214,
-          "collected": false
-        },
-        {
-          "day": "THU",
-          "waste_m3": 2.48,
-          "fill_ratio": 0.4429,
-          "collected": false
-        },
-        {
-          "day": "FRI",
-          "waste_m3": 3.72,
-          "fill_ratio": 0.6643,
-          "collected": false
-        },
-        {
-          "day": "SAT",
           "waste_m3": 4.96,
           "fill_ratio": 0.8857,
           "collected": true
         },
         {
-          "day": "SUN",
+          "day": "TUE",
           "waste_m3": 1.24,
           "fill_ratio": 0.2214,
+          "collected": false
+        },
+        {
+          "day": "WED",
+          "waste_m3": 2.48,
+          "fill_ratio": 0.4429,
+          "collected": false
+        },
+        {
+          "day": "THU",
+          "waste_m3": 3.72,
+          "fill_ratio": 0.6643,
+          "collected": true
+        },
+        {
+          "day": "FRI",
+          "waste_m3": 1.24,
+          "fill_ratio": 0.2214,
+          "collected": false
+        },
+        {
+          "day": "SAT",
+          "waste_m3": 2.48,
+          "fill_ratio": 0.4429,
+          "collected": false
+        },
+        {
+          "day": "SUN",
+          "waste_m3": 3.72,
+          "fill_ratio": 0.6643,
           "collected": false
         }
       ]
@@ -1172,51 +1177,51 @@
       },
       "visits_per_week": 2,
       "collection_days": [
-        "TUE",
-        "SAT"
+        "MON",
+        "THU"
       ],
       "peak_waste_m3": 3.84,
       "fill": [
         {
           "day": "MON",
-          "waste_m3": 1.92,
-          "fill_ratio": 0.4465,
-          "collected": false
-        },
-        {
-          "day": "TUE",
-          "waste_m3": 2.88,
-          "fill_ratio": 0.6698,
-          "collected": true
-        },
-        {
-          "day": "WED",
-          "waste_m3": 0.96,
-          "fill_ratio": 0.2233,
-          "collected": false
-        },
-        {
-          "day": "THU",
-          "waste_m3": 1.92,
-          "fill_ratio": 0.4465,
-          "collected": false
-        },
-        {
-          "day": "FRI",
-          "waste_m3": 2.88,
-          "fill_ratio": 0.6698,
-          "collected": false
-        },
-        {
-          "day": "SAT",
           "waste_m3": 3.84,
           "fill_ratio": 0.893,
           "collected": true
         },
         {
-          "day": "SUN",
+          "day": "TUE",
           "waste_m3": 0.96,
           "fill_ratio": 0.2233,
+          "collected": false
+        },
+        {
+          "day": "WED",
+          "waste_m3": 1.92,
+          "fill_ratio": 0.4465,
+          "collected": false
+        },
+        {
+          "day": "THU",
+          "waste_m3": 2.88,
+          "fill_ratio": 0.6698,
+          "collected": true
+        },
+        {
+          "day": "FRI",
+          "waste_m3": 0.96,
+          "fill_ratio": 0.2233,
+          "collected": false
+        },
+        {
+          "day": "SAT",
+          "waste_m3": 1.92,
+          "fill_ratio": 0.4465,
+          "collected": false
+        },
+        {
+          "day": "SUN",
+          "waste_m3": 2.88,
+          "fill_ratio": 0.6698,
           "collected": false
         }
       ]
@@ -1235,51 +1240,51 @@
       },
       "visits_per_week": 2,
       "collection_days": [
-        "TUE",
-        "SAT"
+        "MON",
+        "THU"
       ],
       "peak_waste_m3": 4.24,
       "fill": [
         {
           "day": "MON",
-          "waste_m3": 2.12,
-          "fill_ratio": 0.493,
-          "collected": false
-        },
-        {
-          "day": "TUE",
-          "waste_m3": 3.18,
-          "fill_ratio": 0.7395,
-          "collected": true
-        },
-        {
-          "day": "WED",
-          "waste_m3": 1.06,
-          "fill_ratio": 0.2465,
-          "collected": false
-        },
-        {
-          "day": "THU",
-          "waste_m3": 2.12,
-          "fill_ratio": 0.493,
-          "collected": false
-        },
-        {
-          "day": "FRI",
-          "waste_m3": 3.18,
-          "fill_ratio": 0.7395,
-          "collected": false
-        },
-        {
-          "day": "SAT",
           "waste_m3": 4.24,
           "fill_ratio": 0.986,
           "collected": true
         },
         {
-          "day": "SUN",
+          "day": "TUE",
           "waste_m3": 1.06,
           "fill_ratio": 0.2465,
+          "collected": false
+        },
+        {
+          "day": "WED",
+          "waste_m3": 2.12,
+          "fill_ratio": 0.493,
+          "collected": false
+        },
+        {
+          "day": "THU",
+          "waste_m3": 3.18,
+          "fill_ratio": 0.7395,
+          "collected": true
+        },
+        {
+          "day": "FRI",
+          "waste_m3": 1.06,
+          "fill_ratio": 0.2465,
+          "collected": false
+        },
+        {
+          "day": "SAT",
+          "waste_m3": 2.12,
+          "fill_ratio": 0.493,
+          "collected": false
+        },
+        {
+          "day": "SUN",
+          "waste_m3": 3.18,
+          "fill_ratio": 0.7395,
           "collected": false
         }
       ]
@@ -1298,51 +1303,51 @@
       },
       "visits_per_week": 2,
       "collection_days": [
-        "TUE",
-        "SAT"
+        "MON",
+        "THU"
       ],
       "peak_waste_m3": 4.88,
       "fill": [
         {
           "day": "MON",
-          "waste_m3": 2.44,
-          "fill_ratio": 0.4357,
-          "collected": false
-        },
-        {
-          "day": "TUE",
-          "waste_m3": 3.66,
-          "fill_ratio": 0.6536,
-          "collected": true
-        },
-        {
-          "day": "WED",
-          "waste_m3": 1.22,
-          "fill_ratio": 0.2179,
-          "collected": false
-        },
-        {
-          "day": "THU",
-          "waste_m3": 2.44,
-          "fill_ratio": 0.4357,
-          "collected": false
-        },
-        {
-          "day": "FRI",
-          "waste_m3": 3.66,
-          "fill_ratio": 0.6536,
-          "collected": false
-        },
-        {
-          "day": "SAT",
           "waste_m3": 4.88,
           "fill_ratio": 0.8714,
           "collected": true
         },
         {
-          "day": "SUN",
+          "day": "TUE",
           "waste_m3": 1.22,
           "fill_ratio": 0.2179,
+          "collected": false
+        },
+        {
+          "day": "WED",
+          "waste_m3": 2.44,
+          "fill_ratio": 0.4357,
+          "collected": false
+        },
+        {
+          "day": "THU",
+          "waste_m3": 3.66,
+          "fill_ratio": 0.6536,
+          "collected": true
+        },
+        {
+          "day": "FRI",
+          "waste_m3": 1.22,
+          "fill_ratio": 0.2179,
+          "collected": false
+        },
+        {
+          "day": "SAT",
+          "waste_m3": 2.44,
+          "fill_ratio": 0.4357,
+          "collected": false
+        },
+        {
+          "day": "SUN",
+          "waste_m3": 3.66,
+          "fill_ratio": 0.6536,
           "collected": false
         }
       ]
@@ -1352,8 +1357,8 @@
     {
       "day": "MON",
       "rest_day": false,
-      "n_routes": 1,
-      "duration_min": 31.64,
+      "n_routes": 2,
+      "duration_min": 64.84,
       "routes": [
         {
           "route": 1,
@@ -1375,10 +1380,10 @@
               "name": "Ashok Leyland, Sardar Patel Road",
               "lat": 13.012486,
               "lon": 80.222041,
-              "load_m3": 3.28,
-              "cum_load_m3": 5.62,
+              "load_m3": 1.64,
+              "cum_load_m3": 3.98,
               "arrive_min": 3.55,
-              "depart_min": 4.91
+              "depart_min": 4.21
             },
             {
               "order": 3,
@@ -1387,9 +1392,9 @@
               "lat": 13.020099,
               "lon": 80.224521,
               "load_m3": 3.51,
-              "cum_load_m3": 9.13,
-              "arrive_min": 6.15,
-              "depart_min": 7.47
+              "cum_load_m3": 7.49,
+              "arrive_min": 5.45,
+              "depart_min": 6.82
             },
             {
               "order": 4,
@@ -1398,20 +1403,20 @@
               "lat": 13.020687,
               "lon": 80.221748,
               "load_m3": 1.92,
-              "cum_load_m3": 11.05,
-              "arrive_min": 8.5,
-              "depart_min": 9.86
+              "cum_load_m3": 9.41,
+              "arrive_min": 7.85,
+              "depart_min": 8.51
             },
             {
               "order": 5,
-              "point_id": 11,
-              "name": "Karaneeswarar Temple, Saidapet",
-              "lat": 13.02476,
-              "lon": 80.223176,
-              "load_m3": 2.97,
-              "cum_load_m3": 14.02,
-              "arrive_min": 11.67,
-              "depart_min": 13.04
+              "point_id": 13,
+              "name": "Kamakshi Amman Temple, Saidapet",
+              "lat": 13.020016,
+              "lon": 80.220156,
+              "load_m3": 2.07,
+              "cum_load_m3": 11.48,
+              "arrive_min": 9.05,
+              "depart_min": 9.71
             },
             {
               "order": 6,
@@ -1419,10 +1424,10 @@
               "name": "College of Engineering Guindy (main gate)",
               "lat": 13.01094,
               "lon": 80.235446,
-              "load_m3": 2.2,
-              "cum_load_m3": 16.22,
-              "arrive_min": 17.49,
-              "depart_min": 18.15
+              "load_m3": 3.3,
+              "cum_load_m3": 14.78,
+              "arrive_min": 14.27,
+              "depart_min": 15.63
             },
             {
               "order": 7,
@@ -1430,19 +1435,30 @@
               "name": "Prestige Cosmopolitan, Guindy",
               "lat": 13.012038,
               "lon": 80.222764,
-              "load_m3": 3.56,
-              "cum_load_m3": 19.78,
-              "arrive_min": 19.93,
-              "depart_min": 21.3
+              "load_m3": 2.67,
+              "cum_load_m3": 17.45,
+              "arrive_min": 17.41,
+              "depart_min": 18.78
+            },
+            {
+              "order": 8,
+              "point_id": 7,
+              "name": "Alexander Square, Little Mount",
+              "lat": 13.011711,
+              "lon": 80.221195,
+              "load_m3": 2.07,
+              "cum_load_m3": 19.52,
+              "arrive_min": 19.39,
+              "depart_min": 20.05
             }
           ],
-          "n_stops": 7,
-          "total_load_m3": 19.78,
+          "n_stops": 8,
+          "total_load_m3": 19.52,
           "vehicle_capacity_m3": 21.0,
-          "load_ratio": 0.9419,
-          "duration_min": 31.64,
-          "travel_min": 15.54,
-          "service_min": 8.1,
+          "load_ratio": 0.9295,
+          "duration_min": 30.39,
+          "travel_min": 14.99,
+          "service_min": 7.4,
           "unload_min": 8.0,
           "within_shift": true,
           "geometry": {
@@ -1884,160 +1900,172 @@
                 13.021253
               ],
               [
-                80.222882,
-                13.021273
+                80.221646,
+                13.021257
               ],
               [
-                80.223031,
-                13.021697
+                80.221129,
+                13.021253
               ],
               [
-                80.223049,
-                13.022094
+                80.221153,
+                13.02019
               ],
               [
-                80.223094,
-                13.02256
+                80.221098,
+                13.020157
               ],
               [
-                80.223187,
-                13.023426
+                80.220801,
+                13.020006
               ],
               [
-                80.223197,
-                13.023747
+                80.220352,
+                13.019792
               ],
               [
-                80.22324,
-                13.024373
+                80.220258,
+                13.019735
               ],
               [
-                80.223206,
-                13.024399
+                80.219778,
+                13.019475
               ],
               [
-                80.223166,
-                13.024402
+                80.219638,
+                13.019408
               ],
               [
-                80.222889,
-                13.024417
+                80.219489,
+                13.019452
               ],
               [
-                80.222869,
-                13.024742
+                80.219476,
+                13.019581
               ],
               [
-                80.222846,
-                13.02511
+                80.219471,
+                13.019753
               ],
               [
-                80.222843,
-                13.025147
+                80.219484,
+                13.019966
               ],
               [
-                80.222899,
-                13.025163
+                80.219925,
+                13.019977
               ],
               [
-                80.22343,
-                13.025209
+                80.220157,
+                13.019985
               ],
               [
-                80.224099,
-                13.025273
+                80.22032,
+                13.01999
               ],
               [
-                80.224611,
-                13.0253
+                80.220352,
+                13.019792
               ],
               [
-                80.22513,
-                13.025306
+                80.220801,
+                13.020006
               ],
               [
-                80.225896,
-                13.025284
+                80.221098,
+                13.020157
               ],
               [
-                80.226012,
-                13.025275
+                80.221153,
+                13.02019
               ],
               [
-                80.227237,
-                13.025131
+                80.221425,
+                13.020338
               ],
               [
-                80.227398,
-                13.025115
+                80.221689,
+                13.020488
               ],
               [
-                80.227763,
-                13.025074
+                80.222145,
+                13.020725
               ],
               [
-                80.227893,
-                13.025052
+                80.222773,
+                13.021074
               ],
               [
-                80.22796,
-                13.02504
+                80.223357,
+                13.021406
               ],
               [
-                80.228209,
-                13.024999
+                80.224084,
+                13.021784
               ],
               [
-                80.228643,
-                13.024947
+                80.224268,
+                13.021897
               ],
               [
-                80.228751,
-                13.024928
+                80.224628,
+                13.022062
               ],
               [
-                80.228835,
-                13.024882
+                80.225003,
+                13.022266
               ],
               [
-                80.228955,
-                13.024716
+                80.225112,
+                13.02233
               ],
               [
-                80.229122,
-                13.024843
+                80.225391,
+                13.022503
               ],
               [
-                80.229421,
-                13.025082
+                80.22549,
+                13.022558
               ],
               [
-                80.229756,
-                13.025325
+                80.225783,
+                13.022705
               ],
               [
-                80.229838,
-                13.025382
+                80.226173,
+                13.022914
               ],
               [
-                80.229939,
-                13.025243
+                80.227212,
+                13.023401
               ],
               [
-                80.229604,
-                13.024966
+                80.227496,
+                13.023568
               ],
               [
-                80.22956,
-                13.02493
+                80.227658,
+                13.023724
               ],
               [
-                80.229256,
-                13.024686
+                80.2278,
+                13.023869
               ],
               [
-                80.229097,
-                13.024561
+                80.227995,
+                13.024043
+              ],
+              [
+                80.228159,
+                13.024188
+              ],
+              [
+                80.228385,
+                13.024372
+              ],
+              [
+                80.228482,
+                13.024451
               ],
               [
                 80.228624,
@@ -2480,6 +2508,26 @@
                 13.012149
               ],
               [
+                80.221056,
+                13.011993
+              ],
+              [
+                80.221064,
+                13.011708
+              ],
+              [
+                80.221067,
+                13.011588
+              ],
+              [
+                80.221056,
+                13.011993
+              ],
+              [
+                80.221065,
+                13.012149
+              ],
+              [
                 80.220237,
                 13.011867
               ],
@@ -2626,20 +2674,12 @@
             ],
             "type": "LineString"
           },
-          "road_distance_km": 10.745,
-          "osrm_duration_min": 16.36,
+          "road_distance_km": 10.884,
+          "osrm_duration_min": 17.2,
           "geometry_source": "osrm"
-        }
-      ]
-    },
-    {
-      "day": "TUE",
-      "rest_day": false,
-      "n_routes": 1,
-      "duration_min": 36.55,
-      "routes": [
+        },
         {
-          "route": 1,
+          "route": 2,
           "stops": [
             {
               "order": 1,
@@ -2647,8 +2687,8 @@
               "name": "Sri Dhandeeswaram Temple, Velachery",
               "lat": 12.98575,
               "lon": 80.223785,
-              "load_m3": 2.88,
-              "cum_load_m3": 2.88,
+              "load_m3": 3.84,
+              "cum_load_m3": 3.84,
               "arrive_min": 4.4,
               "depart_min": 5.77
             },
@@ -2658,8 +2698,8 @@
               "name": "Grand Square Mall, Velachery",
               "lat": 12.971821,
               "lon": 80.220617,
-              "load_m3": 3.18,
-              "cum_load_m3": 6.06,
+              "load_m3": 4.24,
+              "cum_load_m3": 8.08,
               "arrive_min": 8.43,
               "depart_min": 9.8
             },
@@ -2669,8 +2709,8 @@
               "name": "Velachery MRTS Station",
               "lat": 12.967336,
               "lon": 80.219345,
-              "load_m3": 3.66,
-              "cum_load_m3": 9.72,
+              "load_m3": 4.88,
+              "cum_load_m3": 12.96,
               "arrive_min": 11.56,
               "depart_min": 12.89
             },
@@ -2680,30 +2720,19 @@
               "name": "Phoenix Marketcity, Velachery",
               "lat": 12.99169,
               "lon": 80.216942,
-              "load_m3": 3.72,
-              "cum_load_m3": 13.44,
+              "load_m3": 4.96,
+              "cum_load_m3": 17.92,
               "arrive_min": 19.33,
               "depart_min": 20.66
-            },
-            {
-              "order": 5,
-              "point_id": 7,
-              "name": "Alexander Square, Little Mount",
-              "lat": 13.011711,
-              "lon": 80.221195,
-              "load_m3": 2.07,
-              "cum_load_m3": 15.51,
-              "arrive_min": 25.55,
-              "depart_min": 26.21
             }
           ],
-          "n_stops": 5,
-          "total_load_m3": 15.51,
+          "n_stops": 4,
+          "total_load_m3": 17.92,
           "vehicle_capacity_m3": 21.0,
-          "load_ratio": 0.7386,
-          "duration_min": 36.55,
-          "travel_min": 22.49,
-          "service_min": 6.06,
+          "load_ratio": 0.8533,
+          "duration_min": 34.45,
+          "travel_min": 21.05,
+          "service_min": 5.4,
           "unload_min": 8.0,
           "within_shift": true,
           "geometry": {
@@ -4033,556 +4062,116 @@
                 12.99697
               ],
               [
-                80.216414,
-                12.997044
+                80.216481,
+                12.997196
               ],
               [
-                80.216393,
-                12.99707
+                80.21647,
+                12.997258
               ],
               [
-                80.216375,
-                12.997097
+                80.216462,
+                12.997404
               ],
               [
-                80.216359,
-                12.997125
+                80.216469,
+                12.997561
               ],
               [
-                80.21634,
-                12.997203
+                80.216484,
+                12.997884
               ],
               [
-                80.216351,
-                12.997255
+                80.216606,
+                12.998362
               ],
               [
-                80.21636,
-                12.99728
+                80.216912,
+                12.998993
               ],
               [
-                80.216386,
-                12.997325
+                80.217185,
+                12.999487
               ],
               [
-                80.216264,
-                12.997438
+                80.21728,
+                12.999638
               ],
               [
-                80.216132,
-                12.997577
+                80.217725,
+                13.00034
               ],
               [
-                80.216,
-                12.997728
+                80.21813,
+                13.001005
               ],
               [
-                80.215538,
-                12.998278
+                80.218531,
+                13.001586
               ],
               [
-                80.215264,
-                12.998567
+                80.218774,
+                13.001831
               ],
               [
-                80.214925,
-                12.998954
+                80.219172,
+                13.002203
               ],
               [
-                80.214772,
-                12.999129
+                80.219524,
+                13.002549
               ],
               [
-                80.214769,
-                12.999132
+                80.219633,
+                13.002721
               ],
               [
-                80.214751,
-                12.999153
+                80.219754,
+                13.002951
               ],
               [
-                80.214263,
-                12.999698
+                80.219861,
+                13.003247
               ],
               [
-                80.214152,
-                12.999835
+                80.219966,
+                13.003713
               ],
               [
-                80.213875,
-                13.000139
+                80.220223,
+                13.004851
               ],
               [
-                80.213562,
-                13.000496
+                80.220341,
+                13.005364
               ],
               [
-                80.213296,
-                13.000809
+                80.220635,
+                13.006706
               ],
               [
-                80.213199,
-                13.000927
+                80.220541,
+                13.006681
               ],
               [
-                80.213116,
-                13.001018
+                80.220105,
+                13.006369
               ],
               [
-                80.213087,
-                13.001057
+                80.219844,
+                13.006352
               ],
               [
-                80.212955,
-                13.001219
+                80.219092,
+                13.006419
               ],
               [
-                80.212507,
-                13.001836
+                80.218955,
+                13.006452
               ],
               [
-                80.212453,
-                13.001914
-              ],
-              [
-                80.212404,
-                13.001984
-              ],
-              [
-                80.212331,
-                13.002093
-              ],
-              [
-                80.212303,
-                13.002154
-              ],
-              [
-                80.212114,
-                13.002539
-              ],
-              [
-                80.212109,
-                13.002593
-              ],
-              [
-                80.212101,
-                13.002731
-              ],
-              [
-                80.212079,
-                13.003079
-              ],
-              [
-                80.212063,
-                13.003325
-              ],
-              [
-                80.212045,
-                13.003458
-              ],
-              [
-                80.212011,
-                13.003607
-              ],
-              [
-                80.211972,
-                13.003672
-              ],
-              [
-                80.211943,
-                13.003721
-              ],
-              [
-                80.211946,
-                13.003797
-              ],
-              [
-                80.211975,
-                13.003928
-              ],
-              [
-                80.212032,
-                13.004128
-              ],
-              [
-                80.212077,
-                13.004259
-              ],
-              [
-                80.212153,
-                13.004451
-              ],
-              [
-                80.21221,
-                13.00457
-              ],
-              [
-                80.212512,
-                13.005116
-              ],
-              [
-                80.212588,
-                13.005244
-              ],
-              [
-                80.212645,
-                13.005336
-              ],
-              [
-                80.212733,
-                13.005477
-              ],
-              [
-                80.212788,
-                13.005566
-              ],
-              [
-                80.212858,
-                13.005676
-              ],
-              [
-                80.21289,
-                13.005765
-              ],
-              [
-                80.212923,
-                13.005848
-              ],
-              [
-                80.212935,
-                13.005909
-              ],
-              [
-                80.21289,
-                13.00603
-              ],
-              [
-                80.212849,
-                13.006152
-              ],
-              [
-                80.212804,
-                13.00623
-              ],
-              [
-                80.212793,
-                13.006265
-              ],
-              [
-                80.212712,
-                13.006531
-              ],
-              [
-                80.212701,
-                13.006729
-              ],
-              [
-                80.21274,
-                13.007117
-              ],
-              [
-                80.212777,
-                13.007326
-              ],
-              [
-                80.212799,
-                13.007466
-              ],
-              [
-                80.212828,
-                13.007573
-              ],
-              [
-                80.212896,
-                13.007718
-              ],
-              [
-                80.213001,
-                13.007866
-              ],
-              [
-                80.213155,
-                13.008043
-              ],
-              [
-                80.213215,
-                13.008113
-              ],
-              [
-                80.213337,
-                13.008422
-              ],
-              [
-                80.213376,
-                13.008507
-              ],
-              [
-                80.213453,
-                13.008587
-              ],
-              [
-                80.214169,
-                13.009164
-              ],
-              [
-                80.214232,
-                13.00921
-              ],
-              [
-                80.214889,
-                13.009695
-              ],
-              [
-                80.215055,
-                13.009831
-              ],
-              [
-                80.215194,
-                13.00995
-              ],
-              [
-                80.215491,
-                13.010176
-              ],
-              [
-                80.215738,
-                13.010382
-              ],
-              [
-                80.215951,
-                13.01052
-              ],
-              [
-                80.216163,
-                13.010632
-              ],
-              [
-                80.216659,
-                13.010807
-              ],
-              [
-                80.217058,
-                13.01092
-              ],
-              [
-                80.217745,
-                13.011236
-              ],
-              [
-                80.218262,
-                13.011406
-              ],
-              [
-                80.218323,
-                13.011426
-              ],
-              [
-                80.218386,
-                13.011447
-              ],
-              [
-                80.218697,
-                13.011549
-              ],
-              [
-                80.218967,
-                13.011638
-              ],
-              [
-                80.219535,
-                13.011824
-              ],
-              [
-                80.220211,
-                13.012046
-              ],
-              [
-                80.220805,
-                13.012269
-              ],
-              [
-                80.221084,
-                13.012363
-              ],
-              [
-                80.22126,
-                13.012364
-              ],
-              [
-                80.221294,
-                13.012353
-              ],
-              [
-                80.221326,
-                13.012324
-              ],
-              [
-                80.221333,
-                13.012297
-              ],
-              [
-                80.221325,
-                13.012269
-              ],
-              [
-                80.221305,
-                13.01225
-              ],
-              [
-                80.221269,
-                13.012229
-              ],
-              [
-                80.221065,
-                13.012149
-              ],
-              [
-                80.221056,
-                13.011993
-              ],
-              [
-                80.221064,
-                13.011708
-              ],
-              [
-                80.221067,
-                13.011588
-              ],
-              [
-                80.221056,
-                13.011993
-              ],
-              [
-                80.221065,
-                13.012149
-              ],
-              [
-                80.220237,
-                13.011867
-              ],
-              [
-                80.22002,
-                13.011801
-              ],
-              [
-                80.219878,
-                13.011759
-              ],
-              [
-                80.218362,
-                13.011282
-              ],
-              [
-                80.2183,
-                13.01126
-              ],
-              [
-                80.21785,
-                13.011104
-              ],
-              [
-                80.217769,
-                13.011076
-              ],
-              [
-                80.217511,
-                13.010984
-              ],
-              [
-                80.217071,
-                13.010795
-              ],
-              [
-                80.21688,
-                13.010708
-              ],
-              [
-                80.216842,
-                13.010691
-              ],
-              [
-                80.216328,
-                13.010461
-              ],
-              [
-                80.216205,
-                13.010318
-              ],
-              [
-                80.216075,
-                13.010252
-              ],
-              [
-                80.215541,
-                13.010024
-              ],
-              [
-                80.215406,
-                13.009952
-              ],
-              [
-                80.215444,
-                13.009764
-              ],
-              [
-                80.215599,
-                13.009279
-              ],
-              [
-                80.215676,
-                13.009087
-              ],
-              [
-                80.215822,
-                13.00902
-              ],
-              [
-                80.216148,
-                13.009053
-              ],
-              [
-                80.216376,
-                13.009088
-              ],
-              [
-                80.216582,
-                13.009123
-              ],
-              [
-                80.216812,
-                13.009126
-              ],
-              [
-                80.216989,
-                13.009102
-              ],
-              [
-                80.217656,
-                13.008771
-              ],
-              [
-                80.217694,
-                13.008753
-              ],
-              [
-                80.217986,
-                13.008507
-              ],
-              [
-                80.218074,
-                13.008358
-              ],
-              [
-                80.218206,
-                13.008138
-              ],
-              [
-                80.218387,
-                13.007714
-              ],
-              [
-                80.218412,
-                13.007654
+                80.218878,
+                13.006561
               ],
               [
                 80.21868,
@@ -4603,17 +4192,17 @@
             ],
             "type": "LineString"
           },
-          "road_distance_km": 13.967,
-          "osrm_duration_min": 24.44,
+          "road_distance_km": 11.574,
+          "osrm_duration_min": 22.43,
           "geometry_source": "osrm"
         }
       ]
     },
     {
-      "day": "WED",
+      "day": "TUE",
       "rest_day": false,
       "n_routes": 1,
-      "duration_min": 42.63,
+      "duration_min": 44.7,
       "routes": [
         {
           "route": 1,
@@ -4624,10 +4213,10 @@
               "name": "College of Engineering Guindy (main gate)",
               "lat": 13.01094,
               "lon": 80.235446,
-              "load_m3": 2.2,
-              "cum_load_m3": 2.2,
+              "load_m3": 1.1,
+              "cum_load_m3": 1.1,
               "arrive_min": 5.02,
-              "depart_min": 5.68
+              "depart_min": 6.38
             },
             {
               "order": 2,
@@ -4635,10 +4224,10 @@
               "name": "Kotturpuram (Anna Univ. staff quarters)",
               "lat": 13.011458,
               "lon": 80.243103,
-              "load_m3": 3.68,
-              "cum_load_m3": 5.88,
-              "arrive_min": 9.08,
-              "depart_min": 10.45
+              "load_m3": 2.76,
+              "cum_load_m3": 3.86,
+              "arrive_min": 9.78,
+              "depart_min": 11.15
             },
             {
               "order": 3,
@@ -4647,9 +4236,9 @@
               "lat": 13.011933,
               "lon": 80.244037,
               "load_m3": 5.25,
-              "cum_load_m3": 11.13,
-              "arrive_min": 11.12,
-              "depart_min": 12.45
+              "cum_load_m3": 9.11,
+              "arrive_min": 11.82,
+              "depart_min": 13.15
             },
             {
               "order": 4,
@@ -4658,9 +4247,9 @@
               "lat": 13.010276,
               "lon": 80.268307,
               "load_m3": 3.22,
-              "cum_load_m3": 14.35,
-              "arrive_min": 19.07,
-              "depart_min": 21.17
+              "cum_load_m3": 12.33,
+              "arrive_min": 19.77,
+              "depart_min": 21.87
             },
             {
               "order": 5,
@@ -4668,19 +4257,30 @@
               "name": "Besant Nagar Beach",
               "lat": 12.99922,
               "lon": 80.272869,
-              "load_m3": 4.84,
-              "cum_load_m3": 19.19,
-              "arrive_min": 23.21,
-              "depart_min": 24.54
+              "load_m3": 3.63,
+              "cum_load_m3": 15.96,
+              "arrive_min": 23.91,
+              "depart_min": 25.24
+            },
+            {
+              "order": 6,
+              "point_id": 2,
+              "name": "Gandhi Mandapam",
+              "lat": 13.006625,
+              "lon": 80.23734,
+              "load_m3": 3.71,
+              "cum_load_m3": 19.67,
+              "arrive_min": 32.09,
+              "depart_min": 33.46
             }
           ],
-          "n_stops": 5,
-          "total_load_m3": 19.19,
+          "n_stops": 6,
+          "total_load_m3": 19.67,
           "vehicle_capacity_m3": 21.0,
-          "load_ratio": 0.9138,
-          "duration_min": 42.63,
+          "load_ratio": 0.9367,
+          "duration_min": 44.7,
           "travel_min": 27.84,
-          "service_min": 6.79,
+          "service_min": 8.86,
           "unload_min": 8.0,
           "within_shift": true,
           "geometry": {
@@ -6226,6 +5826,10 @@
                 13.007318
               ],
               [
+                80.237488,
+                13.007341
+              ],
+              [
                 80.237308,
                 13.007376
               ],
@@ -6399,10 +6003,10 @@
       ]
     },
     {
-      "day": "THU",
+      "day": "WED",
       "rest_day": false,
       "n_routes": 1,
-      "duration_min": 26.47,
+      "duration_min": 28.02,
       "routes": [
         {
           "route": 1,
@@ -6413,8 +6017,8 @@
               "name": "SPIC Building, Anna Salai",
               "lat": 13.011642,
               "lon": 80.218609,
-              "load_m3": 2.34,
-              "cum_load_m3": 2.34,
+              "load_m3": 1.56,
+              "cum_load_m3": 1.56,
               "arrive_min": 2.39,
               "depart_min": 3.05
             },
@@ -6424,63 +6028,74 @@
               "name": "Ashok Leyland, Sardar Patel Road",
               "lat": 13.012486,
               "lon": 80.222041,
-              "load_m3": 2.46,
-              "cum_load_m3": 4.8,
+              "load_m3": 1.64,
+              "cum_load_m3": 3.2,
               "arrive_min": 3.55,
-              "depart_min": 4.91
+              "depart_min": 4.21
             },
             {
               "order": 3,
-              "point_id": 1,
-              "name": "College of Engineering Guindy (main gate)",
-              "lat": 13.01094,
-              "lon": 80.235446,
-              "load_m3": 1.1,
-              "cum_load_m3": 5.9,
-              "arrive_min": 7.33,
-              "depart_min": 7.99
+              "point_id": 10,
+              "name": "Kalaignar Arch, Saidapet",
+              "lat": 13.020099,
+              "lon": 80.224521,
+              "load_m3": 2.34,
+              "cum_load_m3": 5.54,
+              "arrive_min": 5.45,
+              "depart_min": 6.82
             },
             {
               "order": 4,
-              "point_id": 2,
-              "name": "Gandhi Mandapam",
-              "lat": 13.006625,
-              "lon": 80.23734,
-              "load_m3": 3.71,
-              "cum_load_m3": 9.61,
-              "arrive_min": 10.32,
-              "depart_min": 11.69
+              "point_id": 12,
+              "name": "ISKCON Saidapet, Jeenis Road",
+              "lat": 13.020687,
+              "lon": 80.221748,
+              "load_m3": 1.28,
+              "cum_load_m3": 6.82,
+              "arrive_min": 7.85,
+              "depart_min": 8.51
             },
             {
               "order": 5,
-              "point_id": 8,
-              "name": "Prestige Cosmopolitan, Guindy",
-              "lat": 13.012038,
-              "lon": 80.222764,
-              "load_m3": 2.67,
-              "cum_load_m3": 12.28,
-              "arrive_min": 13.49,
-              "depart_min": 14.86
+              "point_id": 13,
+              "name": "Kamakshi Amman Temple, Saidapet",
+              "lat": 13.020016,
+              "lon": 80.220156,
+              "load_m3": 1.38,
+              "cum_load_m3": 8.2,
+              "arrive_min": 9.05,
+              "depart_min": 9.71
             },
             {
               "order": 6,
+              "point_id": 11,
+              "name": "Karaneeswarar Temple, Saidapet",
+              "lat": 13.02476,
+              "lon": 80.223176,
+              "load_m3": 4.95,
+              "cum_load_m3": 13.15,
+              "arrive_min": 11.19,
+              "depart_min": 12.52
+            },
+            {
+              "order": 7,
               "point_id": 7,
               "name": "Alexander Square, Little Mount",
               "lat": 13.011711,
               "lon": 80.221195,
               "load_m3": 1.38,
-              "cum_load_m3": 13.66,
-              "arrive_min": 15.47,
-              "depart_min": 16.13
+              "cum_load_m3": 14.53,
+              "arrive_min": 17.02,
+              "depart_min": 17.68
             }
           ],
-          "n_stops": 6,
-          "total_load_m3": 13.66,
+          "n_stops": 7,
+          "total_load_m3": 14.53,
           "vehicle_capacity_m3": 21.0,
-          "load_ratio": 0.6505,
-          "duration_min": 26.47,
-          "travel_min": 12.39,
-          "service_min": 6.08,
+          "load_ratio": 0.6919,
+          "duration_min": 28.02,
+          "travel_min": 14.02,
+          "service_min": 6.0,
           "unload_min": 8.0,
           "within_shift": true,
           "geometry": {
@@ -6766,468 +6381,628 @@
                 13.014545
               ],
               [
-                80.224139,
-                13.014553
+                80.224083,
+                13.014622
               ],
               [
-                80.224164,
-                13.014574
+                80.224105,
+                13.01464
               ],
               [
-                80.224882,
-                13.015186
+                80.224394,
+                13.014883
               ],
               [
-                80.225105,
-                13.015358
+                80.22483,
+                13.015249
               ],
               [
-                80.225242,
-                13.015467
+                80.225089,
+                13.015516
               ],
               [
-                80.225374,
-                13.015497
+                80.225113,
+                13.015541
               ],
               [
-                80.225571,
-                13.01542
+                80.225265,
+                13.015697
               ],
               [
-                80.225761,
-                13.015316
+                80.225285,
+                13.015759
               ],
               [
-                80.226005,
-                13.015016
+                80.225345,
+                13.016083
               ],
               [
-                80.226112,
-                13.014714
+                80.225231,
+                13.016731
               ],
               [
-                80.226213,
-                13.014425
+                80.224685,
+                13.018111
               ],
               [
-                80.226355,
-                13.014086
+                80.224441,
+                13.018727
               ],
               [
-                80.226469,
-                13.013815
+                80.224397,
+                13.018833
               ],
               [
-                80.226647,
-                13.013393
+                80.22438,
+                13.01889
               ],
               [
-                80.22685,
-                13.012912
+                80.224367,
+                13.018991
               ],
               [
-                80.226922,
-                13.012725
+                80.224364,
+                13.019131
               ],
               [
-                80.226971,
-                13.0126
+                80.224371,
+                13.019239
               ],
               [
-                80.227046,
-                13.012387
+                80.224391,
+                13.019377
               ],
               [
-                80.227258,
-                13.011781
+                80.224429,
+                13.019507
               ],
               [
-                80.22784,
-                13.010325
+                80.224464,
+                13.019603
               ],
               [
-                80.22807,
-                13.00975
+                80.224525,
+                13.019713
               ],
               [
-                80.228184,
-                13.009541
+                80.224566,
+                13.019773
               ],
               [
-                80.228355,
-                13.009313
+                80.224586,
+                13.019809
               ],
               [
-                80.228505,
-                13.009236
+                80.224571,
+                13.019994
               ],
               [
-                80.228609,
-                13.009194
+                80.224563,
+                13.020102
               ],
               [
-                80.230024,
-                13.008899
+                80.224561,
+                13.020128
               ],
               [
-                80.230203,
-                13.008862
+                80.224464,
+                13.020651
               ],
               [
-                80.230283,
-                13.008846
+                80.224379,
+                13.021132
               ],
               [
-                80.23114,
-                13.008681
+                80.224318,
+                13.021528
               ],
               [
-                80.232793,
-                13.008361
+                80.224273,
+                13.021816
               ],
               [
-                80.233476,
-                13.008246
+                80.224268,
+                13.021897
               ],
               [
-                80.234809,
-                13.007968
+                80.224084,
+                13.021784
               ],
               [
-                80.234815,
-                13.008009
+                80.223357,
+                13.021406
               ],
               [
-                80.234821,
-                13.008032
+                80.222773,
+                13.021074
               ],
               [
-                80.234828,
-                13.008055
+                80.222145,
+                13.020725
               ],
               [
-                80.234839,
-                13.008074
+                80.221689,
+                13.020488
               ],
               [
-                80.234845,
-                13.008086
+                80.221686,
+                13.020539
               ],
               [
-                80.234891,
-                13.008117
+                80.22169,
+                13.020689
               ],
               [
-                80.234933,
-                13.008153
+                80.221707,
+                13.021253
               ],
               [
-                80.234958,
-                13.00819
+                80.221646,
+                13.021257
               ],
               [
-                80.234976,
-                13.008234
+                80.221129,
+                13.021253
               ],
               [
-                80.235017,
-                13.008236
+                80.221153,
+                13.02019
               ],
               [
-                80.235017,
-                13.008236
+                80.221098,
+                13.020157
               ],
               [
-                80.235054,
-                13.008223
+                80.220801,
+                13.020006
               ],
               [
-                80.235048,
-                13.00818
+                80.220352,
+                13.019792
               ],
               [
-                80.235051,
-                13.008123
+                80.22032,
+                13.01999
               ],
               [
-                80.23506,
-                13.00809
+                80.220157,
+                13.019985
               ],
               [
-                80.235097,
-                13.008046
+                80.219925,
+                13.019977
               ],
               [
-                80.235108,
-                13.00802
+                80.219484,
+                13.019966
               ],
               [
-                80.235108,
-                13.007996
+                80.21949,
+                13.020163
               ],
               [
-                80.235082,
-                13.007916
+                80.219494,
+                13.021179
               ],
               [
-                80.235184,
-                13.007895
+                80.219496,
+                13.02146
               ],
               [
-                80.238004,
-                13.007327
+                80.219519,
+                13.021974
               ],
               [
-                80.238702,
-                13.007221
+                80.219539,
+                13.022297
               ],
               [
-                80.240056,
-                13.006963
+                80.219516,
+                13.022392
               ],
               [
-                80.240213,
-                13.006933
+                80.219603,
+                13.023174
               ],
               [
-                80.240382,
-                13.008054
+                80.219701,
+                13.023867
               ],
               [
-                80.240438,
-                13.009688
+                80.219745,
+                13.024288
               ],
               [
-                80.240538,
-                13.009687
+                80.219755,
+                13.024424
               ],
               [
-                80.240539,
-                13.009638
+                80.219789,
+                13.024879
               ],
               [
-                80.240539,
-                13.009609
+                80.220275,
+                13.024901
               ],
               [
-                80.240489,
-                13.00804
+                80.221139,
+                13.024942
               ],
               [
-                80.240324,
-                13.006912
+                80.22186,
+                13.025036
               ],
               [
-                80.240302,
-                13.006766
+                80.222143,
+                13.025076
               ],
               [
-                80.240187,
-                13.006786
+                80.222464,
+                13.025112
               ],
               [
-                80.239931,
-                13.006846
+                80.22263,
+                13.025128
               ],
               [
-                80.239691,
-                13.0069
+                80.222843,
+                13.025147
               ],
               [
-                80.23926,
-                13.006968
+                80.222846,
+                13.02511
               ],
               [
-                80.23842,
-                13.007142
+                80.222869,
+                13.024742
               ],
               [
-                80.237991,
-                13.007235
+                80.222889,
+                13.024417
               ],
               [
-                80.237604,
-                13.007318
+                80.222798,
+                13.024416
               ],
               [
-                80.237488,
-                13.007341
+                80.222156,
+                13.024396
               ],
               [
-                80.237308,
-                13.007376
+                80.222154,
+                13.024712
               ],
               [
-                80.237095,
-                13.007422
+                80.222143,
+                13.025076
               ],
               [
-                80.236854,
-                13.007471
+                80.22186,
+                13.025036
               ],
               [
-                80.236734,
-                13.00749
+                80.221139,
+                13.024942
               ],
               [
-                80.236644,
-                13.007506
+                80.220275,
+                13.024901
               ],
               [
-                80.236385,
-                13.007561
+                80.219789,
+                13.024879
               ],
               [
-                80.235721,
-                13.00768
+                80.219755,
+                13.024424
               ],
               [
-                80.235161,
-                13.007793
+                80.219745,
+                13.024288
               ],
               [
-                80.235058,
-                13.007813
+                80.219701,
+                13.023867
               ],
               [
-                80.228676,
-                13.009065
+                80.219603,
+                13.023174
               ],
               [
-                80.228425,
-                13.009127
+                80.219516,
+                13.022392
               ],
               [
-                80.22834,
-                13.009148
+                80.219539,
+                13.022297
               ],
               [
-                80.228242,
-                13.009171
+                80.219519,
+                13.021974
               ],
               [
-                80.227901,
-                13.009289
+                80.219496,
+                13.02146
               ],
               [
-                80.225926,
-                13.010256
+                80.219494,
+                13.021179
               ],
               [
-                80.225815,
-                13.010328
+                80.21949,
+                13.020163
               ],
               [
-                80.22497,
-                13.010706
+                80.219484,
+                13.019966
               ],
               [
-                80.224857,
-                13.010756
+                80.219471,
+                13.019753
               ],
               [
-                80.224726,
-                13.010809
+                80.219476,
+                13.019581
               ],
               [
-                80.22446,
-                13.010918
+                80.219489,
+                13.019452
               ],
               [
-                80.224104,
-                13.011063
+                80.219515,
+                13.01933
               ],
               [
-                80.224015,
-                13.011099
+                80.219281,
+                13.018969
               ],
               [
-                80.223282,
-                13.01139
+                80.219125,
+                13.018764
               ],
               [
-                80.223198,
-                13.01143
+                80.218775,
+                13.018373
               ],
               [
-                80.223024,
-                13.011496
+                80.218711,
+                13.018308
               ],
               [
-                80.222986,
-                13.01151
+                80.218268,
+                13.017847
               ],
               [
-                80.222898,
-                13.011543
+                80.218173,
+                13.017749
               ],
               [
-                80.222801,
-                13.011579
+                80.218107,
+                13.017685
               ],
               [
-                80.222854,
-                13.011677
+                80.218048,
+                13.017637
               ],
               [
-                80.223028,
-                13.011999
+                80.217988,
+                13.017593
               ],
               [
-                80.222987,
-                13.011924
+                80.216957,
+                13.016907
               ],
               [
-                80.222854,
-                13.011677
+                80.216703,
+                13.016762
               ],
               [
-                80.222801,
-                13.011579
+                80.216525,
+                13.01667
               ],
               [
-                80.222419,
-                13.011722
+                80.216289,
+                13.016558
               ],
               [
-                80.222377,
-                13.011737
+                80.216005,
+                13.016419
               ],
               [
-                80.222331,
-                13.011753
+                80.215915,
+                13.016367
               ],
               [
-                80.221986,
-                13.011873
+                80.21584,
+                13.016326
               ],
               [
-                80.221907,
-                13.011909
+                80.215752,
+                13.01627
               ],
               [
-                80.221836,
-                13.011942
+                80.215701,
+                13.016235
               ],
               [
-                80.221798,
-                13.01196
+                80.215662,
+                13.016206
               ],
               [
-                80.221747,
-                13.011976
+                80.215603,
+                13.016161
               ],
               [
-                80.221575,
-                13.012019
+                80.215529,
+                13.016098
               ],
               [
-                80.22148,
-                13.012058
+                80.21547,
+                13.016032
               ],
               [
-                80.221307,
-                13.012113
+                80.215384,
+                13.015893
+              ],
+              [
+                80.215294,
+                13.015755
+              ],
+              [
+                80.214844,
+                13.015066
+              ],
+              [
+                80.214607,
+                13.014665
+              ],
+              [
+                80.214348,
+                13.01424
+              ],
+              [
+                80.213584,
+                13.012906
+              ],
+              [
+                80.213342,
+                13.012482
+              ],
+              [
+                80.212872,
+                13.01184
+              ],
+              [
+                80.212706,
+                13.011629
+              ],
+              [
+                80.211913,
+                13.010598
+              ],
+              [
+                80.21101,
+                13.009488
+              ],
+              [
+                80.211437,
+                13.009165
+              ],
+              [
+                80.211653,
+                13.009009
+              ],
+              [
+                80.211942,
+                13.009109
+              ],
+              [
+                80.212072,
+                13.009151
+              ],
+              [
+                80.212255,
+                13.009219
+              ],
+              [
+                80.213244,
+                13.009582
+              ],
+              [
+                80.214487,
+                13.010098
+              ],
+              [
+                80.214739,
+                13.010159
+              ],
+              [
+                80.21491,
+                13.010186
+              ],
+              [
+                80.215605,
+                13.010276
+              ],
+              [
+                80.215767,
+                13.010317
+              ],
+              [
+                80.215911,
+                13.010382
+              ],
+              [
+                80.217058,
+                13.01092
+              ],
+              [
+                80.217745,
+                13.011236
+              ],
+              [
+                80.218262,
+                13.011406
+              ],
+              [
+                80.218323,
+                13.011426
+              ],
+              [
+                80.218386,
+                13.011447
+              ],
+              [
+                80.218697,
+                13.011549
+              ],
+              [
+                80.218967,
+                13.011638
+              ],
+              [
+                80.219535,
+                13.011824
+              ],
+              [
+                80.220211,
+                13.012046
+              ],
+              [
+                80.220805,
+                13.012269
+              ],
+              [
+                80.221084,
+                13.012363
+              ],
+              [
+                80.22126,
+                13.012364
+              ],
+              [
+                80.221294,
+                13.012353
+              ],
+              [
+                80.221326,
+                13.012324
+              ],
+              [
+                80.221333,
+                13.012297
+              ],
+              [
+                80.221325,
+                13.012269
+              ],
+              [
+                80.221305,
+                13.01225
+              ],
+              [
+                80.221269,
+                13.012229
               ],
               [
                 80.221065,
@@ -7400,8 +7175,1534 @@
             ],
             "type": "LineString"
           },
-          "road_distance_km": 8.806,
-          "osrm_duration_min": 13.55,
+          "road_distance_km": 9.936,
+          "osrm_duration_min": 15.83,
+          "geometry_source": "osrm"
+        }
+      ]
+    },
+    {
+      "day": "THU",
+      "rest_day": false,
+      "n_routes": 1,
+      "duration_min": 34.45,
+      "routes": [
+        {
+          "route": 1,
+          "stops": [
+            {
+              "order": 1,
+              "point_id": 19,
+              "name": "Sri Dhandeeswaram Temple, Velachery",
+              "lat": 12.98575,
+              "lon": 80.223785,
+              "load_m3": 2.88,
+              "cum_load_m3": 2.88,
+              "arrive_min": 4.4,
+              "depart_min": 5.77
+            },
+            {
+              "order": 2,
+              "point_id": 20,
+              "name": "Grand Square Mall, Velachery",
+              "lat": 12.971821,
+              "lon": 80.220617,
+              "load_m3": 3.18,
+              "cum_load_m3": 6.06,
+              "arrive_min": 8.43,
+              "depart_min": 9.8
+            },
+            {
+              "order": 3,
+              "point_id": 21,
+              "name": "Velachery MRTS Station",
+              "lat": 12.967336,
+              "lon": 80.219345,
+              "load_m3": 3.66,
+              "cum_load_m3": 9.72,
+              "arrive_min": 11.56,
+              "depart_min": 12.89
+            },
+            {
+              "order": 4,
+              "point_id": 18,
+              "name": "Phoenix Marketcity, Velachery",
+              "lat": 12.99169,
+              "lon": 80.216942,
+              "load_m3": 3.72,
+              "cum_load_m3": 13.44,
+              "arrive_min": 19.33,
+              "depart_min": 20.66
+            }
+          ],
+          "n_stops": 4,
+          "total_load_m3": 13.44,
+          "vehicle_capacity_m3": 21.0,
+          "load_ratio": 0.64,
+          "duration_min": 34.45,
+          "travel_min": 21.05,
+          "service_min": 5.4,
+          "unload_min": 8.0,
+          "within_shift": true,
+          "geometry": {
+            "coordinates": [
+              [
+                80.219717,
+                13.007184
+              ],
+              [
+                80.219526,
+                13.007142
+              ],
+              [
+                80.218751,
+                13.007034
+              ],
+              [
+                80.21868,
+                13.007025
+              ],
+              [
+                80.218878,
+                13.006561
+              ],
+              [
+                80.218955,
+                13.006452
+              ],
+              [
+                80.219092,
+                13.006419
+              ],
+              [
+                80.219844,
+                13.006352
+              ],
+              [
+                80.220105,
+                13.006369
+              ],
+              [
+                80.220541,
+                13.006681
+              ],
+              [
+                80.220635,
+                13.006706
+              ],
+              [
+                80.220736,
+                13.006683
+              ],
+              [
+                80.220425,
+                13.005343
+              ],
+              [
+                80.220279,
+                13.004642
+              ],
+              [
+                80.220104,
+                13.003796
+              ],
+              [
+                80.220072,
+                13.003687
+              ],
+              [
+                80.219924,
+                13.003174
+              ],
+              [
+                80.219769,
+                13.002804
+              ],
+              [
+                80.21963,
+                13.002572
+              ],
+              [
+                80.219586,
+                13.002505
+              ],
+              [
+                80.219094,
+                13.002023
+              ],
+              [
+                80.218969,
+                13.00191
+              ],
+              [
+                80.218866,
+                13.001813
+              ],
+              [
+                80.218591,
+                13.001538
+              ],
+              [
+                80.218574,
+                13.001508
+              ],
+              [
+                80.218459,
+                13.001336
+              ],
+              [
+                80.218385,
+                13.001227
+              ],
+              [
+                80.21832,
+                13.001127
+              ],
+              [
+                80.218249,
+                13.001019
+              ],
+              [
+                80.21818,
+                13.000907
+              ],
+              [
+                80.218047,
+                13.000692
+              ],
+              [
+                80.217793,
+                13.000299
+              ],
+              [
+                80.217288,
+                12.999454
+              ],
+              [
+                80.217008,
+                12.998937
+              ],
+              [
+                80.216695,
+                12.998333
+              ],
+              [
+                80.216571,
+                12.997877
+              ],
+              [
+                80.216543,
+                12.997557
+              ],
+              [
+                80.216542,
+                12.997405
+              ],
+              [
+                80.21655,
+                12.997209
+              ],
+              [
+                80.216553,
+                12.997174
+              ],
+              [
+                80.216572,
+                12.996704
+              ],
+              [
+                80.21661,
+                12.996398
+              ],
+              [
+                80.216675,
+                12.996084
+              ],
+              [
+                80.216735,
+                12.995806
+              ],
+              [
+                80.2169,
+                12.995384
+              ],
+              [
+                80.216966,
+                12.995248
+              ],
+              [
+                80.217251,
+                12.994821
+              ],
+              [
+                80.219549,
+                12.991651
+              ],
+              [
+                80.219598,
+                12.991586
+              ],
+              [
+                80.219671,
+                12.99149
+              ],
+              [
+                80.219777,
+                12.991357
+              ],
+              [
+                80.220033,
+                12.991013
+              ],
+              [
+                80.220695,
+                12.990178
+              ],
+              [
+                80.220723,
+                12.990103
+              ],
+              [
+                80.220859,
+                12.989942
+              ],
+              [
+                80.220971,
+                12.989835
+              ],
+              [
+                80.221167,
+                12.989668
+              ],
+              [
+                80.221326,
+                12.989541
+              ],
+              [
+                80.221475,
+                12.989419
+              ],
+              [
+                80.221645,
+                12.98928
+              ],
+              [
+                80.22201,
+                12.988982
+              ],
+              [
+                80.222155,
+                12.988871
+              ],
+              [
+                80.222175,
+                12.988854
+              ],
+              [
+                80.222389,
+                12.988673
+              ],
+              [
+                80.222399,
+                12.988665
+              ],
+              [
+                80.222741,
+                12.988272
+              ],
+              [
+                80.222924,
+                12.988035
+              ],
+              [
+                80.223056,
+                12.987844
+              ],
+              [
+                80.223065,
+                12.987821
+              ],
+              [
+                80.223075,
+                12.987797
+              ],
+              [
+                80.223083,
+                12.98774
+              ],
+              [
+                80.223097,
+                12.987633
+              ],
+              [
+                80.223082,
+                12.987302
+              ],
+              [
+                80.223057,
+                12.987069
+              ],
+              [
+                80.222971,
+                12.986467
+              ],
+              [
+                80.222973,
+                12.986177
+              ],
+              [
+                80.223581,
+                12.986048
+              ],
+              [
+                80.223506,
+                12.985852
+              ],
+              [
+                80.223361,
+                12.985474
+              ],
+              [
+                80.223314,
+                12.985461
+              ],
+              [
+                80.223306,
+                12.985361
+              ],
+              [
+                80.223262,
+                12.985113
+              ],
+              [
+                80.223249,
+                12.98508
+              ],
+              [
+                80.223126,
+                12.984767
+              ],
+              [
+                80.222878,
+                12.984386
+              ],
+              [
+                80.222664,
+                12.984051
+              ],
+              [
+                80.222628,
+                12.983993
+              ],
+              [
+                80.222522,
+                12.983824
+              ],
+              [
+                80.222508,
+                12.9838
+              ],
+              [
+                80.22211,
+                12.983162
+              ],
+              [
+                80.221989,
+                12.982934
+              ],
+              [
+                80.221899,
+                12.982763
+              ],
+              [
+                80.221854,
+                12.982567
+              ],
+              [
+                80.221719,
+                12.98224
+              ],
+              [
+                80.221504,
+                12.981833
+              ],
+              [
+                80.221117,
+                12.981321
+              ],
+              [
+                80.221086,
+                12.981247
+              ],
+              [
+                80.221015,
+                12.981078
+              ],
+              [
+                80.221045,
+                12.980777
+              ],
+              [
+                80.221057,
+                12.980555
+              ],
+              [
+                80.221076,
+                12.980281
+              ],
+              [
+                80.221083,
+                12.980178
+              ],
+              [
+                80.221087,
+                12.980041
+              ],
+              [
+                80.221091,
+                12.979989
+              ],
+              [
+                80.221102,
+                12.979745
+              ],
+              [
+                80.221107,
+                12.979627
+              ],
+              [
+                80.221109,
+                12.979587
+              ],
+              [
+                80.221129,
+                12.979223
+              ],
+              [
+                80.221131,
+                12.979179
+              ],
+              [
+                80.221139,
+                12.979032
+              ],
+              [
+                80.221145,
+                12.978919
+              ],
+              [
+                80.221148,
+                12.978755
+              ],
+              [
+                80.22115,
+                12.978662
+              ],
+              [
+                80.221155,
+                12.97861
+              ],
+              [
+                80.22116,
+                12.97858
+              ],
+              [
+                80.221163,
+                12.978553
+              ],
+              [
+                80.221178,
+                12.978296
+              ],
+              [
+                80.221181,
+                12.978256
+              ],
+              [
+                80.221183,
+                12.978216
+              ],
+              [
+                80.221201,
+                12.977895
+              ],
+              [
+                80.221206,
+                12.977795
+              ],
+              [
+                80.221206,
+                12.977743
+              ],
+              [
+                80.221206,
+                12.97753
+              ],
+              [
+                80.221206,
+                12.977501
+              ],
+              [
+                80.22121,
+                12.977038
+              ],
+              [
+                80.221217,
+                12.97679
+              ],
+              [
+                80.221212,
+                12.976461
+              ],
+              [
+                80.221217,
+                12.976306
+              ],
+              [
+                80.221242,
+                12.976217
+              ],
+              [
+                80.221257,
+                12.976176
+              ],
+              [
+                80.221333,
+                12.976087
+              ],
+              [
+                80.221404,
+                12.975994
+              ],
+              [
+                80.221305,
+                12.975916
+              ],
+              [
+                80.221191,
+                12.975813
+              ],
+              [
+                80.221148,
+                12.975772
+              ],
+              [
+                80.221058,
+                12.975686
+              ],
+              [
+                80.220938,
+                12.975557
+              ],
+              [
+                80.220867,
+                12.975469
+              ],
+              [
+                80.220839,
+                12.975427
+              ],
+              [
+                80.220803,
+                12.975355
+              ],
+              [
+                80.220743,
+                12.975203
+              ],
+              [
+                80.220715,
+                12.975131
+              ],
+              [
+                80.220668,
+                12.975013
+              ],
+              [
+                80.220596,
+                12.974827
+              ],
+              [
+                80.220512,
+                12.974626
+              ],
+              [
+                80.220418,
+                12.974401
+              ],
+              [
+                80.220405,
+                12.974368
+              ],
+              [
+                80.220208,
+                12.973933
+              ],
+              [
+                80.219978,
+                12.973383
+              ],
+              [
+                80.219861,
+                12.973112
+              ],
+              [
+                80.2197,
+                12.972661
+              ],
+              [
+                80.21959,
+                12.972368
+              ],
+              [
+                80.219566,
+                12.9723
+              ],
+              [
+                80.219506,
+                12.972144
+              ],
+              [
+                80.219451,
+                12.972099
+              ],
+              [
+                80.219422,
+                12.972011
+              ],
+              [
+                80.219381,
+                12.971884
+              ],
+              [
+                80.21998,
+                12.971781
+              ],
+              [
+                80.220542,
+                12.971682
+              ],
+              [
+                80.220592,
+                12.971674
+              ],
+              [
+                80.221391,
+                12.971543
+              ],
+              [
+                80.221433,
+                12.971554
+              ],
+              [
+                80.221471,
+                12.971533
+              ],
+              [
+                80.22153,
+                12.971526
+              ],
+              [
+                80.221471,
+                12.971533
+              ],
+              [
+                80.221433,
+                12.971554
+              ],
+              [
+                80.221391,
+                12.971543
+              ],
+              [
+                80.220542,
+                12.971682
+              ],
+              [
+                80.21998,
+                12.971781
+              ],
+              [
+                80.219381,
+                12.971884
+              ],
+              [
+                80.21936,
+                12.971832
+              ],
+              [
+                80.219346,
+                12.971795
+              ],
+              [
+                80.219278,
+                12.97162
+              ],
+              [
+                80.219143,
+                12.971272
+              ],
+              [
+                80.218942,
+                12.970738
+              ],
+              [
+                80.218869,
+                12.970562
+              ],
+              [
+                80.218924,
+                12.97045
+              ],
+              [
+                80.218838,
+                12.970195
+              ],
+              [
+                80.218682,
+                12.969783
+              ],
+              [
+                80.218684,
+                12.969717
+              ],
+              [
+                80.218542,
+                12.969387
+              ],
+              [
+                80.218129,
+                12.968336
+              ],
+              [
+                80.218605,
+                12.968214
+              ],
+              [
+                80.218674,
+                12.968217
+              ],
+              [
+                80.218733,
+                12.968233
+              ],
+              [
+                80.218857,
+                12.968267
+              ],
+              [
+                80.219095,
+                12.968289
+              ],
+              [
+                80.21954,
+                12.968223
+              ],
+              [
+                80.220101,
+                12.968126
+              ],
+              [
+                80.220099,
+                12.96786
+              ],
+              [
+                80.220073,
+                12.967691
+              ],
+              [
+                80.219553,
+                12.967736
+              ],
+              [
+                80.219392,
+                12.967753
+              ],
+              [
+                80.219317,
+                12.967761
+              ],
+              [
+                80.218955,
+                12.967829
+              ],
+              [
+                80.218733,
+                12.968233
+              ],
+              [
+                80.218674,
+                12.968217
+              ],
+              [
+                80.218605,
+                12.968214
+              ],
+              [
+                80.218129,
+                12.968336
+              ],
+              [
+                80.218112,
+                12.968294
+              ],
+              [
+                80.218027,
+                12.968063
+              ],
+              [
+                80.217998,
+                12.968013
+              ],
+              [
+                80.217957,
+                12.96797
+              ],
+              [
+                80.217923,
+                12.967947
+              ],
+              [
+                80.217886,
+                12.967924
+              ],
+              [
+                80.217841,
+                12.967923
+              ],
+              [
+                80.217773,
+                12.967938
+              ],
+              [
+                80.217578,
+                12.967982
+              ],
+              [
+                80.217606,
+                12.968059
+              ],
+              [
+                80.217644,
+                12.968153
+              ],
+              [
+                80.217818,
+                12.968584
+              ],
+              [
+                80.218311,
+                12.969784
+              ],
+              [
+                80.218378,
+                12.969948
+              ],
+              [
+                80.218629,
+                12.970556
+              ],
+              [
+                80.218648,
+                12.970594
+              ],
+              [
+                80.218746,
+                12.970616
+              ],
+              [
+                80.218865,
+                12.970911
+              ],
+              [
+                80.219004,
+                12.971302
+              ],
+              [
+                80.219045,
+                12.971401
+              ],
+              [
+                80.219175,
+                12.971739
+              ],
+              [
+                80.219259,
+                12.971974
+              ],
+              [
+                80.219347,
+                12.97221
+              ],
+              [
+                80.219461,
+                12.972532
+              ],
+              [
+                80.219714,
+                12.97324
+              ],
+              [
+                80.219783,
+                12.973426
+              ],
+              [
+                80.219871,
+                12.973624
+              ],
+              [
+                80.219954,
+                12.973812
+              ],
+              [
+                80.220335,
+                12.974679
+              ],
+              [
+                80.220419,
+                12.974862
+              ],
+              [
+                80.22047,
+                12.974996
+              ],
+              [
+                80.220489,
+                12.97508
+              ],
+              [
+                80.220492,
+                12.975111
+              ],
+              [
+                80.220498,
+                12.975156
+              ],
+              [
+                80.220498,
+                12.975201
+              ],
+              [
+                80.220483,
+                12.975269
+              ],
+              [
+                80.220451,
+                12.975347
+              ],
+              [
+                80.220405,
+                12.975431
+              ],
+              [
+                80.220358,
+                12.975501
+              ],
+              [
+                80.220337,
+                12.975526
+              ],
+              [
+                80.220307,
+                12.97556
+              ],
+              [
+                80.220286,
+                12.975585
+              ],
+              [
+                80.220256,
+                12.975622
+              ],
+              [
+                80.220243,
+                12.975638
+              ],
+              [
+                80.220178,
+                12.975708
+              ],
+              [
+                80.220113,
+                12.97578
+              ],
+              [
+                80.220068,
+                12.975838
+              ],
+              [
+                80.220029,
+                12.975899
+              ],
+              [
+                80.219962,
+                12.976014
+              ],
+              [
+                80.2199,
+                12.976151
+              ],
+              [
+                80.219821,
+                12.976346
+              ],
+              [
+                80.219763,
+                12.976488
+              ],
+              [
+                80.219675,
+                12.976714
+              ],
+              [
+                80.219488,
+                12.977206
+              ],
+              [
+                80.219183,
+                12.977974
+              ],
+              [
+                80.219145,
+                12.978054
+              ],
+              [
+                80.21912,
+                12.978117
+              ],
+              [
+                80.219098,
+                12.978164
+              ],
+              [
+                80.218867,
+                12.978756
+              ],
+              [
+                80.218837,
+                12.978829
+              ],
+              [
+                80.218812,
+                12.978894
+              ],
+              [
+                80.218732,
+                12.979128
+              ],
+              [
+                80.218635,
+                12.979411
+              ],
+              [
+                80.218603,
+                12.979511
+              ],
+              [
+                80.218572,
+                12.979588
+              ],
+              [
+                80.218505,
+                12.979756
+              ],
+              [
+                80.218407,
+                12.980051
+              ],
+              [
+                80.218334,
+                12.980239
+              ],
+              [
+                80.218259,
+                12.980494
+              ],
+              [
+                80.218151,
+                12.980842
+              ],
+              [
+                80.218075,
+                12.981072
+              ],
+              [
+                80.217951,
+                12.981451
+              ],
+              [
+                80.217901,
+                12.981761
+              ],
+              [
+                80.217854,
+                12.982412
+              ],
+              [
+                80.217853,
+                12.982941
+              ],
+              [
+                80.217847,
+                12.983091
+              ],
+              [
+                80.21785,
+                12.983351
+              ],
+              [
+                80.217839,
+                12.983921
+              ],
+              [
+                80.21784,
+                12.984461
+              ],
+              [
+                80.217851,
+                12.985202
+              ],
+              [
+                80.217889,
+                12.985637
+              ],
+              [
+                80.217987,
+                12.986174
+              ],
+              [
+                80.218072,
+                12.986569
+              ],
+              [
+                80.218079,
+                12.986602
+              ],
+              [
+                80.218131,
+                12.98694
+              ],
+              [
+                80.218223,
+                12.987462
+              ],
+              [
+                80.218126,
+                12.987491
+              ],
+              [
+                80.217747,
+                12.987604
+              ],
+              [
+                80.217583,
+                12.987662
+              ],
+              [
+                80.217059,
+                12.987855
+              ],
+              [
+                80.216486,
+                12.988059
+              ],
+              [
+                80.216384,
+                12.988099
+              ],
+              [
+                80.216296,
+                12.988149
+              ],
+              [
+                80.216154,
+                12.988233
+              ],
+              [
+                80.216043,
+                12.988311
+              ],
+              [
+                80.21567,
+                12.988589
+              ],
+              [
+                80.215368,
+                12.988792
+              ],
+              [
+                80.215411,
+                12.989632
+              ],
+              [
+                80.215414,
+                12.98965
+              ],
+              [
+                80.215422,
+                12.989672
+              ],
+              [
+                80.215676,
+                12.990254
+              ],
+              [
+                80.215526,
+                12.990325
+              ],
+              [
+                80.215448,
+                12.990385
+              ],
+              [
+                80.215402,
+                12.990463
+              ],
+              [
+                80.215379,
+                12.990536
+              ],
+              [
+                80.215369,
+                12.990616
+              ],
+              [
+                80.215686,
+                12.991687
+              ],
+              [
+                80.215798,
+                12.991975
+              ],
+              [
+                80.21593,
+                12.992203
+              ],
+              [
+                80.216102,
+                12.992091
+              ],
+              [
+                80.216119,
+                12.992081
+              ],
+              [
+                80.216134,
+                12.992079
+              ],
+              [
+                80.216144,
+                12.992088
+              ],
+              [
+                80.216155,
+                12.992102
+              ],
+              [
+                80.216231,
+                12.992202
+              ],
+              [
+                80.216771,
+                12.992914
+              ],
+              [
+                80.217446,
+                12.993854
+              ],
+              [
+                80.217486,
+                12.993892
+              ],
+              [
+                80.217299,
+                12.994116
+              ],
+              [
+                80.217227,
+                12.994223
+              ],
+              [
+                80.217129,
+                12.994323
+              ],
+              [
+                80.217021,
+                12.994428
+              ],
+              [
+                80.216908,
+                12.994511
+              ],
+              [
+                80.217184,
+                12.994807
+              ],
+              [
+                80.217087,
+                12.994928
+              ],
+              [
+                80.216889,
+                12.995231
+              ],
+              [
+                80.216772,
+                12.995475
+              ],
+              [
+                80.216676,
+                12.99579
+              ],
+              [
+                80.216596,
+                12.996131
+              ],
+              [
+                80.216555,
+                12.996395
+              ],
+              [
+                80.216523,
+                12.996711
+              ],
+              [
+                80.216495,
+                12.99697
+              ],
+              [
+                80.216481,
+                12.997196
+              ],
+              [
+                80.21647,
+                12.997258
+              ],
+              [
+                80.216462,
+                12.997404
+              ],
+              [
+                80.216469,
+                12.997561
+              ],
+              [
+                80.216484,
+                12.997884
+              ],
+              [
+                80.216606,
+                12.998362
+              ],
+              [
+                80.216912,
+                12.998993
+              ],
+              [
+                80.217185,
+                12.999487
+              ],
+              [
+                80.21728,
+                12.999638
+              ],
+              [
+                80.217725,
+                13.00034
+              ],
+              [
+                80.21813,
+                13.001005
+              ],
+              [
+                80.218531,
+                13.001586
+              ],
+              [
+                80.218774,
+                13.001831
+              ],
+              [
+                80.219172,
+                13.002203
+              ],
+              [
+                80.219524,
+                13.002549
+              ],
+              [
+                80.219633,
+                13.002721
+              ],
+              [
+                80.219754,
+                13.002951
+              ],
+              [
+                80.219861,
+                13.003247
+              ],
+              [
+                80.219966,
+                13.003713
+              ],
+              [
+                80.220223,
+                13.004851
+              ],
+              [
+                80.220341,
+                13.005364
+              ],
+              [
+                80.220635,
+                13.006706
+              ],
+              [
+                80.220541,
+                13.006681
+              ],
+              [
+                80.220105,
+                13.006369
+              ],
+              [
+                80.219844,
+                13.006352
+              ],
+              [
+                80.219092,
+                13.006419
+              ],
+              [
+                80.218955,
+                13.006452
+              ],
+              [
+                80.218878,
+                13.006561
+              ],
+              [
+                80.21868,
+                13.007025
+              ],
+              [
+                80.218751,
+                13.007034
+              ],
+              [
+                80.219526,
+                13.007142
+              ],
+              [
+                80.219717,
+                13.007184
+              ]
+            ],
+            "type": "LineString"
+          },
+          "road_distance_km": 11.574,
+          "osrm_duration_min": 22.43,
           "geometry_source": "osrm"
         }
       ]
@@ -7410,7 +8711,7 @@
       "day": "FRI",
       "rest_day": false,
       "n_routes": 1,
-      "duration_min": 26.91,
+      "duration_min": 33.09,
       "routes": [
         {
           "route": 1,
@@ -7421,63 +8722,107 @@
               "name": "SPIC Building, Anna Salai",
               "lat": 13.011642,
               "lon": 80.218609,
-              "load_m3": 0.78,
-              "cum_load_m3": 0.78,
+              "load_m3": 1.56,
+              "cum_load_m3": 1.56,
               "arrive_min": 2.39,
               "depart_min": 3.05
             },
             {
               "order": 2,
+              "point_id": 6,
+              "name": "Ashok Leyland, Sardar Patel Road",
+              "lat": 13.012486,
+              "lon": 80.222041,
+              "load_m3": 1.64,
+              "cum_load_m3": 3.2,
+              "arrive_min": 3.55,
+              "depart_min": 4.21
+            },
+            {
+              "order": 3,
               "point_id": 10,
               "name": "Kalaignar Arch, Saidapet",
               "lat": 13.020099,
               "lon": 80.224521,
-              "load_m3": 4.68,
-              "cum_load_m3": 5.46,
-              "arrive_min": 4.79,
-              "depart_min": 6.11
+              "load_m3": 2.34,
+              "cum_load_m3": 5.54,
+              "arrive_min": 5.45,
+              "depart_min": 6.82
             },
             {
-              "order": 3,
+              "order": 4,
               "point_id": 12,
               "name": "ISKCON Saidapet, Jeenis Road",
               "lat": 13.020687,
               "lon": 80.221748,
-              "load_m3": 2.56,
-              "cum_load_m3": 8.02,
-              "arrive_min": 7.14,
-              "depart_min": 8.5
+              "load_m3": 1.28,
+              "cum_load_m3": 6.82,
+              "arrive_min": 7.85,
+              "depart_min": 8.51
             },
             {
-              "order": 4,
+              "order": 5,
               "point_id": 13,
               "name": "Kamakshi Amman Temple, Saidapet",
               "lat": 13.020016,
               "lon": 80.220156,
-              "load_m3": 4.83,
-              "cum_load_m3": 12.85,
-              "arrive_min": 9.04,
-              "depart_min": 10.37
+              "load_m3": 1.38,
+              "cum_load_m3": 8.2,
+              "arrive_min": 9.05,
+              "depart_min": 9.71
             },
             {
-              "order": 5,
+              "order": 6,
               "point_id": 11,
               "name": "Karaneeswarar Temple, Saidapet",
               "lat": 13.02476,
               "lon": 80.223176,
-              "load_m3": 3.96,
-              "cum_load_m3": 16.81,
-              "arrive_min": 11.85,
-              "depart_min": 13.22
+              "load_m3": 1.98,
+              "cum_load_m3": 10.18,
+              "arrive_min": 11.19,
+              "depart_min": 12.52
+            },
+            {
+              "order": 7,
+              "point_id": 1,
+              "name": "College of Engineering Guindy (main gate)",
+              "lat": 13.01094,
+              "lon": 80.235446,
+              "load_m3": 3.3,
+              "cum_load_m3": 13.48,
+              "arrive_min": 16.97,
+              "depart_min": 18.33
+            },
+            {
+              "order": 8,
+              "point_id": 8,
+              "name": "Prestige Cosmopolitan, Guindy",
+              "lat": 13.012038,
+              "lon": 80.222764,
+              "load_m3": 3.56,
+              "cum_load_m3": 17.04,
+              "arrive_min": 20.11,
+              "depart_min": 21.48
+            },
+            {
+              "order": 9,
+              "point_id": 7,
+              "name": "Alexander Square, Little Mount",
+              "lat": 13.011711,
+              "lon": 80.221195,
+              "load_m3": 1.38,
+              "cum_load_m3": 18.42,
+              "arrive_min": 22.09,
+              "depart_min": 22.75
             }
           ],
-          "n_stops": 5,
-          "total_load_m3": 16.81,
+          "n_stops": 9,
+          "total_load_m3": 18.42,
           "vehicle_capacity_m3": 21.0,
-          "load_ratio": 0.8005,
-          "duration_min": 26.91,
-          "travel_min": 12.87,
-          "service_min": 6.04,
+          "load_ratio": 0.8771,
+          "duration_min": 33.09,
+          "travel_min": 16.36,
+          "service_min": 8.73,
           "unload_min": 8.0,
           "within_shift": true,
           "geometry": {
@@ -7693,6 +9038,10 @@
               [
                 80.221728,
                 13.012604
+              ],
+              [
+                80.221853,
+                13.012706
               ],
               [
                 80.22195,
@@ -8315,32 +9664,156 @@
                 13.010325
               ],
               [
-                80.227931,
-                13.009941
+                80.22807,
+                13.00975
               ],
               [
-                80.227954,
-                13.009799
+                80.228184,
+                13.009541
               ],
               [
-                80.22791,
-                13.009676
+                80.228355,
+                13.009313
               ],
               [
-                80.22783,
-                13.009583
+                80.228505,
+                13.009236
               ],
               [
-                80.227692,
-                13.009542
+                80.228609,
+                13.009194
               ],
               [
-                80.227578,
-                13.009569
+                80.230024,
+                13.008899
               ],
               [
-                80.22595,
-                13.010298
+                80.230203,
+                13.008862
+              ],
+              [
+                80.230283,
+                13.008846
+              ],
+              [
+                80.23114,
+                13.008681
+              ],
+              [
+                80.232793,
+                13.008361
+              ],
+              [
+                80.233476,
+                13.008246
+              ],
+              [
+                80.234809,
+                13.007968
+              ],
+              [
+                80.234815,
+                13.008009
+              ],
+              [
+                80.234821,
+                13.008032
+              ],
+              [
+                80.234828,
+                13.008055
+              ],
+              [
+                80.234839,
+                13.008074
+              ],
+              [
+                80.234845,
+                13.008086
+              ],
+              [
+                80.234891,
+                13.008117
+              ],
+              [
+                80.234933,
+                13.008153
+              ],
+              [
+                80.234958,
+                13.00819
+              ],
+              [
+                80.234976,
+                13.008234
+              ],
+              [
+                80.235017,
+                13.008236
+              ],
+              [
+                80.235017,
+                13.008236
+              ],
+              [
+                80.235054,
+                13.008223
+              ],
+              [
+                80.235048,
+                13.00818
+              ],
+              [
+                80.235051,
+                13.008123
+              ],
+              [
+                80.23506,
+                13.00809
+              ],
+              [
+                80.235097,
+                13.008046
+              ],
+              [
+                80.235108,
+                13.00802
+              ],
+              [
+                80.235108,
+                13.007996
+              ],
+              [
+                80.235082,
+                13.007916
+              ],
+              [
+                80.235058,
+                13.007813
+              ],
+              [
+                80.228676,
+                13.009065
+              ],
+              [
+                80.228425,
+                13.009127
+              ],
+              [
+                80.22834,
+                13.009148
+              ],
+              [
+                80.228242,
+                13.009171
+              ],
+              [
+                80.227901,
+                13.009289
+              ],
+              [
+                80.225926,
+                13.010256
               ],
               [
                 80.225815,
@@ -8375,60 +9848,240 @@
                 13.01139
               ],
               [
-                80.222834,
-                13.010526
+                80.223198,
+                13.01143
               ],
               [
-                80.222015,
-                13.00905
+                80.223024,
+                13.011496
               ],
               [
-                80.221423,
-                13.007951
+                80.222986,
+                13.01151
               ],
               [
-                80.221325,
-                13.007753
+                80.222898,
+                13.011543
               ],
               [
-                80.221007,
-                13.007174
+                80.222801,
+                13.011579
               ],
               [
-                80.220963,
-                13.007094
+                80.222854,
+                13.011677
               ],
               [
-                80.220736,
-                13.006683
+                80.223028,
+                13.011999
               ],
               [
-                80.220635,
-                13.006706
+                80.222987,
+                13.011924
               ],
               [
-                80.220541,
-                13.006681
+                80.222854,
+                13.011677
               ],
               [
-                80.220105,
-                13.006369
+                80.222801,
+                13.011579
               ],
               [
-                80.219844,
-                13.006352
+                80.222419,
+                13.011722
               ],
               [
-                80.219092,
-                13.006419
+                80.222377,
+                13.011737
               ],
               [
-                80.218955,
-                13.006452
+                80.222331,
+                13.011753
               ],
               [
-                80.218878,
-                13.006561
+                80.221986,
+                13.011873
+              ],
+              [
+                80.221907,
+                13.011909
+              ],
+              [
+                80.221836,
+                13.011942
+              ],
+              [
+                80.221798,
+                13.01196
+              ],
+              [
+                80.221747,
+                13.011976
+              ],
+              [
+                80.221575,
+                13.012019
+              ],
+              [
+                80.22148,
+                13.012058
+              ],
+              [
+                80.221307,
+                13.012113
+              ],
+              [
+                80.221065,
+                13.012149
+              ],
+              [
+                80.221056,
+                13.011993
+              ],
+              [
+                80.221064,
+                13.011708
+              ],
+              [
+                80.221067,
+                13.011588
+              ],
+              [
+                80.221056,
+                13.011993
+              ],
+              [
+                80.221065,
+                13.012149
+              ],
+              [
+                80.220237,
+                13.011867
+              ],
+              [
+                80.22002,
+                13.011801
+              ],
+              [
+                80.219878,
+                13.011759
+              ],
+              [
+                80.218362,
+                13.011282
+              ],
+              [
+                80.2183,
+                13.01126
+              ],
+              [
+                80.21785,
+                13.011104
+              ],
+              [
+                80.217769,
+                13.011076
+              ],
+              [
+                80.217511,
+                13.010984
+              ],
+              [
+                80.217071,
+                13.010795
+              ],
+              [
+                80.21688,
+                13.010708
+              ],
+              [
+                80.216842,
+                13.010691
+              ],
+              [
+                80.216328,
+                13.010461
+              ],
+              [
+                80.216205,
+                13.010318
+              ],
+              [
+                80.216075,
+                13.010252
+              ],
+              [
+                80.215541,
+                13.010024
+              ],
+              [
+                80.215406,
+                13.009952
+              ],
+              [
+                80.215444,
+                13.009764
+              ],
+              [
+                80.215599,
+                13.009279
+              ],
+              [
+                80.215676,
+                13.009087
+              ],
+              [
+                80.215822,
+                13.00902
+              ],
+              [
+                80.216148,
+                13.009053
+              ],
+              [
+                80.216376,
+                13.009088
+              ],
+              [
+                80.216582,
+                13.009123
+              ],
+              [
+                80.216812,
+                13.009126
+              ],
+              [
+                80.216989,
+                13.009102
+              ],
+              [
+                80.217656,
+                13.008771
+              ],
+              [
+                80.217694,
+                13.008753
+              ],
+              [
+                80.217986,
+                13.008507
+              ],
+              [
+                80.218074,
+                13.008358
+              ],
+              [
+                80.218206,
+                13.008138
+              ],
+              [
+                80.218387,
+                13.007714
+              ],
+              [
+                80.218412,
+                13.007654
               ],
               [
                 80.21868,
@@ -8449,8 +10102,8 @@
             ],
             "type": "LineString"
           },
-          "road_distance_km": 9.209,
-          "osrm_duration_min": 14.23,
+          "road_distance_km": 11.704,
+          "osrm_duration_min": 18.79,
           "geometry_source": "osrm"
         }
       ]
@@ -8458,22 +10111,22 @@
     {
       "day": "SAT",
       "rest_day": false,
-      "n_routes": 2,
-      "duration_min": 98.84,
+      "n_routes": 1,
+      "duration_min": 61.78,
       "routes": [
         {
           "route": 1,
           "stops": [
             {
               "order": 1,
-              "point_id": 1,
-              "name": "College of Engineering Guindy (main gate)",
-              "lat": 13.01094,
-              "lon": 80.235446,
-              "load_m3": 2.2,
-              "cum_load_m3": 2.2,
-              "arrive_min": 5.02,
-              "depart_min": 5.68
+              "point_id": 6,
+              "name": "Ashok Leyland, Sardar Patel Road",
+              "lat": 13.012486,
+              "lon": 80.222041,
+              "load_m3": 0.82,
+              "cum_load_m3": 0.82,
+              "arrive_min": 2.61,
+              "depart_min": 3.27
             },
             {
               "order": 2,
@@ -8482,9 +10135,9 @@
               "lat": 13.012725,
               "lon": 80.275979,
               "load_m3": 3.01,
-              "cum_load_m3": 5.21,
-              "arrive_min": 17.43,
-              "depart_min": 19.53
+              "cum_load_m3": 3.83,
+              "arrive_min": 16.92,
+              "depart_min": 19.02
             },
             {
               "order": 3,
@@ -8492,10 +10145,10 @@
               "name": "Besant Nagar Beach",
               "lat": 12.99922,
               "lon": 80.272869,
-              "load_m3": 3.63,
-              "cum_load_m3": 8.84,
-              "arrive_min": 24.8,
-              "depart_min": 26.13
+              "load_m3": 4.84,
+              "cum_load_m3": 8.67,
+              "arrive_min": 24.29,
+              "depart_min": 25.62
             },
             {
               "order": 4,
@@ -8504,9 +10157,9 @@
               "lat": 13.019192,
               "lon": 80.264689,
               "load_m3": 3.99,
-              "cum_load_m3": 12.83,
-              "arrive_min": 31.52,
-              "depart_min": 32.89
+              "cum_load_m3": 12.66,
+              "arrive_min": 31.01,
+              "depart_min": 32.38
             },
             {
               "order": 5,
@@ -8515,9 +10168,9 @@
               "lat": 13.023982,
               "lon": 80.244411,
               "load_m3": 4.2,
-              "cum_load_m3": 17.03,
-              "arrive_min": 40.93,
-              "depart_min": 42.3
+              "cum_load_m3": 16.86,
+              "arrive_min": 40.42,
+              "depart_min": 41.79
             },
             {
               "order": 6,
@@ -8525,18 +10178,18 @@
               "name": "Kotturpuram (Anna Univ. staff quarters)",
               "lat": 13.011458,
               "lon": 80.243103,
-              "load_m3": 2.76,
-              "cum_load_m3": 19.79,
-              "arrive_min": 46.49,
-              "depart_min": 47.86
+              "load_m3": 3.68,
+              "cum_load_m3": 20.54,
+              "arrive_min": 45.98,
+              "depart_min": 47.35
             }
           ],
           "n_stops": 6,
-          "total_load_m3": 19.79,
+          "total_load_m3": 20.54,
           "vehicle_capacity_m3": 21.0,
-          "load_ratio": 0.9424,
-          "duration_min": 62.29,
-          "travel_min": 46.09,
+          "load_ratio": 0.9781,
+          "duration_min": 61.78,
+          "travel_min": 45.58,
           "service_min": 8.2,
           "unload_min": 8.0,
           "within_shift": true,
@@ -8735,6 +10388,10 @@
                 13.012604
               ],
               [
+                80.221853,
+                13.012706
+              ],
+              [
                 80.22195,
                 13.012784
               ],
@@ -8925,78 +10582,6 @@
               [
                 80.234809,
                 13.007968
-              ],
-              [
-                80.234815,
-                13.008009
-              ],
-              [
-                80.234821,
-                13.008032
-              ],
-              [
-                80.234828,
-                13.008055
-              ],
-              [
-                80.234839,
-                13.008074
-              ],
-              [
-                80.234845,
-                13.008086
-              ],
-              [
-                80.234891,
-                13.008117
-              ],
-              [
-                80.234933,
-                13.008153
-              ],
-              [
-                80.234958,
-                13.00819
-              ],
-              [
-                80.234976,
-                13.008234
-              ],
-              [
-                80.235017,
-                13.008236
-              ],
-              [
-                80.235017,
-                13.008236
-              ],
-              [
-                80.235054,
-                13.008223
-              ],
-              [
-                80.235048,
-                13.00818
-              ],
-              [
-                80.235051,
-                13.008123
-              ],
-              [
-                80.23506,
-                13.00809
-              ],
-              [
-                80.235097,
-                13.008046
-              ],
-              [
-                80.235108,
-                13.00802
-              ],
-              [
-                80.235108,
-                13.007996
               ],
               [
                 80.235082,
@@ -11669,1977 +13254,8 @@
             ],
             "type": "LineString"
           },
-          "road_distance_km": 28.225,
-          "osrm_duration_min": 48.11,
-          "geometry_source": "osrm"
-        },
-        {
-          "route": 2,
-          "stops": [
-            {
-              "order": 1,
-              "point_id": 19,
-              "name": "Sri Dhandeeswaram Temple, Velachery",
-              "lat": 12.98575,
-              "lon": 80.223785,
-              "load_m3": 3.84,
-              "cum_load_m3": 3.84,
-              "arrive_min": 4.4,
-              "depart_min": 5.77
-            },
-            {
-              "order": 2,
-              "point_id": 20,
-              "name": "Grand Square Mall, Velachery",
-              "lat": 12.971821,
-              "lon": 80.220617,
-              "load_m3": 4.24,
-              "cum_load_m3": 8.08,
-              "arrive_min": 8.43,
-              "depart_min": 9.8
-            },
-            {
-              "order": 3,
-              "point_id": 21,
-              "name": "Velachery MRTS Station",
-              "lat": 12.967336,
-              "lon": 80.219345,
-              "load_m3": 4.88,
-              "cum_load_m3": 12.96,
-              "arrive_min": 11.56,
-              "depart_min": 12.89
-            },
-            {
-              "order": 4,
-              "point_id": 18,
-              "name": "Phoenix Marketcity, Velachery",
-              "lat": 12.99169,
-              "lon": 80.216942,
-              "load_m3": 4.96,
-              "cum_load_m3": 17.92,
-              "arrive_min": 19.33,
-              "depart_min": 20.66
-            },
-            {
-              "order": 5,
-              "point_id": 7,
-              "name": "Alexander Square, Little Mount",
-              "lat": 13.011711,
-              "lon": 80.221195,
-              "load_m3": 1.38,
-              "cum_load_m3": 19.3,
-              "arrive_min": 25.55,
-              "depart_min": 26.21
-            }
-          ],
-          "n_stops": 5,
-          "total_load_m3": 19.3,
-          "vehicle_capacity_m3": 21.0,
-          "load_ratio": 0.919,
-          "duration_min": 36.55,
-          "travel_min": 22.49,
-          "service_min": 6.06,
-          "unload_min": 8.0,
-          "within_shift": true,
-          "geometry": {
-            "coordinates": [
-              [
-                80.219717,
-                13.007184
-              ],
-              [
-                80.219526,
-                13.007142
-              ],
-              [
-                80.218751,
-                13.007034
-              ],
-              [
-                80.21868,
-                13.007025
-              ],
-              [
-                80.218878,
-                13.006561
-              ],
-              [
-                80.218955,
-                13.006452
-              ],
-              [
-                80.219092,
-                13.006419
-              ],
-              [
-                80.219844,
-                13.006352
-              ],
-              [
-                80.220105,
-                13.006369
-              ],
-              [
-                80.220541,
-                13.006681
-              ],
-              [
-                80.220635,
-                13.006706
-              ],
-              [
-                80.220736,
-                13.006683
-              ],
-              [
-                80.220425,
-                13.005343
-              ],
-              [
-                80.220279,
-                13.004642
-              ],
-              [
-                80.220104,
-                13.003796
-              ],
-              [
-                80.220072,
-                13.003687
-              ],
-              [
-                80.219924,
-                13.003174
-              ],
-              [
-                80.219769,
-                13.002804
-              ],
-              [
-                80.21963,
-                13.002572
-              ],
-              [
-                80.219586,
-                13.002505
-              ],
-              [
-                80.219094,
-                13.002023
-              ],
-              [
-                80.218969,
-                13.00191
-              ],
-              [
-                80.218866,
-                13.001813
-              ],
-              [
-                80.218591,
-                13.001538
-              ],
-              [
-                80.218574,
-                13.001508
-              ],
-              [
-                80.218459,
-                13.001336
-              ],
-              [
-                80.218385,
-                13.001227
-              ],
-              [
-                80.21832,
-                13.001127
-              ],
-              [
-                80.218249,
-                13.001019
-              ],
-              [
-                80.21818,
-                13.000907
-              ],
-              [
-                80.218047,
-                13.000692
-              ],
-              [
-                80.217793,
-                13.000299
-              ],
-              [
-                80.217288,
-                12.999454
-              ],
-              [
-                80.217008,
-                12.998937
-              ],
-              [
-                80.216695,
-                12.998333
-              ],
-              [
-                80.216571,
-                12.997877
-              ],
-              [
-                80.216543,
-                12.997557
-              ],
-              [
-                80.216542,
-                12.997405
-              ],
-              [
-                80.21655,
-                12.997209
-              ],
-              [
-                80.216553,
-                12.997174
-              ],
-              [
-                80.216572,
-                12.996704
-              ],
-              [
-                80.21661,
-                12.996398
-              ],
-              [
-                80.216675,
-                12.996084
-              ],
-              [
-                80.216735,
-                12.995806
-              ],
-              [
-                80.2169,
-                12.995384
-              ],
-              [
-                80.216966,
-                12.995248
-              ],
-              [
-                80.217251,
-                12.994821
-              ],
-              [
-                80.219549,
-                12.991651
-              ],
-              [
-                80.219598,
-                12.991586
-              ],
-              [
-                80.219671,
-                12.99149
-              ],
-              [
-                80.219777,
-                12.991357
-              ],
-              [
-                80.220033,
-                12.991013
-              ],
-              [
-                80.220695,
-                12.990178
-              ],
-              [
-                80.220723,
-                12.990103
-              ],
-              [
-                80.220859,
-                12.989942
-              ],
-              [
-                80.220971,
-                12.989835
-              ],
-              [
-                80.221167,
-                12.989668
-              ],
-              [
-                80.221326,
-                12.989541
-              ],
-              [
-                80.221475,
-                12.989419
-              ],
-              [
-                80.221645,
-                12.98928
-              ],
-              [
-                80.22201,
-                12.988982
-              ],
-              [
-                80.222155,
-                12.988871
-              ],
-              [
-                80.222175,
-                12.988854
-              ],
-              [
-                80.222389,
-                12.988673
-              ],
-              [
-                80.222399,
-                12.988665
-              ],
-              [
-                80.222741,
-                12.988272
-              ],
-              [
-                80.222924,
-                12.988035
-              ],
-              [
-                80.223056,
-                12.987844
-              ],
-              [
-                80.223065,
-                12.987821
-              ],
-              [
-                80.223075,
-                12.987797
-              ],
-              [
-                80.223083,
-                12.98774
-              ],
-              [
-                80.223097,
-                12.987633
-              ],
-              [
-                80.223082,
-                12.987302
-              ],
-              [
-                80.223057,
-                12.987069
-              ],
-              [
-                80.222971,
-                12.986467
-              ],
-              [
-                80.222973,
-                12.986177
-              ],
-              [
-                80.223581,
-                12.986048
-              ],
-              [
-                80.223506,
-                12.985852
-              ],
-              [
-                80.223361,
-                12.985474
-              ],
-              [
-                80.223314,
-                12.985461
-              ],
-              [
-                80.223306,
-                12.985361
-              ],
-              [
-                80.223262,
-                12.985113
-              ],
-              [
-                80.223249,
-                12.98508
-              ],
-              [
-                80.223126,
-                12.984767
-              ],
-              [
-                80.222878,
-                12.984386
-              ],
-              [
-                80.222664,
-                12.984051
-              ],
-              [
-                80.222628,
-                12.983993
-              ],
-              [
-                80.222522,
-                12.983824
-              ],
-              [
-                80.222508,
-                12.9838
-              ],
-              [
-                80.22211,
-                12.983162
-              ],
-              [
-                80.221989,
-                12.982934
-              ],
-              [
-                80.221899,
-                12.982763
-              ],
-              [
-                80.221854,
-                12.982567
-              ],
-              [
-                80.221719,
-                12.98224
-              ],
-              [
-                80.221504,
-                12.981833
-              ],
-              [
-                80.221117,
-                12.981321
-              ],
-              [
-                80.221086,
-                12.981247
-              ],
-              [
-                80.221015,
-                12.981078
-              ],
-              [
-                80.221045,
-                12.980777
-              ],
-              [
-                80.221057,
-                12.980555
-              ],
-              [
-                80.221076,
-                12.980281
-              ],
-              [
-                80.221083,
-                12.980178
-              ],
-              [
-                80.221087,
-                12.980041
-              ],
-              [
-                80.221091,
-                12.979989
-              ],
-              [
-                80.221102,
-                12.979745
-              ],
-              [
-                80.221107,
-                12.979627
-              ],
-              [
-                80.221109,
-                12.979587
-              ],
-              [
-                80.221129,
-                12.979223
-              ],
-              [
-                80.221131,
-                12.979179
-              ],
-              [
-                80.221139,
-                12.979032
-              ],
-              [
-                80.221145,
-                12.978919
-              ],
-              [
-                80.221148,
-                12.978755
-              ],
-              [
-                80.22115,
-                12.978662
-              ],
-              [
-                80.221155,
-                12.97861
-              ],
-              [
-                80.22116,
-                12.97858
-              ],
-              [
-                80.221163,
-                12.978553
-              ],
-              [
-                80.221178,
-                12.978296
-              ],
-              [
-                80.221181,
-                12.978256
-              ],
-              [
-                80.221183,
-                12.978216
-              ],
-              [
-                80.221201,
-                12.977895
-              ],
-              [
-                80.221206,
-                12.977795
-              ],
-              [
-                80.221206,
-                12.977743
-              ],
-              [
-                80.221206,
-                12.97753
-              ],
-              [
-                80.221206,
-                12.977501
-              ],
-              [
-                80.22121,
-                12.977038
-              ],
-              [
-                80.221217,
-                12.97679
-              ],
-              [
-                80.221212,
-                12.976461
-              ],
-              [
-                80.221217,
-                12.976306
-              ],
-              [
-                80.221242,
-                12.976217
-              ],
-              [
-                80.221257,
-                12.976176
-              ],
-              [
-                80.221333,
-                12.976087
-              ],
-              [
-                80.221404,
-                12.975994
-              ],
-              [
-                80.221305,
-                12.975916
-              ],
-              [
-                80.221191,
-                12.975813
-              ],
-              [
-                80.221148,
-                12.975772
-              ],
-              [
-                80.221058,
-                12.975686
-              ],
-              [
-                80.220938,
-                12.975557
-              ],
-              [
-                80.220867,
-                12.975469
-              ],
-              [
-                80.220839,
-                12.975427
-              ],
-              [
-                80.220803,
-                12.975355
-              ],
-              [
-                80.220743,
-                12.975203
-              ],
-              [
-                80.220715,
-                12.975131
-              ],
-              [
-                80.220668,
-                12.975013
-              ],
-              [
-                80.220596,
-                12.974827
-              ],
-              [
-                80.220512,
-                12.974626
-              ],
-              [
-                80.220418,
-                12.974401
-              ],
-              [
-                80.220405,
-                12.974368
-              ],
-              [
-                80.220208,
-                12.973933
-              ],
-              [
-                80.219978,
-                12.973383
-              ],
-              [
-                80.219861,
-                12.973112
-              ],
-              [
-                80.2197,
-                12.972661
-              ],
-              [
-                80.21959,
-                12.972368
-              ],
-              [
-                80.219566,
-                12.9723
-              ],
-              [
-                80.219506,
-                12.972144
-              ],
-              [
-                80.219451,
-                12.972099
-              ],
-              [
-                80.219422,
-                12.972011
-              ],
-              [
-                80.219381,
-                12.971884
-              ],
-              [
-                80.21998,
-                12.971781
-              ],
-              [
-                80.220542,
-                12.971682
-              ],
-              [
-                80.220592,
-                12.971674
-              ],
-              [
-                80.221391,
-                12.971543
-              ],
-              [
-                80.221433,
-                12.971554
-              ],
-              [
-                80.221471,
-                12.971533
-              ],
-              [
-                80.22153,
-                12.971526
-              ],
-              [
-                80.221471,
-                12.971533
-              ],
-              [
-                80.221433,
-                12.971554
-              ],
-              [
-                80.221391,
-                12.971543
-              ],
-              [
-                80.220542,
-                12.971682
-              ],
-              [
-                80.21998,
-                12.971781
-              ],
-              [
-                80.219381,
-                12.971884
-              ],
-              [
-                80.21936,
-                12.971832
-              ],
-              [
-                80.219346,
-                12.971795
-              ],
-              [
-                80.219278,
-                12.97162
-              ],
-              [
-                80.219143,
-                12.971272
-              ],
-              [
-                80.218942,
-                12.970738
-              ],
-              [
-                80.218869,
-                12.970562
-              ],
-              [
-                80.218924,
-                12.97045
-              ],
-              [
-                80.218838,
-                12.970195
-              ],
-              [
-                80.218682,
-                12.969783
-              ],
-              [
-                80.218684,
-                12.969717
-              ],
-              [
-                80.218542,
-                12.969387
-              ],
-              [
-                80.218129,
-                12.968336
-              ],
-              [
-                80.218605,
-                12.968214
-              ],
-              [
-                80.218674,
-                12.968217
-              ],
-              [
-                80.218733,
-                12.968233
-              ],
-              [
-                80.218857,
-                12.968267
-              ],
-              [
-                80.219095,
-                12.968289
-              ],
-              [
-                80.21954,
-                12.968223
-              ],
-              [
-                80.220101,
-                12.968126
-              ],
-              [
-                80.220099,
-                12.96786
-              ],
-              [
-                80.220073,
-                12.967691
-              ],
-              [
-                80.219553,
-                12.967736
-              ],
-              [
-                80.219392,
-                12.967753
-              ],
-              [
-                80.219317,
-                12.967761
-              ],
-              [
-                80.218955,
-                12.967829
-              ],
-              [
-                80.218733,
-                12.968233
-              ],
-              [
-                80.218674,
-                12.968217
-              ],
-              [
-                80.218605,
-                12.968214
-              ],
-              [
-                80.218129,
-                12.968336
-              ],
-              [
-                80.218112,
-                12.968294
-              ],
-              [
-                80.218027,
-                12.968063
-              ],
-              [
-                80.217998,
-                12.968013
-              ],
-              [
-                80.217957,
-                12.96797
-              ],
-              [
-                80.217923,
-                12.967947
-              ],
-              [
-                80.217886,
-                12.967924
-              ],
-              [
-                80.217841,
-                12.967923
-              ],
-              [
-                80.217773,
-                12.967938
-              ],
-              [
-                80.217578,
-                12.967982
-              ],
-              [
-                80.217606,
-                12.968059
-              ],
-              [
-                80.217644,
-                12.968153
-              ],
-              [
-                80.217818,
-                12.968584
-              ],
-              [
-                80.218311,
-                12.969784
-              ],
-              [
-                80.218378,
-                12.969948
-              ],
-              [
-                80.218629,
-                12.970556
-              ],
-              [
-                80.218648,
-                12.970594
-              ],
-              [
-                80.218746,
-                12.970616
-              ],
-              [
-                80.218865,
-                12.970911
-              ],
-              [
-                80.219004,
-                12.971302
-              ],
-              [
-                80.219045,
-                12.971401
-              ],
-              [
-                80.219175,
-                12.971739
-              ],
-              [
-                80.219259,
-                12.971974
-              ],
-              [
-                80.219347,
-                12.97221
-              ],
-              [
-                80.219461,
-                12.972532
-              ],
-              [
-                80.219714,
-                12.97324
-              ],
-              [
-                80.219783,
-                12.973426
-              ],
-              [
-                80.219871,
-                12.973624
-              ],
-              [
-                80.219954,
-                12.973812
-              ],
-              [
-                80.220335,
-                12.974679
-              ],
-              [
-                80.220419,
-                12.974862
-              ],
-              [
-                80.22047,
-                12.974996
-              ],
-              [
-                80.220489,
-                12.97508
-              ],
-              [
-                80.220492,
-                12.975111
-              ],
-              [
-                80.220498,
-                12.975156
-              ],
-              [
-                80.220498,
-                12.975201
-              ],
-              [
-                80.220483,
-                12.975269
-              ],
-              [
-                80.220451,
-                12.975347
-              ],
-              [
-                80.220405,
-                12.975431
-              ],
-              [
-                80.220358,
-                12.975501
-              ],
-              [
-                80.220337,
-                12.975526
-              ],
-              [
-                80.220307,
-                12.97556
-              ],
-              [
-                80.220286,
-                12.975585
-              ],
-              [
-                80.220256,
-                12.975622
-              ],
-              [
-                80.220243,
-                12.975638
-              ],
-              [
-                80.220178,
-                12.975708
-              ],
-              [
-                80.220113,
-                12.97578
-              ],
-              [
-                80.220068,
-                12.975838
-              ],
-              [
-                80.220029,
-                12.975899
-              ],
-              [
-                80.219962,
-                12.976014
-              ],
-              [
-                80.2199,
-                12.976151
-              ],
-              [
-                80.219821,
-                12.976346
-              ],
-              [
-                80.219763,
-                12.976488
-              ],
-              [
-                80.219675,
-                12.976714
-              ],
-              [
-                80.219488,
-                12.977206
-              ],
-              [
-                80.219183,
-                12.977974
-              ],
-              [
-                80.219145,
-                12.978054
-              ],
-              [
-                80.21912,
-                12.978117
-              ],
-              [
-                80.219098,
-                12.978164
-              ],
-              [
-                80.218867,
-                12.978756
-              ],
-              [
-                80.218837,
-                12.978829
-              ],
-              [
-                80.218812,
-                12.978894
-              ],
-              [
-                80.218732,
-                12.979128
-              ],
-              [
-                80.218635,
-                12.979411
-              ],
-              [
-                80.218603,
-                12.979511
-              ],
-              [
-                80.218572,
-                12.979588
-              ],
-              [
-                80.218505,
-                12.979756
-              ],
-              [
-                80.218407,
-                12.980051
-              ],
-              [
-                80.218334,
-                12.980239
-              ],
-              [
-                80.218259,
-                12.980494
-              ],
-              [
-                80.218151,
-                12.980842
-              ],
-              [
-                80.218075,
-                12.981072
-              ],
-              [
-                80.217951,
-                12.981451
-              ],
-              [
-                80.217901,
-                12.981761
-              ],
-              [
-                80.217854,
-                12.982412
-              ],
-              [
-                80.217853,
-                12.982941
-              ],
-              [
-                80.217847,
-                12.983091
-              ],
-              [
-                80.21785,
-                12.983351
-              ],
-              [
-                80.217839,
-                12.983921
-              ],
-              [
-                80.21784,
-                12.984461
-              ],
-              [
-                80.217851,
-                12.985202
-              ],
-              [
-                80.217889,
-                12.985637
-              ],
-              [
-                80.217987,
-                12.986174
-              ],
-              [
-                80.218072,
-                12.986569
-              ],
-              [
-                80.218079,
-                12.986602
-              ],
-              [
-                80.218131,
-                12.98694
-              ],
-              [
-                80.218223,
-                12.987462
-              ],
-              [
-                80.218126,
-                12.987491
-              ],
-              [
-                80.217747,
-                12.987604
-              ],
-              [
-                80.217583,
-                12.987662
-              ],
-              [
-                80.217059,
-                12.987855
-              ],
-              [
-                80.216486,
-                12.988059
-              ],
-              [
-                80.216384,
-                12.988099
-              ],
-              [
-                80.216296,
-                12.988149
-              ],
-              [
-                80.216154,
-                12.988233
-              ],
-              [
-                80.216043,
-                12.988311
-              ],
-              [
-                80.21567,
-                12.988589
-              ],
-              [
-                80.215368,
-                12.988792
-              ],
-              [
-                80.215411,
-                12.989632
-              ],
-              [
-                80.215414,
-                12.98965
-              ],
-              [
-                80.215422,
-                12.989672
-              ],
-              [
-                80.215676,
-                12.990254
-              ],
-              [
-                80.215526,
-                12.990325
-              ],
-              [
-                80.215448,
-                12.990385
-              ],
-              [
-                80.215402,
-                12.990463
-              ],
-              [
-                80.215379,
-                12.990536
-              ],
-              [
-                80.215369,
-                12.990616
-              ],
-              [
-                80.215686,
-                12.991687
-              ],
-              [
-                80.215798,
-                12.991975
-              ],
-              [
-                80.21593,
-                12.992203
-              ],
-              [
-                80.216102,
-                12.992091
-              ],
-              [
-                80.216119,
-                12.992081
-              ],
-              [
-                80.216134,
-                12.992079
-              ],
-              [
-                80.216144,
-                12.992088
-              ],
-              [
-                80.216155,
-                12.992102
-              ],
-              [
-                80.216231,
-                12.992202
-              ],
-              [
-                80.216771,
-                12.992914
-              ],
-              [
-                80.217446,
-                12.993854
-              ],
-              [
-                80.217486,
-                12.993892
-              ],
-              [
-                80.217299,
-                12.994116
-              ],
-              [
-                80.217227,
-                12.994223
-              ],
-              [
-                80.217129,
-                12.994323
-              ],
-              [
-                80.217021,
-                12.994428
-              ],
-              [
-                80.216908,
-                12.994511
-              ],
-              [
-                80.217184,
-                12.994807
-              ],
-              [
-                80.217087,
-                12.994928
-              ],
-              [
-                80.216889,
-                12.995231
-              ],
-              [
-                80.216772,
-                12.995475
-              ],
-              [
-                80.216676,
-                12.99579
-              ],
-              [
-                80.216596,
-                12.996131
-              ],
-              [
-                80.216555,
-                12.996395
-              ],
-              [
-                80.216523,
-                12.996711
-              ],
-              [
-                80.216495,
-                12.99697
-              ],
-              [
-                80.216414,
-                12.997044
-              ],
-              [
-                80.216393,
-                12.99707
-              ],
-              [
-                80.216375,
-                12.997097
-              ],
-              [
-                80.216359,
-                12.997125
-              ],
-              [
-                80.21634,
-                12.997203
-              ],
-              [
-                80.216351,
-                12.997255
-              ],
-              [
-                80.21636,
-                12.99728
-              ],
-              [
-                80.216386,
-                12.997325
-              ],
-              [
-                80.216264,
-                12.997438
-              ],
-              [
-                80.216132,
-                12.997577
-              ],
-              [
-                80.216,
-                12.997728
-              ],
-              [
-                80.215538,
-                12.998278
-              ],
-              [
-                80.215264,
-                12.998567
-              ],
-              [
-                80.214925,
-                12.998954
-              ],
-              [
-                80.214772,
-                12.999129
-              ],
-              [
-                80.214769,
-                12.999132
-              ],
-              [
-                80.214751,
-                12.999153
-              ],
-              [
-                80.214263,
-                12.999698
-              ],
-              [
-                80.214152,
-                12.999835
-              ],
-              [
-                80.213875,
-                13.000139
-              ],
-              [
-                80.213562,
-                13.000496
-              ],
-              [
-                80.213296,
-                13.000809
-              ],
-              [
-                80.213199,
-                13.000927
-              ],
-              [
-                80.213116,
-                13.001018
-              ],
-              [
-                80.213087,
-                13.001057
-              ],
-              [
-                80.212955,
-                13.001219
-              ],
-              [
-                80.212507,
-                13.001836
-              ],
-              [
-                80.212453,
-                13.001914
-              ],
-              [
-                80.212404,
-                13.001984
-              ],
-              [
-                80.212331,
-                13.002093
-              ],
-              [
-                80.212303,
-                13.002154
-              ],
-              [
-                80.212114,
-                13.002539
-              ],
-              [
-                80.212109,
-                13.002593
-              ],
-              [
-                80.212101,
-                13.002731
-              ],
-              [
-                80.212079,
-                13.003079
-              ],
-              [
-                80.212063,
-                13.003325
-              ],
-              [
-                80.212045,
-                13.003458
-              ],
-              [
-                80.212011,
-                13.003607
-              ],
-              [
-                80.211972,
-                13.003672
-              ],
-              [
-                80.211943,
-                13.003721
-              ],
-              [
-                80.211946,
-                13.003797
-              ],
-              [
-                80.211975,
-                13.003928
-              ],
-              [
-                80.212032,
-                13.004128
-              ],
-              [
-                80.212077,
-                13.004259
-              ],
-              [
-                80.212153,
-                13.004451
-              ],
-              [
-                80.21221,
-                13.00457
-              ],
-              [
-                80.212512,
-                13.005116
-              ],
-              [
-                80.212588,
-                13.005244
-              ],
-              [
-                80.212645,
-                13.005336
-              ],
-              [
-                80.212733,
-                13.005477
-              ],
-              [
-                80.212788,
-                13.005566
-              ],
-              [
-                80.212858,
-                13.005676
-              ],
-              [
-                80.21289,
-                13.005765
-              ],
-              [
-                80.212923,
-                13.005848
-              ],
-              [
-                80.212935,
-                13.005909
-              ],
-              [
-                80.21289,
-                13.00603
-              ],
-              [
-                80.212849,
-                13.006152
-              ],
-              [
-                80.212804,
-                13.00623
-              ],
-              [
-                80.212793,
-                13.006265
-              ],
-              [
-                80.212712,
-                13.006531
-              ],
-              [
-                80.212701,
-                13.006729
-              ],
-              [
-                80.21274,
-                13.007117
-              ],
-              [
-                80.212777,
-                13.007326
-              ],
-              [
-                80.212799,
-                13.007466
-              ],
-              [
-                80.212828,
-                13.007573
-              ],
-              [
-                80.212896,
-                13.007718
-              ],
-              [
-                80.213001,
-                13.007866
-              ],
-              [
-                80.213155,
-                13.008043
-              ],
-              [
-                80.213215,
-                13.008113
-              ],
-              [
-                80.213337,
-                13.008422
-              ],
-              [
-                80.213376,
-                13.008507
-              ],
-              [
-                80.213453,
-                13.008587
-              ],
-              [
-                80.214169,
-                13.009164
-              ],
-              [
-                80.214232,
-                13.00921
-              ],
-              [
-                80.214889,
-                13.009695
-              ],
-              [
-                80.215055,
-                13.009831
-              ],
-              [
-                80.215194,
-                13.00995
-              ],
-              [
-                80.215491,
-                13.010176
-              ],
-              [
-                80.215738,
-                13.010382
-              ],
-              [
-                80.215951,
-                13.01052
-              ],
-              [
-                80.216163,
-                13.010632
-              ],
-              [
-                80.216659,
-                13.010807
-              ],
-              [
-                80.217058,
-                13.01092
-              ],
-              [
-                80.217745,
-                13.011236
-              ],
-              [
-                80.218262,
-                13.011406
-              ],
-              [
-                80.218323,
-                13.011426
-              ],
-              [
-                80.218386,
-                13.011447
-              ],
-              [
-                80.218697,
-                13.011549
-              ],
-              [
-                80.218967,
-                13.011638
-              ],
-              [
-                80.219535,
-                13.011824
-              ],
-              [
-                80.220211,
-                13.012046
-              ],
-              [
-                80.220805,
-                13.012269
-              ],
-              [
-                80.221084,
-                13.012363
-              ],
-              [
-                80.22126,
-                13.012364
-              ],
-              [
-                80.221294,
-                13.012353
-              ],
-              [
-                80.221326,
-                13.012324
-              ],
-              [
-                80.221333,
-                13.012297
-              ],
-              [
-                80.221325,
-                13.012269
-              ],
-              [
-                80.221305,
-                13.01225
-              ],
-              [
-                80.221269,
-                13.012229
-              ],
-              [
-                80.221065,
-                13.012149
-              ],
-              [
-                80.221056,
-                13.011993
-              ],
-              [
-                80.221064,
-                13.011708
-              ],
-              [
-                80.221067,
-                13.011588
-              ],
-              [
-                80.221056,
-                13.011993
-              ],
-              [
-                80.221065,
-                13.012149
-              ],
-              [
-                80.220237,
-                13.011867
-              ],
-              [
-                80.22002,
-                13.011801
-              ],
-              [
-                80.219878,
-                13.011759
-              ],
-              [
-                80.218362,
-                13.011282
-              ],
-              [
-                80.2183,
-                13.01126
-              ],
-              [
-                80.21785,
-                13.011104
-              ],
-              [
-                80.217769,
-                13.011076
-              ],
-              [
-                80.217511,
-                13.010984
-              ],
-              [
-                80.217071,
-                13.010795
-              ],
-              [
-                80.21688,
-                13.010708
-              ],
-              [
-                80.216842,
-                13.010691
-              ],
-              [
-                80.216328,
-                13.010461
-              ],
-              [
-                80.216205,
-                13.010318
-              ],
-              [
-                80.216075,
-                13.010252
-              ],
-              [
-                80.215541,
-                13.010024
-              ],
-              [
-                80.215406,
-                13.009952
-              ],
-              [
-                80.215444,
-                13.009764
-              ],
-              [
-                80.215599,
-                13.009279
-              ],
-              [
-                80.215676,
-                13.009087
-              ],
-              [
-                80.215822,
-                13.00902
-              ],
-              [
-                80.216148,
-                13.009053
-              ],
-              [
-                80.216376,
-                13.009088
-              ],
-              [
-                80.216582,
-                13.009123
-              ],
-              [
-                80.216812,
-                13.009126
-              ],
-              [
-                80.216989,
-                13.009102
-              ],
-              [
-                80.217656,
-                13.008771
-              ],
-              [
-                80.217694,
-                13.008753
-              ],
-              [
-                80.217986,
-                13.008507
-              ],
-              [
-                80.218074,
-                13.008358
-              ],
-              [
-                80.218206,
-                13.008138
-              ],
-              [
-                80.218387,
-                13.007714
-              ],
-              [
-                80.218412,
-                13.007654
-              ],
-              [
-                80.21868,
-                13.007025
-              ],
-              [
-                80.218751,
-                13.007034
-              ],
-              [
-                80.219526,
-                13.007142
-              ],
-              [
-                80.219717,
-                13.007184
-              ]
-            ],
-            "type": "LineString"
-          },
-          "road_distance_km": 13.967,
-          "osrm_duration_min": 24.44,
+          "road_distance_km": 28.174,
+          "osrm_duration_min": 47.59,
           "geometry_source": "osrm"
         }
       ]
@@ -13654,19 +13270,19 @@
   ],
   "costs": {
     "currency": "US$",
-    "bin_cost": 72.88,
-    "routing_cost": 151.6163,
-    "overall_cost": 224.4963,
+    "bin_cost": 69.89,
+    "routing_cost": 153.8296,
+    "overall_cost": 223.7196,
     "penalty": 0.0,
-    "fitness": 224.4963,
+    "fitness": 223.7196,
     "feasible": true,
     "violations": [],
-    "total_route_minutes": 263.04,
+    "total_route_minutes": 266.88,
     "n_routes": 7
   },
   "provenance": {
-    "solution_file": "results\\solutions\\chennai_guindy_sa_seed1.npz",
-    "generated_utc": "2026-09-23T18:35:49+00:00",
+    "solution_file": "results/solutions/chennai_guindy_sa_seed28.npz",
+    "generated_utc": "2026-09-23T19:39:59+00:00",
     "geometry_sources": [
       "osrm"
     ]
