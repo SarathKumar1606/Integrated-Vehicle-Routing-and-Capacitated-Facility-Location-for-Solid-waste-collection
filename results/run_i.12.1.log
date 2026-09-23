@@ -1,0 +1,143 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from multiprocessing.spawn import spawn_main; spawn_main(parent_pid=5928, pipe_handle=840)
+                                                  ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rsara\AppData\Local\Programs\Python\Python313\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "C:\Users\rsara\AppData\Local\Programs\Python\Python313\Lib\multiprocessing\spawn.py", line 131, in _main
+    prepare(preparation_data)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^
+Traceback (most recent call last):
+  File "C:\Users\rsara\AppData\Local\Programs\Python\Python313\Lib\multiprocessing\spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rsara\AppData\Local\Programs\Python\Python313\Lib\multiprocessing\spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                                  run_name="__mp_main__")
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\rsara\Downloads\fyp latest 1\src\runner.py", line 22, in <module>
+    import numpy as np
+  File "C:\Users\rsara\Downloads\fyp latest 1\.venv\Lib\site-packages\numpy\__init__.py", line 467, in <module>
+    from . import lib, matrixlib as _mat
+  File "C:\Users\rsara\Downloads\fyp latest 1\.venv\Lib\site-packages\numpy\lib\__init__.py", line 18, in <module>
+    from . import (
+    ...<23 lines>...
+    )
+  File "C:\Users\rsara\Downloads\fyp latest 1\.venv\Lib\site-packages\numpy\lib\_arraypad_impl.py", line 10, in <module>
+    from numpy.lib._index_tricks_impl import ndindex
+  File "C:\Users\rsara\Downloads\fyp latest 1\.venv\Lib\site-packages\numpy\lib\_index_tricks_impl.py", line 8, in <module>
+    import numpy.matrixlib as matrixlib
+  File "C:\Users\rsara\Downloads\fyp latest 1\.venv\Lib\site-packages\numpy\matrixlib\__init__.py", line 4, in <module>
+    from . import defmatrix
+  File "C:\Users\rsara\Downloads\fyp latest 1\.venv\Lib\site-packages\numpy\matrixlib\defmatrix.py", line 13, in <module>
+    from numpy.linalg import matrix_power
+  File "C:\Users\rsara\Downloads\fyp latest 1\.venv\Lib\site-packages\numpy\linalg\__init__.py", line 87, in <module>
+    from . import _linalg
+  File "C:\Users\rsara\Downloads\fyp latest 1\.venv\Lib\site-packages\numpy\linalg\_linalg.py", line 80, in <module>
+    from numpy.linalg import _umath_linalg
+ImportError: DLL load failed while importing _umath_linalg: The paging file is too small for this operation to complete.
+  File "C:\Users\rsara\Downloads\fyp latest 1\.venv\Lib\site-packages\llvmlite\binding\ffi.py", line 125, in _load_lib
+    self._lib_handle = ctypes.CDLL(str(lib_path))
+                       ~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\rsara\AppData\Local\Programs\Python\Python313\Lib\ctypes\__init__.py", line 390, in __init__
+    self._handle = _dlopen(self._name, mode)
+                   ~~~~~~~^^^^^^^^^^^^^^^^^^
+OSError: [WinError 1455] The paging file is too small for this operation to complete
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from multiprocessing.spawn import spawn_main; spawn_main(parent_pid=5928, pipe_handle=1256)
+                                                  ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rsara\AppData\Local\Programs\Python\Python313\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "C:\Users\rsara\AppData\Local\Programs\Python\Python313\Lib\multiprocessing\spawn.py", line 131, in _main
+    prepare(preparation_data)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rsara\AppData\Local\Programs\Python\Python313\Lib\multiprocessing\spawn.py", line 246, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rsara\AppData\Local\Programs\Python\Python313\Lib\multiprocessing\spawn.py", line 297, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+                                  run_name="__mp_main__")
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\rsara\Downloads\fyp latest 1\src\runner.py", line 24, in <module>
+    from decoder import decode
+  File "C:\Users\rsara\Downloads\fyp latest 1\src\decoder.py", line 44, in <module>
+    from numba import njit
+  File "C:\Users\rsara\Downloads\fyp latest 1\.venv\Lib\site-packages\numba\__init__.py", line 73, in <module>
+    from numba.core import config
+  File "C:\Users\rsara\Downloads\fyp latest 1\.venv\Lib\site-packages\numba\core\config.py", line 17, in <module>
+    import llvmlite.binding as ll
+  File "C:\Users\rsara\Downloads\fyp latest 1\.venv\Lib\site-packages\llvmlite\binding\__init__.py", line 4, in <module>
+    from .dylib import *
+  File "C:\Users\rsara\Downloads\fyp latest 1\.venv\Lib\site-packages\llvmlite\binding\dylib.py", line 36, in <module>
+    ffi.lib.LLVMPY_AddSymbol.argtypes = [
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rsara\Downloads\fyp latest 1\.venv\Lib\site-packages\llvmlite\binding\ffi.py", line 159, in __getattr__
+    cfn = getattr(self._lib, name)
+                  ^^^^^^^^^
+  File "C:\Users\rsara\Downloads\fyp latest 1\.venv\Lib\site-packages\llvmlite\binding\ffi.py", line 150, in _lib
+    self._load_lib()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\rsara\Downloads\fyp latest 1\.venv\Lib\site-packages\llvmlite\binding\ffi.py", line 137, in _load_lib
+    raise OSError(msg)
+OSError: Could not find/load shared object file 'llvmlite.dll' from resource location: 'llvmlite.binding'. This could mean that the library literally cannot be found, but may also mean that the permissions are incorrect or that a dependency of/a symbol in the library could not be resolved.
+
+=== i.12.1  SA  x30 ===
+  seed  0  SA    194.88  (25.5s)
+  seed  9  SA    191.58  (32.2s)
+  seed  2  SA    193.49  (32.4s)
+  seed  4  SA    192.17  (33.2s)
+  seed  3  SA    191.66  (33.6s)
+  seed  5  SA    189.32  (34.0s)
+  seed  1  SA    193.84  (35.4s)
+  seed  6  SA    187.12  (35.4s)
+  seed 10  SA    190.36  (35.5s)
+  seed  7  SA    188.39  (35.9s)
+  seed  8  SA    190.03  (37.8s)
+  seed 11  SA    189.16  (50.0s)
+  seed 13  SA    189.11  (45.2s)
+  seed 16  SA    191.51  (47.3s)
+  seed 14  SA    186.79  (48.3s)
+  seed 12  SA    190.33  (49.3s)
+  seed 15  SA    186.47  (50.3s)
+  seed 18  SA    194.50  (48.8s)
+  seed 17  SA    193.76  (50.0s)
+  seed 21  SA    189.40  (49.0s)
+  seed 19  SA    190.73  (51.6s)
+  seed 20  SA    188.56  (51.5s)
+  seed 23  SA    191.29  (39.7s)
+  seed 22  SA    193.29  (43.5s)
+  seed 24  SA    189.95  (40.1s)
+  seed 27  SA    191.61  (38.2s)
+  seed 26  SA    193.40  (40.5s)
+  seed 25  SA    192.50  (41.7s)
+  seed 28  SA    188.03  (44.6s)
+  seed 29  SA    189.86  (46.4s)
+
+i.12.1  [SA]  n=30
+  min   186.47   median   190.54   mean   190.77   95% CI [189.94, 191.60]
+  mean runtime 41.6 s   all feasible: True
+
+=== i.12.1  GA  x30 ===
+Traceback (most recent call last):
+  File "C:\Users\rsara\Downloads\fyp latest 1\src\runner.py", line 141, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\rsara\Downloads\fyp latest 1\src\runner.py", line 135, in main
+    rows = run_experiment(folder, name, algo, args.runs,
+                          workers=args.workers, **kw)
+  File "C:\Users\rsara\Downloads\fyp latest 1\src\runner.py", line 79, in run_experiment
+    row = fut.result()
+  File "C:\Users\rsara\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\rsara\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+concurrent.futures.process.BrokenProcessPool: A process in the process pool was terminated abruptly while the future was running or pending.

@@ -1,0 +1,5 @@
+instance i.12.1
+  SA  iters/temp   2500  temperatures  136  evaluations   340000  wall    10.3 s  best 194.88
+  GA  generations  3399  evaluations   340000  wall    48.5 s  best 213.50
+  GA vs SA evaluations: +0.00%
+CALIBRATED --generations 3399  SA_WALL 10.3  GA_WALL 48.5

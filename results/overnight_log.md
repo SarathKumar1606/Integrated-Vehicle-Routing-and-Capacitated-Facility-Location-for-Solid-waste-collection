@@ -1,0 +1,47 @@
+# Overnight log
+
+## Task 2 — experiments
+
+### i.12.1 GA run crashed (BrokenProcessPool)
+
+The first launch of
+
+    python src/runner.py --instance data/12_1 --name i.12.1 --algo both --runs 30 --iters-per-temp 2500 --generations 3399 --workers 11
+
+completed all 30 SA runs, then the GA half died immediately:
+
+    concurrent.futures.process.BrokenProcessPool: A process in the process
+    pool was terminated abruptly while the future was running or pending.
+
+No GA row was written (`results/i.12.1_ga.csv` empty, no `i.12.1_ga_*.npz`).
+The Chennai command (SA + GA) started afterwards and ran normally.
+Action: re-run the i.12.1 GA half on its own after Chennai finishes.
+
+### Wall-time estimate was too optimistic
+
+The estimate (≈7–10 min total) used single-run timings. With 11 workers in
+parallel each run took about 4× longer (i.12.1 SA: 41.6 s mean per run vs
+10.3 s alone), which is contention for shared cores, cache and memory
+bandwidth on a 12-core / 16-thread CPU.
+
+### Single-run calibration missed the 5% evaluation-matching target
+
+The calibration (`results/calibration_*.txt`) measured SA on one seed (seed 0)
+and set GA's generations from it. SA stops on its own schedule (temperature
+floor or 100 non-improving temperature steps), so its evaluation count
+varies by seed, and seed 0 was on the low side:
+
+| Instance | SA evals, seed 0 | SA evals, mean of 30 | GA evals | GA vs SA |
+|---|---|---|---|---|
+| i.12.1 | 340,000 | 445,583 | 340,000 | −23.7% |
+| chennai_guindy | 467,500 | 522,833 (460,000–555,000) | 467,500 | −10.6% |
+
+Both miss the ±5% requirement. GA was recalibrated to the 30-run SA mean,
+i.e. generations = round(mean SA evals / 100) − 1:
+
+- i.12.1: `--generations 4455` → 445,600 evaluations
+- chennai_guindy: `--generations 5227` → 522,800 evaluations
+
+The i.12.1 GA re-run at 3399 generations was stopped part-way. The
+uncalibrated Chennai GA results (and the partial i.12.1 GA files) were moved
+to `results/superseded/` rather than deleted. SA results are unchanged.

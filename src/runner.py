@@ -37,10 +37,21 @@ def _one_run(args):
            else genetic_algorithm(inst, seed=seed, **kwargs))
     sol = decode(inst, res.best_pop, res.best_mask)
 
-    # keep the chromosome so exporter.py can rebuild and map the solution
+    # Evaluations spent when each history entry was recorded. SA logs once
+    # at the start and once per temperature step; GA logs once per
+    # generation, starting after the initial population is scored.
+    n_hist = len(res.history)
+    if algo == "sa":
+        history_evals = np.arange(n_hist) * (res.evaluations // max(n_hist - 1, 1))
+    else:
+        history_evals = (np.arange(n_hist) + 1) * (res.evaluations // n_hist)
+
+    # keep the chromosome so exporter.py can rebuild and map the solution,
+    # and the history for convergence plots
     SOLUTIONS_DIR.mkdir(parents=True, exist_ok=True)
     np.savez(SOLUTIONS_DIR / f"{name}_{algo}_seed{seed}.npz",
-             pop=res.best_pop, mask=res.best_mask, fitness=sol.fitness)
+             pop=res.best_pop, mask=res.best_mask, fitness=sol.fitness,
+             history=np.asarray(res.history), history_evals=history_evals)
     return {
         "instance": name, "algorithm": res.algorithm, "seed": seed,
         "overall_cost": round(sol.overall_cost, 4),

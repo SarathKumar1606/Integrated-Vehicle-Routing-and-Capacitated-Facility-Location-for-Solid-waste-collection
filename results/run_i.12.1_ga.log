@@ -1,0 +1,36 @@
+
+=== i.12.1  GA  x30 ===
+  seed  5  GA    209.70  (209.7s)
+  seed  6  GA    213.89  (211.5s)
+  seed 10  GA    207.95  (212.5s)
+  seed  2  GA    212.53  (213.5s)
+  seed  7  GA    212.71  (215.0s)
+  seed  4  GA    212.41  (215.5s)
+  seed  8  GA    209.25  (215.6s)
+  seed  3  GA    208.95  (215.8s)
+  seed  9  GA    208.98  (219.0s)
+  seed  1  GA    222.66  (220.4s)
+  seed  0  GA    211.41  (220.8s)
+  seed 12  GA    210.45  (212.1s)
+  seed 11  GA    210.52  (217.5s)
+  seed 13  GA    209.47  (214.6s)
+  seed 17  GA    213.05  (215.2s)
+  seed 14  GA    209.59  (219.8s)
+  seed 18  GA    214.25  (219.5s)
+  seed 15  GA    212.18  (221.1s)
+  seed 16  GA    210.81  (221.1s)
+  seed 19  GA    205.85  (217.5s)
+  seed 20  GA    205.47  (219.2s)
+  seed 21  GA    207.50  (219.8s)
+  seed 22  GA    208.17  (160.2s)
+  seed 24  GA    208.81  (159.5s)
+  seed 23  GA    207.84  (160.9s)
+  seed 25  GA    211.28  (162.3s)
+  seed 26  GA    207.46  (160.1s)
+  seed 28  GA    212.79  (157.7s)
+  seed 27  GA    211.14  (159.4s)
+  seed 29  GA    213.21  (158.6s)
+
+i.12.1  [GA]  n=30
+  min   205.47   median   210.48   mean   210.68   95% CI [209.52, 211.84]
+  mean runtime 201.5 s   all feasible: True
