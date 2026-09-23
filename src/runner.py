@@ -26,6 +26,7 @@ from loader import load_instance
 from optimizers import genetic_algorithm, simulated_annealing
 
 ROOT = Path(__file__).parent.parent
+SOLUTIONS_DIR = ROOT / "results" / "solutions"
 
 
 def _one_run(args):
@@ -35,6 +36,11 @@ def _one_run(args):
     res = (simulated_annealing(inst, seed=seed, **kwargs) if algo == "sa"
            else genetic_algorithm(inst, seed=seed, **kwargs))
     sol = decode(inst, res.best_pop, res.best_mask)
+
+    # keep the chromosome so exporter.py can rebuild and map the solution
+    SOLUTIONS_DIR.mkdir(parents=True, exist_ok=True)
+    np.savez(SOLUTIONS_DIR / f"{name}_{algo}_seed{seed}.npz",
+             pop=res.best_pop, mask=res.best_mask, fitness=sol.fitness)
     return {
         "instance": name, "algorithm": res.algorithm, "seed": seed,
         "overall_cost": round(sol.overall_cost, 4),

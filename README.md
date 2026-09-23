@@ -15,7 +15,7 @@ network around CEG Guindy, Anna University, Chennai.
 | M1 Chennai instance | `src/instance_builder.py` | done (21 points) |
 | M2 OSRM travel matrix | `src/instance_builder.py` | done (OSRM + fallback) |
 | M6 Experiment runner | `src/runner.py` | done |
-| M7 Exporter | `src/exporter.py` | pending |
+| M7 Exporter | `src/exporter.py` | done (OSRM road geometry) |
 | M9 Leaflet UI | `ui/index.html` | pending |
 
 ## Validation
@@ -139,3 +139,25 @@ seed. **Increase `--iters-per-temp`**: the paper used ~1.7 million fitness
 evaluations per SA run, and the smoke tests here used ~50,000, which is why
 seed-to-seed spread is still wide. On a multi-core laptop, use
 `--iters-per-temp 5000` or higher.
+
+## Exporting a solution for the map
+
+```bash
+python src/exporter.py --instance data/chennai_guindy
+```
+
+`runner.py` saves each run's best chromosome to `results/solutions/`. The
+exporter decodes all of them for the instance and keeps the best one
+(feasible first, then cheapest). It writes `ui/data/<name>.json` containing:
+
+- each point's coordinates, name, bin combination, capacity and fill level
+  on every day of the week;
+- each day's routes, with ordered stops, cumulative load, arrival and
+  departure times, and the duration split into travel, service and unloading;
+- the headline costs.
+
+Each route also carries its real street geometry from the OSRM route service,
+as GeoJSON. If OSRM is unreachable (or with `--offline`), routes are drawn as
+straight lines, and `geometry_source` says so per route.
+`--solution FILE.npz` exports a specific solution instead of the best.
+
