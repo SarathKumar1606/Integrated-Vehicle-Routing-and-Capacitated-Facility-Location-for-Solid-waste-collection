@@ -16,7 +16,7 @@ network around CEG Guindy, Anna University, Chennai.
 | M2 OSRM travel matrix | `src/instance_builder.py` | done (OSRM + fallback) |
 | M6 Experiment runner | `src/runner.py` | done |
 | M7 Exporter | `src/exporter.py` | done (OSRM road geometry) |
-| M9 Leaflet UI | `ui/index.html` | pending |
+| M9 Leaflet UI | `ui/index.html` | done (self-contained, embedded plan) |
 
 ## Validation
 
