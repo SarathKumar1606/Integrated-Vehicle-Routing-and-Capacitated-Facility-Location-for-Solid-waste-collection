@@ -1,0 +1,11 @@
+18:53:59 START chennai_guindy sa gens=1 attempt=1
+19:05:17 END   chennai_guindy sa rc=0
+instance chennai_guindy: SA n=30 mean evals 522,000 (range 490,000-550,000) -> GA --generations 5219 = 522,000 evals (+0.00%)
+19:05:18 START chennai_guindy ga gens=5219 attempt=1
+19:34:23 END   chennai_guindy ga rc=0
+19:34:23 START chennai_guindy_peak sa gens=1 attempt=1
+19:39:27 END   chennai_guindy_peak sa rc=0
+instance chennai_guindy_peak: SA n=30 mean evals 517,333 (range 467,500-555,000) -> GA --generations 5172 = 517,300 evals (-0.01%)
+19:39:28 START chennai_guindy_peak ga gens=5172 attempt=1
+20:04:59 END   chennai_guindy_peak ga rc=0
+20:04:59 ALL DONE

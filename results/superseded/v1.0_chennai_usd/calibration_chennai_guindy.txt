@@ -1,0 +1,5 @@
+instance chennai_guindy
+  SA  iters/temp   2500  temperatures  187  evaluations   467500  wall    13.6 s  best 231.05
+  GA  generations  4674  evaluations   467500  wall    71.9 s  best 280.05
+  GA vs SA evaluations: +0.00%
+CALIBRATED --generations 4674  SA_WALL 13.6  GA_WALL 71.9

@@ -117,3 +117,51 @@ harder to meet; it mostly shows up as routing cost (CCV × minutes).
 Moving the depot to Perungudi also lengthens every route: the depot is now
 14 min from the CEG gate (5 min from the old placeholder), so each route
 carries about 25–30 min of extra depot travel, compared with the v1.0 Chennai results.
+
+## Task 4 — experiments
+
+Driver: for each Chennai instance, SA × 30, then GA generations =
+round(mean SA evaluations / 100) − 1 from that instance's own 30 SA runs,
+then GA × 30 (`--iters-per-temp 2500 --workers 11`; each runner call retried
+once if it fails). Status lines are in `results/drive_status.txt`.
+The v1.0 (US$, placeholder-depot) Chennai results were moved to
+`results/superseded/v1.0_chennai_usd/`; i.12.1 was not re-run.
+
+### Laptop on battery: runs ~5× slower than in v1.0
+
+Each SA run took ~230–275 s against ~43 s in the v1.0 runs, with the same
+evaluation counts (~510k). Cause: the laptop was running on battery
+(Win32_Battery status "discharging", 92%, Balanced power plan), which
+throttles the CPU. The code was ruled out: under the same load a fitness
+evaluation measured 24 µs (13 µs idle on mains in v1.0). Expected effect:
+the GA phase takes ~1 h per instance instead of ~13 min, and the battery
+may not last. A desktop notification asked for the charger to be plugged
+in. Runtimes in the summary are therefore not comparable with v1.0's.
+
+### If the run is cut off: how to resume
+
+At 19:15 the battery was at 79% and falling ~13% per 10 min, so the run is
+unlikely to finish on battery. `runner.py` now has `--resume`: seeds that
+already have a CSV row and a saved solution are skipped, and new rows are
+appended. Every finished seed is on disk, so after plugging in, re-run any
+step that did not reach "ALL DONE" in `results/drive_status.txt`:
+
+    python src/runner.py --instance data/chennai_guindy --algo ga --runs 30 --iters-per-temp 2500 --generations 5219 --workers 11 --resume
+    python src/runner.py --instance data/chennai_guindy_peak --algo sa --runs 30 --iters-per-temp 2500 --workers 11 --resume
+    # then calibrate GA from results/chennai_guindy_peak_sa.csv:
+    #   generations = round(mean(evaluations) / 100) - 1
+    python src/runner.py --instance data/chennai_guindy_peak --algo ga --runs 30 --iters-per-temp 2500 --generations <G> --workers 11 --resume
+
+### Outcome
+
+The battery lasted: all runs finished at 20:05, exit code 0, no retries
+needed, every run feasible. GA generations were recalibrated from each
+instance's own 30-run SA mean:
+
+| Instance | SA mean evals (range) | GA `--generations` | GA evals | GA vs SA |
+|---|---|---|---|---|
+| chennai_guindy | 522,000 (490,000–550,000) | 5219 | 522,000 | +0.00% |
+| chennai_guindy_peak | 517,333 (467,500–555,000) | 5172 | 517,300 | −0.01% |
+
+The driver is saved as `scripts/run_chennai_experiments.sh`. Runtimes were
+measured on battery power, so they are 3–6× those of the v1.0 runs.

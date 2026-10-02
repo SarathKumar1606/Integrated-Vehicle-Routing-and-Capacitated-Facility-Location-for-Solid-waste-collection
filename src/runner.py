@@ -64,18 +64,49 @@ def _one_run(args):
     }
 
 
+def _read_done(out_csv: Path) -> list[dict]:
+    """Rows already in a results CSV, with numbers and booleans parsed."""
+    if not out_csv.exists() or out_csv.stat().st_size == 0:
+        return []
+    with out_csv.open(newline="") as fh:
+        rows = list(csv.DictReader(fh))
+    for r in rows:
+        r["seed"] = int(r["seed"])
+        r["evaluations"] = int(r["evaluations"])
+        r["feasible"] = r["feasible"] == "True"
+        for k in ("overall_cost", "bin_cost", "routing_cost", "runtime_s"):
+            r[k] = float(r[k])
+    return rows
+
+
 def run_experiment(folder: str | Path, name: str, algo: str, runs: int = 10,
                    workers: int | None = None, out_csv: Path | None = None,
-                   **kwargs) -> list[dict]:
-    jobs = [(str(folder), name, algo, s, kwargs) for s in range(runs)]
-    rows: list[dict] = []
+                   resume: bool = False, **kwargs) -> list[dict]:
+    """Run seeds 0..runs-1. With resume=True, seeds that already have a row
+    in the CSV and a saved solution are skipped and new rows are appended,
+    so an interrupted experiment (crash, power loss) can be continued."""
     out_csv = out_csv or ROOT / "results" / f"{name}_{algo}.csv"
     out_csv.parent.mkdir(parents=True, exist_ok=True)
+
+    rows: list[dict] = []
+    if resume:
+        rows = [r for r in _read_done(out_csv)
+                if (SOLUTIONS_DIR / f"{name}_{algo}_seed{r['seed']}.npz").exists()]
+        if rows:
+            print(f"  resuming: {len(rows)} seeds already done")
+    done = {r["seed"] for r in rows}
+    jobs = [(str(folder), name, algo, s, kwargs) for s in range(runs)
+            if s not in done]
 
     with ProcessPoolExecutor(max_workers=workers) as ex:
         futures = [ex.submit(_one_run, j) for j in jobs]
         with out_csv.open("w", newline="") as fh:
             writer = None
+            if rows:                              # rewrite the kept rows
+                writer = csv.DictWriter(fh, fieldnames=list(rows[0]))
+                writer.writeheader()
+                writer.writerows(rows)
+                fh.flush()
             for fut in as_completed(futures):
                 row = fut.result()
                 rows.append(row)
@@ -126,6 +157,8 @@ def main() -> None:
     ap.add_argument("--workers", type=int, default=None)
     ap.add_argument("--iters-per-temp", type=int, default=1000)
     ap.add_argument("--generations", type=int, default=300)
+    ap.add_argument("--resume", action="store_true",
+                    help="skip seeds already in the results CSV and append")
     args = ap.parse_args()
 
     folder = Path(args.instance)
@@ -136,7 +169,7 @@ def main() -> None:
               else {"generations": args.generations})
         print(f"\n=== {name}  {algo.upper()}  x{args.runs} ===")
         rows = run_experiment(folder, name, algo, args.runs,
-                              workers=args.workers, **kw)
+                              workers=args.workers, resume=args.resume, **kw)
         print_summary(name, algo, summarize(rows),
                       rows[0].get("currency", "USD") if rows else "USD")
 

@@ -11,6 +11,7 @@ Usage:
 from __future__ import annotations
 
 import csv
+import json
 import warnings
 from pathlib import Path
 
@@ -20,7 +21,9 @@ import matplotlib.pyplot as plt          # noqa: E402
 import numpy as np                       # noqa: E402
 from scipy.stats import mannwhitneyu     # noqa: E402
 
+from decoder import Solution, decode                         # noqa: E402
 from loader import Instance, indian_grouping, load_instance  # noqa: E402
+from optimizers import penalty_weights                       # noqa: E402
 from runner import summarize             # noqa: E402
 
 ROOT = Path(__file__).parent.parent
@@ -28,7 +31,9 @@ RESULTS = ROOT / "results"
 FIGURES = RESULTS / "figures"
 # runner.py name -> instance folder
 INSTANCES = {"i.12.1": ROOT / "data" / "12_1",
-             "chennai_guindy": ROOT / "data" / "chennai_guindy"}
+             "chennai_guindy": ROOT / "data" / "chennai_guindy",
+             "chennai_guindy_peak": ROOT / "data" / "chennai_guindy_peak"}
+SCENARIOS = [("Free-flow", "chennai_guindy"), ("Peak (×1.5)", "chennai_guindy_peak")]
 ALGOS = ["sa", "ga"]
 
 # Gonzalez et al. (2025): Table 9 (SA on i.12.1) and Table 10 (MILP optimum)
@@ -65,8 +70,30 @@ def inst_of(name: str) -> Instance:
     return _INST[name]
 
 
+def meta_of(name: str) -> dict:
+    path = INSTANCES[name] / "meta.json"
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+
+
+def json_traffic(name: str) -> str:
+    return f"{meta_of(name).get('traffic_multiplier', 1.0)}"
+
+
 def money(name: str, x: float) -> str:
     return inst_of(name).money(x)
+
+
+def best_solution(name: str) -> tuple[str, Solution] | None:
+    """Best saved solution for an instance (feasible first, then cheapest),
+    the same rule exporter.py uses."""
+    inst, best = inst_of(name), None
+    for f in sorted((RESULTS / "solutions").glob(f"{name}_*_seed*.npz")):
+        with np.load(f) as z:
+            sol = decode(inst, z["pop"], z["mask"], *penalty_weights(inst))
+        key = (not sol.feasible, sol.fitness)
+        if best is None or key < best[0]:
+            best = (key, f.stem, sol)
+    return None if best is None else (best[1], best[2])
 
 
 def pct(ours: float, ref: float) -> str:
@@ -258,6 +285,54 @@ def main() -> None:
                       f"{m(best['overall_cost'])} |")
         md.append("")
 
+    # --- free-flow vs peak --------------------------------------------------
+    scen = [(label, n, best_solution(n)) for label, n in SCENARIOS
+            if (n, "sa") in data and data[(n, "sa")]]
+    scen = [(label, n, b) for label, n, b in scen if b is not None]
+    if len(scen) == 2:
+        (la, na, (fa, sa_)), (lb, nb, (fb, sb_)) = scen
+        ia, ib = inst_of(na), inst_of(nb)
+
+        def longest(sol):
+            r = max(sol.routes, key=lambda r: r.duration)
+            return r.duration
+
+        def row(label, a, b, fmt):
+            diff = pct(b, a) if a else "—"
+            md.append(f"| {label} | {fmt(a)} | {fmt(b)} | {diff} |")
+
+        mon = lambda x: ia.money(x)  # noqa: E731
+        md += ["## Chennai: free-flow vs peak-hour traffic", "",
+               f"The peak scenario multiplies every OSRM travel time by "
+               f"{json_traffic(nb)}. Both use the same points, depot, bins and "
+               f"rupee cost parameters. Under Eq. (10) the shift limit TL is "
+               f"derived from the travel-time matrix, so it grows with traffic too "
+               f"({ia.TL:.0f} → {ib.TL:.0f} min).", "",
+               f"Best solution per scenario (`{fa}` and `{fb}`), plus the 30-run "
+               "SA mean:", "",
+               f"| | {la} | {lb} | Change |", "|---|---|---|---|"]
+        row("Overall cost (best)", sa_.overall_cost, sb_.overall_cost, mon)
+        row("Bin cost (best)", sa_.bin_cost, sb_.bin_cost, mon)
+        row("Routing cost (best)", sa_.routing_cost, sb_.routing_cost, mon)
+        row("Overall cost (SA mean of 30)",
+            float(np.mean([r["overall_cost"] for r in data[(na, "sa")]])),
+            float(np.mean([r["overall_cost"] for r in data[(nb, "sa")]])), mon)
+        row("Routes per week", len(sa_.routes), len(sb_.routes), lambda x: f"{x}")
+        row("Total route time (min)", sum(r.duration for r in sa_.routes),
+            sum(r.duration for r in sb_.routes), lambda x: f"{x:.1f}")
+        row("Longest route (min)", longest(sa_), longest(sb_), lambda x: f"{x:.1f}")
+        row("Shift limit TL (min)", ia.TL, ib.TL, lambda x: f"{x:.0f}")
+        md.append(f"| Longest route / TL | {longest(sa_) / ia.TL:.0%} | "
+                  f"{longest(sb_) / ib.TL:.0%} | |")
+        md.append(f"| Feasible | {'yes' if sa_.feasible else 'NO'} | "
+                  f"{'yes' if sb_.feasible else 'NO'} | |")
+        same_bins = bool((sa_.bins == sb_.bins).all())
+        md += ["", f"Bin combinations are {'identical' if same_bins else 'different'} "
+               "in the two best solutions"
+               + ("" if same_bins else
+                  f" ({int((sa_.bins != sb_.bins).sum())} of {ia.n_points} points "
+                  "differ)") + ".", ""]
+
     # --- figures -----------------------------------------------------------
     md += ["## Convergence", "",
            "Median best fitness over all seeds against evaluations spent; the "
@@ -277,8 +352,8 @@ def main() -> None:
            "\"vs MILP\" rows are optimality gaps. Only SA and MILP figures from "
            "the paper are compared here.",
            "- A Mann-Whitney U of 0 means complete separation: every SA run "
-           "beat every GA run. With 30 runs each, that gives the same p-value "
-           "(normal approximation) on both instances.",
+           "beat every GA run. With 30 runs each, every instance with complete "
+           "separation gets the same p-value (normal approximation).",
            "- Evaluations are matched, wall time is not. GA's crossover, "
            "mutation and repair are pure Python, while the decoder is compiled, "
            "so GA takes ~5× longer for the same number of evaluations. "
@@ -288,6 +363,15 @@ def main() -> None:
            "non-improving temperature steps. GA's generations were set from "
            "the 30-run SA mean (see `overnight_log.md`).",
            ""]
+
+    md += ["- Rupee figures are the paper's US$ cost parameters converted at "
+           f"{inst_of('chennai_guindy').fx_rate} ₹/US$ (mid-market, "
+           f"{meta_of('chennai_guindy').get('fx_date')}, "
+           f"{meta_of('chennai_guindy').get('fx_source')}). The penalty weights "
+           "and SA's final temperature are converted too, so the optimisation "
+           "problem is the same as in US$. Locally sourced Greater Chennai "
+           "Corporation rates would change the bin-vs-routing tradeoff, not just "
+           "the totals.", ""]
 
     (RESULTS / "summary.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     print(f"wrote {RESULTS / 'summary.md'}")
