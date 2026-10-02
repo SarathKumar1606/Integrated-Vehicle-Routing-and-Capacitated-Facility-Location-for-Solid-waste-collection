@@ -84,3 +84,15 @@ Appendix A validation before starting: 7/7.
   scaled values flips an occasional Metropolis decision, and SA amplifies
   that. The rupee experiments are the same problem, not a replay of the
   US$ runs.
+
+## Task 2 — depot and points
+
+- Depot moved to the Perungudi MSW disposal site (12.955663, 80.226920).
+- Removed Besant Nagar Beach, Broken Bridge and Adyar Banyan Tree; added
+  Chemparuthi Hostel, CEG 5th Block Hostel and CEG Main Canteen in their
+  place (21 points).
+- `check_bin_feasibility`: no point exceeds the 2.80 m³/day ceiling. Largest
+  are Phoenix Marketcity 1.24, Velachery MRTS 1.22 and Kalaignar Arch 1.17
+  m³/day; total 18.71 m³/day (was 17.72).
+- `data/chennai_guindy/` is rebuilt in task 3, together with the
+  peak-hour instance, so OSRM is queried once per instance.

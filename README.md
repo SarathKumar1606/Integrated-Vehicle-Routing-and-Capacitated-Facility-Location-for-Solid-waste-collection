@@ -99,8 +99,9 @@ Instances from https://github.com/diegorossit/ANOR-S-24-01950
 ## Chennai instance
 
 `python src/instance_builder.py` builds `data/chennai_guindy/` — 21 real
-collection points along the Sardar Patel Road / Gandhi Mandapam Road / Adyar /
-Saidapet / Velachery corridor, in the paper's own file format.
+collection points on the CEG campus and along the Sardar Patel Road /
+Gandhi Mandapam Road / Kotturpuram / Saidapet / Velachery corridor, in the
+paper's own file format.
 
 - **Travel times**: OSRM road routing, with a haversine + detour-factor
   fallback that is recorded in `meta.json` so it never silently ends up in
@@ -108,8 +109,9 @@ Saidapet / Velachery corridor, in the paper's own file format.
 - **Waste generation**: estimated from GCC figures (0.71 kg/person/day,
   0.40 t/m³ loose density) times each point's catchment population — not
   copied from the paper.
-- **Depot**: currently a PLACEHOLDER. Replace with the real GCC transfer
-  station for this zone before the results go in the report.
+- **Depot**: the Perungudi MSW disposal site (12.955663 N, 80.226920 E),
+  where Greater Chennai Corporation disposes of waste from its southern
+  zones. Every route starts and ends there.
 
 ### A finding worth a paragraph in the report
 

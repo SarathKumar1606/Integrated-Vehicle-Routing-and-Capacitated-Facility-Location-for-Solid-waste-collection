@@ -6,9 +6,9 @@ file format the paper uses, so the same engine reads either city.
 
 Collection points
 -----------------
-21 real locations along the Sardar Patel Road / Gandhi Mandapam Road /
-Adyar / Saidapet / Velachery corridor, with coordinates taken from mapping
-data. Replace or extend the POINTS list with your own surveyed bin sites --
+21 real locations on the CEG campus and along the Sardar Patel Road /
+Gandhi Mandapam Road / Kotturpuram / Saidapet / Velachery corridor, with
+coordinates taken from mapping data. Replace or extend the POINTS list with your own surveyed bin sites --
 nothing else in the project needs to change.
 
 Waste generation
@@ -83,13 +83,12 @@ LOCAL_BIN_COST_INR = None        # list of 8 weekly bin costs, INR
 USER_AGENT = "ceg-guindy-waste-pvrp/1.0 (final-year project)"
 
 # ---------------------------------------------------------------------------
-# The depot.
-# NOTE: this is a PLACEHOLDER in the Guindy industrial area. Replace it with
-# the actual Greater Chennai Corporation transfer station serving this zone
-# before the results go in the report.
+# The depot: the Perungudi dumpsite, where Greater Chennai Corporation
+# disposes of municipal solid waste from its southern zones. Every route
+# starts and ends here, and the unloading time TU is spent here.
 # ---------------------------------------------------------------------------
-DEPOT = {"name": "GCC transfer station (PLACEHOLDER - verify)",
-         "lat": 13.00750, "lon": 80.22000, "population": 0}
+DEPOT = {"name": "Perungudi MSW disposal site, Greater Chennai Corporation",
+         "lat": 12.955663, "lon": 80.226920, "population": 0}
 
 # ---------------------------------------------------------------------------
 # Collection points. Coordinates are real; `population` is the resident-
@@ -110,9 +109,9 @@ POINTS = [
     {"name": "ISKCON Saidapet, Jeenis Road",              "lat": 13.020687, "lon": 80.221748, "population": 360},
     {"name": "Kamakshi Amman Temple, Saidapet",           "lat": 13.020016, "lon": 80.220156, "population": 390},
     {"name": "Tholkappia Poonga, RA Puram",               "lat": 13.019192, "lon": 80.264689, "population": 320},
-    {"name": "Adyar Banyan Tree (Theosophical Society)",  "lat": 13.010276, "lon": 80.268307, "population": 260},
-    {"name": "Broken Bridge, Adyar",                      "lat": 13.012725, "lon": 80.275979, "population": 240},
-    {"name": "Besant Nagar Beach",                        "lat": 12.999220, "lon": 80.272869, "population": 680},
+    {"name": "Chemparuthi Hostel, CEG campus",            "lat": 13.013042, "lon": 80.234379, "population": 520},
+    {"name": "CEG 5th Block Hostel",                      "lat": 13.014126, "lon": 80.238815, "population": 580},
+    {"name": "CEG Main Canteen, CEG Square",              "lat": 13.010464, "lon": 80.236761, "population": 640},
     {"name": "Phoenix Marketcity, Velachery",             "lat": 12.991690, "lon": 80.216942, "population": 700},
     {"name": "Sri Dhandeeswaram Temple, Velachery",       "lat": 12.985750, "lon": 80.223785, "population": 540},
     {"name": "Grand Square Mall, Velachery",              "lat": 12.971821, "lon": 80.220617, "population": 600},
@@ -327,8 +326,9 @@ def build(out_dir: Path = OUT_DIR, offline: bool = False,
         "avg_speed_kmh": AVG_SPEED_KMH if source != "osrm" else None,
         "bin_combinations_source": "Gonzalez et al. (2025) dataset, containers.txt",
         **currency_meta(currency, fx, fx_date, fx_source),
-        "depot_note": "PLACEHOLDER location - replace with the real GCC "
-                      "transfer station for this zone before publishing results",
+        "depot": DEPOT["name"],
+        "depot_note": "Perungudi dumpsite, the disposal site for Greater "
+                      "Chennai Corporation's southern zones",
     }, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     total = sum(estimate_waste(p["population"]) for p in POINTS)
