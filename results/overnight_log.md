@@ -165,3 +165,21 @@ instance's own 30-run SA mean:
 
 The driver is saved as `scripts/run_chennai_experiments.sh`. Runtimes were
 measured on battery power, so they are 3–6× those of the v1.0 runs.
+
+## Task 5 — summary and maps
+
+`results/summary.md` regenerated with i.12.1 (US$, unchanged) and both
+Chennai scenarios (₹). Map JSONs re-exported from the best solutions:
+`ui/data/chennai_guindy.json` (SA seed 16, ₹29,250.84) and
+`ui/data/chennai_guindy_peak.json` (SA seed 20, ₹37,378.69), with OSRM
+street geometry on all routes.
+
+Note for the map: each route's `osrm_duration_min` is OSRM's own free-flow
+estimate for that street path. The arrive/depart times and `duration_min`
+use the instance's matrix, i.e. ×1.5 in the peak scenario.
+
+`ui/index.html` was not changed. It embeds the v1.0 plan (US$, placeholder
+depot) and labels costs "US$ per week", so it does not show these
+results until it is regenerated from the new JSONs.
+
+Appendix A validation at the end of the session: 7/7. Decoder equivalence: BIT-FOR-BIT IDENTICAL on i.12.1, chennai_guindy and chennai_guindy_peak.

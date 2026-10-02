@@ -362,7 +362,10 @@ def main() -> None:
            "- SA's evaluation count varies by seed because it stops after 100 "
            "non-improving temperature steps. GA's generations were set from "
            "the 30-run SA mean (see `overnight_log.md`).",
-           ""]
+           "- The Chennai runs (2026-10-02) ran on battery power, so the CPU "
+           "was throttled by varying amounts. Their runtimes are not "
+           "comparable with i.12.1's or with each other; evaluation counts "
+           "are the fair measure of effort."]
 
     md += ["- Rupee figures are the paper's US$ cost parameters converted at "
            f"{inst_of('chennai_guindy').fx_rate} ₹/US$ (mid-market, "

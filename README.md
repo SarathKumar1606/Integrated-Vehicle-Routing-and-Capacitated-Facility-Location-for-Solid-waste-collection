@@ -113,6 +113,25 @@ paper's own file format.
   where Greater Chennai Corporation disposes of waste from its southern
   zones. Every route starts and ends there.
 
+- **Currency**: Chennai builds are in rupees (`--currency INR`, the
+  default). The paper's US$ cost parameters are converted at the USD→INR
+  mid-market rate of the build date, which is looked up automatically
+  (or given with `--fx`) and recorded in `meta.json` with its date and
+  source. This is an **FX conversion, not locally sourced Indian rates**.
+  The marked `LOCAL_CCV_INR_PER_MIN` / `LOCAL_BIN_COST_INR` block in
+  `instance_builder.py` takes Greater Chennai Corporation figures when
+  available. Penalty weights and SA's final temperature are converted with
+  the costs, so the optimisation problem is unchanged. Rupee figures print
+  with Indian digit grouping (₹1,23,456).
+- **Peak-hour scenario**: `--traffic 1.5 --out data/chennai_guindy_peak`
+  multiplies every travel time by 1.5. Eq. (10) derives the shift limit from
+  the matrix, so TL scales too (96 → 144 min).
+
+```bash
+python src/instance_builder.py                                    # data/chennai_guindy
+python src/instance_builder.py --traffic 1.5 --out data/chennai_guindy_peak
+```
+
 ### A finding worth a paragraph in the report
 
 The first build was infeasible, and the reason is a genuine result rather
@@ -137,7 +156,10 @@ python src/runner.py --instance data/12_1 --name i.12.1 --algo both --runs 30
 ```
 
 Runs are parallel across cores and checkpointed to `results/*.csv` after every
-seed. **Increase `--iters-per-temp`**: the paper used ~1.7 million fitness
+seed; `--resume` continues an interrupted experiment from the seeds already
+done. `scripts/run_chennai_experiments.sh` runs both Chennai scenarios (SA,
+GA calibration from the SA mean, GA), and `python src/summarize.py` writes
+`results/summary.md` and the convergence figures. **Increase `--iters-per-temp`**: the paper used ~1.7 million fitness
 evaluations per SA run, and the smoke tests here used ~50,000, which is why
 seed-to-seed spread is still wide. On a multi-core laptop, use
 `--iters-per-temp 5000` or higher.
