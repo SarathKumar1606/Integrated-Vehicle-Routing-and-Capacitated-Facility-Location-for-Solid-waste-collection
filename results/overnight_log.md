@@ -96,3 +96,24 @@ Appendix A validation before starting: 7/7.
   m³/day; total 18.71 m³/day (was 17.72).
 - `data/chennai_guindy/` is rebuilt in task 3, together with the
   peak-hour instance, so OSRM is queried once per instance.
+
+## Task 3 — peak-hour scenario
+
+Both instances built from OSRM (`travel_time_source: osrm`), in rupees at
+96.3789 ₹/US$ (2026-10-02, open.er-api.com):
+
+| Instance | traffic_multiplier | Σ travel-time matrix (min) | nV | TL from Eq. (10) | Depot → CEG main gate |
+|---|---|---|---|---|---|
+| chennai_guindy | 1.0 | 3,436.61 | 3 | **96 min** | 14.13 min |
+| chennai_guindy_peak | 1.5 | 5,155.01 | 3 | **144 min** | 21.20 min |
+
+The peak matrix is exactly round(1.5 × free-flow, 2). Eq. (10) sets
+TL = ⌈Σ C_ij / (nV (nV − 1) |T − T'|)⌉ = ⌈Σ C_ij / 36⌉, so TL scales with
+the matrix: ⌈95.46⌉ = 96 and ⌈143.19⌉ = 144. That is paper-consistent, but
+it means the peak scenario's shift limit grows with congestion. For the
+report: under Eq. (10), slower traffic does not make the shift limit
+harder to meet; it mostly shows up as routing cost (CCV × minutes).
+
+Moving the depot to Perungudi also lengthens every route: the depot is now
+14 min from the CEG gate (5 min from the old placeholder), so each route
+carries about 25–30 min of extra depot travel, compared with the v1.0 Chennai results.

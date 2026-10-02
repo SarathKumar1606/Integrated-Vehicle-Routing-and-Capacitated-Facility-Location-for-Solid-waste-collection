@@ -34,6 +34,7 @@ fallback is clearly reported so it never silently ends up in your results.
 Usage:
     python src/instance_builder.py                 # tries OSRM, falls back
     python src/instance_builder.py --offline       # force the fallback
+    python src/instance_builder.py --traffic 1.5 --out data/chennai_guindy_peak
 """
 
 from __future__ import annotations
@@ -274,7 +275,8 @@ def currency_meta(currency: str, fx: float | None, fx_date: str | None,
 # ---------------------------------------------------------------------------
 def build(out_dir: Path = OUT_DIR, offline: bool = False,
           currency: str = DEFAULT_CURRENCY, fx: float | None = None,
-          fx_date: str | None = None, fx_source: str | None = None) -> Path:
+          fx_date: str | None = None, fx_source: str | None = None,
+          traffic: float = 1.0) -> Path:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     problems = check_bin_feasibility(POINTS, max_bin_cap=5.6, n_rest_days=1)
@@ -298,6 +300,10 @@ def build(out_dir: Path = OUT_DIR, offline: bool = False,
     # --- times.txt --------------------------------------------------------
     print(f"  building {len(nodes)}x{len(nodes)} travel-time matrix...")
     M, source = build_time_matrix(coords, offline=offline)
+    if traffic != 1.0:
+        # peak-hour scenario: every leg takes `traffic` times as long
+        M = np.round(M * traffic, 2)
+        print(f"  travel times multiplied by {traffic} (traffic scenario)")
     (out_dir / "times.txt").write_text(
         "\n".join("\t".join(f"{v:.2f}" for v in row) for row in M) + "\n")
 
@@ -317,9 +323,10 @@ def build(out_dir: Path = OUT_DIR, offline: bool = False,
 
     # --- provenance -------------------------------------------------------
     (out_dir / "meta.json").write_text(json.dumps({
-        "instance": "chennai_guindy",
+        "instance": out_dir.name,
         "n_points": len(POINTS),
         "travel_time_source": source,
+        "traffic_multiplier": traffic,
         "per_capita_kg_per_day": PER_CAPITA_KG,
         "msw_density_t_per_m3": MSW_DENSITY,
         "detour_factor": DETOUR_FACTOR if source != "osrm" else None,
@@ -349,6 +356,10 @@ if __name__ == "__main__":
                     help="USD->INR rate; looked up for today if omitted")
     ap.add_argument("--fx-date", default=None, help="date of the --fx rate")
     ap.add_argument("--fx-source", default=None, help="source of the --fx rate")
+    ap.add_argument("--traffic", type=float, default=1.0,
+                    help="multiply every travel time by this factor "
+                         "(e.g. 1.5 for a peak-hour scenario; default 1.0)")
     args = ap.parse_args()
     build(Path(args.out), offline=args.offline, currency=args.currency,
-          fx=args.fx, fx_date=args.fx_date, fx_source=args.fx_source)
+          fx=args.fx, fx_date=args.fx_date, fx_source=args.fx_source,
+          traffic=args.traffic)

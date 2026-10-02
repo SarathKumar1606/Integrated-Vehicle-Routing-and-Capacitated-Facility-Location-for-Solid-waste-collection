@@ -1,8 +1,8 @@
 {
-  "instance": "chennai_guindy",
+  "instance": "chennai_guindy_peak",
   "n_points": 21,
   "travel_time_source": "osrm",
-  "traffic_multiplier": 1.0,
+  "traffic_multiplier": 1.5,
   "per_capita_kg_per_day": 0.71,
   "msw_density_t_per_m3": 0.4,
   "detour_factor": null,
