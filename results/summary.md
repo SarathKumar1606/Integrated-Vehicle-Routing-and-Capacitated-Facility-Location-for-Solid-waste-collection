@@ -1,15 +1,18 @@
 # Experiment summary
 
-Each run is one seed; SA and GA are matched on fitness-function evaluations (see `results/calibration_*.txt`). Costs in US$/week.
+Each run is one seed; SA and GA are matched on fitness-function evaluations (see `results/calibration_*.txt`). All costs are per week, in each instance's own currency:
+
+- **i.12.1**: US dollars (US$), the paper's own cost parameters.
+- **chennai_guindy**: US dollars (US$), the paper's own cost parameters.
 
 ## Results by instance and algorithm
 
 | Instance | Algo | n | Min | Median | Mean | 95% CI | Mean evals | Mean runtime (s) | All feasible |
 |---|---|---|---|---|---|---|---|---|---|
-| i.12.1 | SA | 30 | 186.47 | 190.54 | 190.77 | [189.94, 191.60] | 445,583 | 41.6 | yes |
-| i.12.1 | GA | 30 | 205.47 | 210.48 | 210.68 | [209.52, 211.84] | 445,600 | 201.5 | yes |
-| chennai_guindy | SA | 30 | 223.72 | 228.38 | 229.73 | [228.02, 231.44] | 522,833 | 42.7 | yes |
-| chennai_guindy | GA | 30 | 268.20 | 278.61 | 278.69 | [276.28, 281.10] | 522,800 | 241.0 | yes |
+| i.12.1 | SA | 30 | 186.47 US$ | 190.54 US$ | 190.77 US$ | [189.94 US$, 191.60 US$] | 445,583 | 41.6 | yes |
+| i.12.1 | GA | 30 | 205.47 US$ | 210.48 US$ | 210.68 US$ | [209.52 US$, 211.84 US$] | 445,600 | 201.5 | yes |
+| chennai_guindy | SA | 30 | 223.72 US$ | 228.38 US$ | 229.73 US$ | [228.02 US$, 231.44 US$] | 522,833 | 42.7 | yes |
+| chennai_guindy | GA | 30 | 268.20 US$ | 278.61 US$ | 278.69 US$ | [276.28 US$, 281.10 US$] | 522,800 | 241.0 | yes |
 
 Evaluation matching (GA vs mean SA evaluations):
 
@@ -18,7 +21,7 @@ Evaluation matching (GA vs mean SA evaluations):
 
 ## i.12.1 against the paper
 
-Paper: Table 9 (SA, min 188.0 / mean 193.7) and Table 10 (MILP optimum, overall 178.42).
+Paper: Table 9 (SA, min 188.0 / mean 193.7) and Table 10 (MILP optimum, overall 178.42). Both sides in US$.
 
 | Metric | Ours | Paper | Difference |
 |---|---|---|---|
@@ -35,19 +38,19 @@ Paper: Table 9 (SA, min 188.0 / mean 193.7) and Table 10 (MILP optimum, overall 
 
 | Instance | n (SA, GA) | U | p-value | Median SA | Median GA | Verdict (α = 0.05) |
 |---|---|---|---|---|---|---|
-| i.12.1 | 30, 30 | 0.0 | 3.02e-11 | 190.54 | 210.48 | significant — SA lower |
-| chennai_guindy | 30, 30 | 0.0 | 3.02e-11 | 228.38 | 278.61 | significant — SA lower |
+| i.12.1 | 30, 30 | 0.0 | 3.02e-11 | 190.54 US$ | 210.48 US$ | significant — SA lower |
+| chennai_guindy | 30, 30 | 0.0 | 3.02e-11 | 228.38 US$ | 278.61 US$ | significant — SA lower |
 
-## Chennai (CEG Guindy): cost breakdown
+## chennai_guindy: cost breakdown (USD)
 
 | Algo | | Bin cost | Routing cost | Overall |
 |---|---|---|---|---|
-| SA | mean | 73.51 | 156.22 | 229.73 |
-| SA | median | 73.22 | 154.92 | 228.38 |
-| SA | best (seed 28) | 69.89 | 153.83 | 223.72 |
-| GA | mean | 77.79 | 200.90 | 278.69 |
-| GA | median | 77.55 | 200.87 | 278.61 |
-| GA | best (seed 27) | 79.85 | 188.35 | 268.20 |
+| SA | mean | 73.51 US$ | 156.22 US$ | 229.73 US$ |
+| SA | median | 73.22 US$ | 154.92 US$ | 228.38 US$ |
+| SA | best (seed 28) | 69.89 US$ | 153.83 US$ | 223.72 US$ |
+| GA | mean | 77.79 US$ | 200.90 US$ | 278.69 US$ |
+| GA | median | 77.55 US$ | 200.87 US$ | 278.61 US$ |
+| GA | best (seed 27) | 79.85 US$ | 188.35 US$ | 268.20 US$ |
 
 ## Convergence
 

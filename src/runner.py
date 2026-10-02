@@ -22,8 +22,8 @@ from pathlib import Path
 import numpy as np
 
 from decoder import decode
-from loader import load_instance
-from optimizers import genetic_algorithm, simulated_annealing
+from loader import format_money, load_instance
+from optimizers import genetic_algorithm, penalty_weights, simulated_annealing
 
 ROOT = Path(__file__).parent.parent
 SOLUTIONS_DIR = ROOT / "results" / "solutions"
@@ -35,7 +35,7 @@ def _one_run(args):
     t0 = time.time()
     res = (simulated_annealing(inst, seed=seed, **kwargs) if algo == "sa"
            else genetic_algorithm(inst, seed=seed, **kwargs))
-    sol = decode(inst, res.best_pop, res.best_mask)
+    sol = decode(inst, res.best_pop, res.best_mask, *penalty_weights(inst))
 
     # Evaluations spent when each history entry was recorded. SA logs once
     # at the start and once per temperature step; GA logs once per
@@ -57,6 +57,7 @@ def _one_run(args):
         "overall_cost": round(sol.overall_cost, 4),
         "bin_cost": round(sol.bin_cost, 4),
         "routing_cost": round(sol.routing_cost, 4),
+        "currency": inst.currency,
         "feasible": sol.feasible,
         "evaluations": res.evaluations,
         "runtime_s": round(time.time() - t0, 2),
@@ -83,8 +84,9 @@ def run_experiment(folder: str | Path, name: str, algo: str, runs: int = 10,
                     writer.writeheader()
                 writer.writerow(row)
                 fh.flush()                       # checkpoint after every run
+                cost = format_money(row["overall_cost"], row["currency"])
                 print(f"  seed {row['seed']:>2}  {row['algorithm']}  "
-                      f"{row['overall_cost']:8.2f}  ({row['runtime_s']:.1f}s)")
+                      f"{cost:>14}  ({row['runtime_s']:.1f}s)")
     return sorted(rows, key=lambda r: r["seed"])
 
 
@@ -106,10 +108,11 @@ def summarize(rows: list[dict]) -> dict:
     }
 
 
-def print_summary(name: str, algo: str, s: dict) -> None:
-    print(f"\n{name}  [{algo.upper()}]  n={s['n']}")
-    print(f"  min {s['min']:8.2f}   median {s['median']:8.2f}   "
-          f"mean {s['mean']:8.2f}   95% CI [{s['ci_low']:.2f}, {s['ci_high']:.2f}]")
+def print_summary(name: str, algo: str, s: dict, currency: str = "USD") -> None:
+    m = lambda x: format_money(x, currency)  # noqa: E731
+    print(f"\n{name}  [{algo.upper()}]  n={s['n']}  ({currency})")
+    print(f"  min {m(s['min'])}   median {m(s['median'])}   "
+          f"mean {m(s['mean'])}   95% CI [{m(s['ci_low'])}, {m(s['ci_high'])}]")
     print(f"  mean runtime {s['mean_runtime_s']:.1f} s   "
           f"all feasible: {s['all_feasible']}")
 
@@ -134,7 +137,8 @@ def main() -> None:
         print(f"\n=== {name}  {algo.upper()}  x{args.runs} ===")
         rows = run_experiment(folder, name, algo, args.runs,
                               workers=args.workers, **kw)
-        print_summary(name, algo, summarize(rows))
+        print_summary(name, algo, summarize(rows),
+                      rows[0].get("currency", "USD") if rows else "USD")
 
 
 if __name__ == "__main__":

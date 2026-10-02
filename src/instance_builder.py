@@ -44,6 +44,7 @@ import math
 import time
 import urllib.error
 import urllib.request
+from datetime import date, datetime
 from pathlib import Path
 
 import numpy as np
@@ -61,6 +62,24 @@ AVG_SPEED_KMH = 18.0        # average Chennai arterial speed incl. signals
 STOP_PENALTY_MIN = 0.0      # extra per-leg penalty, if you want to model turns
 
 OSRM_URL = "https://router.project-osrm.org/table/v1/driving/"
+
+# --- currency ----------------------------------------------------------------
+# The paper's cost parameters (containers.txt weekly bin costs, CCV) are in
+# US$. A Chennai build converts them to rupees at the USD->INR mid-market rate
+# of the build date, looked up here unless given with --fx. This is an FX
+# conversion of Gonzalez et al.'s figures, NOT independently sourced Indian
+# rates; meta.json records the rate, its date and source.
+DEFAULT_CURRENCY = "INR"
+FX_URL = "https://open.er-api.com/v6/latest/USD"
+
+# ============================================================================
+# Locally sourced Chennai cost parameters. Leave as None to use the FX
+# conversion of Gonzalez et al.'s figures. Replace with Greater Chennai
+# Corporation tender rates when available — note that doing so changes the
+# bin-vs-routing tradeoff, not just the reported number.
+LOCAL_CCV_INR_PER_MIN = None     # compactor + crew operating cost, INR/min
+LOCAL_BIN_COST_INR = None        # list of 8 weekly bin costs, INR
+# ============================================================================
 USER_AGENT = "ceg-guindy-waste-pvrp/1.0 (final-year project)"
 
 # ---------------------------------------------------------------------------
@@ -155,9 +174,9 @@ def fallback_matrix(coords: list[tuple[float, float]]) -> np.ndarray:
     return M
 
 
-def osrm_get(url: str, timeout: int = 60, retries: int = 5,
+def get_json(url: str, timeout: int = 60, retries: int = 5,
              backoff: float = 2.0) -> dict:
-    """GET an OSRM endpoint and return the parsed JSON, retrying with
+    """GET a JSON endpoint (OSRM, FX rates) and return it parsed, retrying with
     exponential backoff (2, 4, 8, 16 s ...) when the public demo server
     rate-limits (HTTP 429), has a transient 5xx, or the network drops.
     Client errors other than 429 are not retried -- they will not go away."""
@@ -175,10 +194,13 @@ def osrm_get(url: str, timeout: int = 60, retries: int = 5,
                 raise
             reason = str(exc)
         wait = backoff * 2 ** attempt
-        print(f"  ! OSRM {reason}; retrying in {wait:.0f}s "
+        print(f"  ! {url.split('/')[2]} {reason}; retrying in {wait:.0f}s "
               f"({attempt + 1}/{retries})")
         time.sleep(wait)
     raise AssertionError("unreachable")
+
+
+osrm_get = get_json          # name used by exporter.py
 
 
 def osrm_matrix(coords: list[tuple[float, float]], timeout: int = 60) -> np.ndarray:
@@ -189,7 +211,7 @@ def osrm_matrix(coords: list[tuple[float, float]], timeout: int = 60) -> np.ndar
     """
     locs = ";".join(f"{lon:.6f},{lat:.6f}" for lat, lon in coords)
     url = f"{OSRM_URL}{locs}?annotations=duration"
-    data = osrm_get(url, timeout=timeout)
+    data = get_json(url, timeout=timeout)
     if data.get("code") != "Ok":
         raise RuntimeError(f"OSRM returned {data.get('code')}")
     M = np.array(data["durations"], dtype=float) / 60.0      # seconds -> minutes
@@ -206,8 +228,54 @@ def build_time_matrix(coords, offline: bool = False) -> tuple[np.ndarray, str]:
     return fallback_matrix(coords), "haversine_fallback"
 
 
+def lookup_usd_inr() -> tuple[float, str, str]:
+    """Today's USD->INR mid-market rate: (rate, date, source URL)."""
+    data = get_json(FX_URL, timeout=30)
+    if data.get("result") != "success":
+        raise RuntimeError(f"FX lookup failed: {data.get('error-type', data)}")
+    when = datetime.strptime(data["time_last_update_utc"],
+                             "%a, %d %b %Y %H:%M:%S %z").date().isoformat()
+    return round(float(data["rates"]["INR"]), 4), when, FX_URL
+
+
+def currency_meta(currency: str, fx: float | None, fx_date: str | None,
+                  fx_source: str | None) -> dict:
+    """The currency block of meta.json, read back by loader.load_instance."""
+    if currency == "USD":
+        return {"currency": "USD", "currency_symbol": "US$", "cost_scale": 1.0,
+                "cost_basis": "Gonzalez et al. (2025) US$ cost parameters"}
+    if currency != "INR":
+        raise ValueError(f"unsupported currency {currency!r} (USD or INR)")
+
+    if fx is None:
+        fx, fx_date, fx_source = lookup_usd_inr()
+        print(f"  USD->INR mid-market rate {fx} on {fx_date} ({fx_source})")
+    meta = {
+        "currency": "INR", "currency_symbol": "₹",
+        "fx_rate": fx, "fx_date": fx_date or date.today().isoformat(),
+        "fx_source": fx_source or "given on the command line (--fx)",
+        # cost_scale converts the paper's US$ figures, and the optimizers'
+        # penalty weights, into rupees
+        "cost_scale": fx,
+        "cost_basis": ("FX conversion of Gonzalez et al. (2025) US$ cost "
+                       "parameters at fx_rate; not independently sourced "
+                       "Indian rates"),
+    }
+    if LOCAL_CCV_INR_PER_MIN is not None or LOCAL_BIN_COST_INR is not None:
+        meta["cost_basis"] = "locally sourced Chennai cost parameters"
+        if LOCAL_CCV_INR_PER_MIN is not None:
+            meta["ccv"] = float(LOCAL_CCV_INR_PER_MIN)
+        if LOCAL_BIN_COST_INR is not None:
+            if len(LOCAL_BIN_COST_INR) != 8:
+                raise ValueError("LOCAL_BIN_COST_INR needs 8 weekly bin costs")
+            meta["bin_cost"] = [float(v) for v in LOCAL_BIN_COST_INR]
+    return meta
+
+
 # ---------------------------------------------------------------------------
-def build(out_dir: Path = OUT_DIR, offline: bool = False) -> Path:
+def build(out_dir: Path = OUT_DIR, offline: bool = False,
+          currency: str = DEFAULT_CURRENCY, fx: float | None = None,
+          fx_date: str | None = None, fx_source: str | None = None) -> Path:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     problems = check_bin_feasibility(POINTS, max_bin_cap=5.6, n_rest_days=1)
@@ -258,9 +326,10 @@ def build(out_dir: Path = OUT_DIR, offline: bool = False) -> Path:
         "detour_factor": DETOUR_FACTOR if source != "osrm" else None,
         "avg_speed_kmh": AVG_SPEED_KMH if source != "osrm" else None,
         "bin_combinations_source": "Gonzalez et al. (2025) dataset, containers.txt",
+        **currency_meta(currency, fx, fx_date, fx_source),
         "depot_note": "PLACEHOLDER location - replace with the real GCC "
                       "transfer station for this zone before publishing results",
-    }, indent=2) + "\n")
+    }, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     total = sum(estimate_waste(p["population"]) for p in POINTS)
     print(f"  wrote {out_dir}")
@@ -274,5 +343,12 @@ if __name__ == "__main__":
     ap.add_argument("--offline", action="store_true",
                     help="skip OSRM and use the haversine fallback")
     ap.add_argument("--out", default=str(OUT_DIR))
+    ap.add_argument("--currency", choices=["INR", "USD"], default=DEFAULT_CURRENCY,
+                    help="currency of the instance's costs (default INR)")
+    ap.add_argument("--fx", type=float, default=None,
+                    help="USD->INR rate; looked up for today if omitted")
+    ap.add_argument("--fx-date", default=None, help="date of the --fx rate")
+    ap.add_argument("--fx-source", default=None, help="source of the --fx rate")
     args = ap.parse_args()
-    build(Path(args.out), offline=args.offline)
+    build(Path(args.out), offline=args.offline, currency=args.currency,
+          fx=args.fx, fx_date=args.fx_date, fx_source=args.fx_source)

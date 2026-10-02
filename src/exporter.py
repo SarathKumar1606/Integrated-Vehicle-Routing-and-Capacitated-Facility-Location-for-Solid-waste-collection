@@ -44,6 +44,7 @@ import numpy as np
 from decoder import Solution, decode
 from instance_builder import osrm_get
 from loader import DAY_NAMES, Instance, load_instance
+from optimizers import penalty_weights
 
 ROOT = Path(__file__).parent.parent
 SOLUTIONS_DIR = ROOT / "results" / "solutions"
@@ -64,7 +65,7 @@ def best_saved_solution(inst: Instance, name: str) -> tuple[Path, Solution]:
     best = None
     for f in files:
         with np.load(f) as z:
-            sol = decode(inst, z["pop"], z["mask"])
+            sol = decode(inst, z["pop"], z["mask"], *penalty_weights(inst))
         key = (not sol.feasible, sol.fitness)
         if best is None or key < best[0]:
             best = (key, f, sol)
@@ -73,7 +74,7 @@ def best_saved_solution(inst: Instance, name: str) -> tuple[Path, Solution]:
 
 def load_solution_file(inst: Instance, path: Path) -> Solution:
     with np.load(path) as z:
-        return decode(inst, z["pop"], z["mask"])
+        return decode(inst, z["pop"], z["mask"], *penalty_weights(inst))
 
 
 # ---------------------------------------------------------------------------
@@ -250,7 +251,10 @@ def build_export(inst: Instance, sol: Solution, folder: Path,
         "points": points,
         "days": days,
         "costs": {
-            "currency": "US$",
+            "currency": inst.currency,
+            "currency_symbol": inst.currency_symbol,
+            "fx_rate_from_usd": inst.fx_rate,
+            "overall_cost_formatted": inst.money(sol.overall_cost),
             "bin_cost": _r(sol.bin_cost),
             "routing_cost": _r(sol.routing_cost),
             "overall_cost": _r(sol.overall_cost),
@@ -292,7 +296,7 @@ def main() -> None:
         sol = load_solution_file(inst, path)
     else:
         path, sol = best_saved_solution(inst, name)
-    print(f"  exporting {path.name}: overall {sol.overall_cost:.2f} US$, "
+    print(f"  exporting {path.name}: overall {inst.money(sol.overall_cost)}, "
           f"feasible {sol.feasible}, {len(sol.routes)} routes")
 
     try:

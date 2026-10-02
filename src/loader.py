@@ -17,7 +17,9 @@ point: the engine never knows which city it is looking at.
 
 from __future__ import annotations
 
+import json
 import math
+import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -31,6 +33,42 @@ TU = 8.0            # unloading time at the depot, minutes
 N_DAYS = 7          # planning horizon: one week
 REST_DAYS = (6,)    # 0=Mon ... 6=Sun -> Sunday is the drivers' rest day
 DAY_NAMES = ("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN")
+
+CURRENCY_SYMBOLS = {"USD": "US$", "INR": "₹"}
+
+# Windows consoles default to a legacy code page that cannot print "₹";
+# every script imports this module, so switch stdout/stderr to UTF-8 here.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        if (_stream.encoding or "").lower().replace("-", "") != "utf8":
+            _stream.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):
+        pass
+
+
+def indian_grouping(x: float, decimals: int = 2) -> str:
+    """1234567.891 -> '12,34,567.89' (lakh/crore grouping)."""
+    s = f"{abs(x):.{decimals}f}"
+    whole, _, frac = s.partition(".")
+    if len(whole) > 3:
+        head, tail = whole[:-3], whole[-3:]
+        groups = []
+        while len(head) > 2:
+            groups.insert(0, head[-2:])
+            head = head[:-2]
+        if head:
+            groups.insert(0, head)
+        whole = ",".join(groups + [tail])
+    return ("-" if x < 0 else "") + whole + ("." + frac if frac else "")
+
+
+def format_money(x: float, currency: str = "USD", symbol: str | None = None,
+                 decimals: int = 2) -> str:
+    """Rupees as '₹1,23,456.78'; anything else as '123456.78 US$'."""
+    symbol = symbol or CURRENCY_SYMBOLS.get(currency, currency)
+    if currency == "INR":
+        return f"{'-' if x < 0 else ''}{symbol}{indian_grouping(abs(x), decimals)}"
+    return f"{x:.{decimals}f} {symbol}"
 
 
 @dataclass
@@ -57,6 +95,20 @@ class Instance:
     tu: float = TU
     n_days: int = N_DAYS
     rest_days: tuple = REST_DAYS
+
+    # ---- currency --------------------------------------------------------
+    # Costs (bin_cost, ccv) are in `currency`. cost_scale is the factor that
+    # converted the paper's US$ figures into it (1.0 for the paper's own
+    # instances); optimizers use it to express the penalty weights and SA's
+    # final temperature in the same currency, so a rescaled instance is the
+    # same optimisation problem.
+    currency: str = "USD"
+    currency_symbol: str = "US$"
+    cost_scale: float = 1.0
+    fx_rate: float | None = None
+
+    def money(self, x: float, decimals: int = 2) -> str:
+        return format_money(x, self.currency, self.currency_symbol, decimals)
 
     # ---- derived ---------------------------------------------------------
     work_days: tuple = field(init=False)
@@ -165,6 +217,23 @@ def load_instance(folder: str | Path,
     bin_service = np.array([float(r[2]) for r in bin_rows])
     bin_cost = np.array([float(r[3]) for r in bin_rows])
 
+    # --- optional currency conversion from meta.json ----------------------
+    # containers.txt and CCV are in the paper's US$. An instance may declare
+    # another currency: cost_scale multiplies both at load time, and explicit
+    # `ccv` / `bin_cost` entries (locally sourced figures) override them.
+    meta_path = folder / "meta.json"
+    meta = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.exists() else {}
+    currency = meta.get("currency") or "USD"
+    cost_scale = float(meta.get("cost_scale") or 1.0)
+    ccv = CCV * cost_scale
+    bin_cost = bin_cost * cost_scale
+    if meta.get("ccv") is not None:
+        ccv = float(meta["ccv"])
+    if meta.get("bin_cost") is not None:
+        bin_cost = np.array([float(v) for v in meta["bin_cost"]])
+        if bin_cost.shape != bin_cap.shape:
+            raise ValueError("meta.json bin_cost must list one cost per bin combination")
+
     Q = Q if Q is not None else vehicle_capacity(n_points)
     n_vehicles = n_vehicles if n_vehicles is not None else fleet_size(n_points)
     n_work = N_DAYS - len(REST_DAYS)
@@ -173,7 +242,12 @@ def load_instance(folder: str | Path,
     return Instance(
         name=name, n_points=n_points, ids=ids, lon=lon, lat=lat, W=W, C=C,
         bin_cap=bin_cap, bin_service=bin_service, bin_cost=bin_cost,
-        Q=Q, n_vehicles=n_vehicles, TL=TL,
+        Q=Q, n_vehicles=n_vehicles, TL=TL, ccv=ccv,
+        currency=currency,
+        currency_symbol=meta.get("currency_symbol")
+                        or CURRENCY_SYMBOLS.get(currency, currency),
+        cost_scale=cost_scale,
+        fx_rate=meta.get("fx_rate"),
     )
 
 

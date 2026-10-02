@@ -43,7 +43,7 @@ from dataclasses import dataclass, field
 import numpy as np
 from numba import njit
 
-from loader import DAY_NAMES, Instance
+from loader import DAY_NAMES, Instance, format_money
 
 
 # ---------------------------------------------------------------------------
@@ -75,6 +75,8 @@ class Solution:
     feasible: bool
     penalty: float = 0.0
     violations: list[str] = field(default_factory=list)
+    currency: str = "USD"
+    currency_symbol: str = "US$"
 
     @property
     def fitness(self) -> float:
@@ -85,10 +87,12 @@ class Solution:
         return [r for r in self.routes if r.day == day]
 
     def report(self) -> str:
+        money = lambda x: format_money(x, self.currency,  # noqa: E731
+                                       self.currency_symbol)
         lines = [f"Solution for {self.instance_name}",
-                 f"  bin cost     : {self.bin_cost:8.2f} US$",
-                 f"  routing cost : {self.routing_cost:8.2f} US$",
-                 f"  OVERALL cost : {self.overall_cost:8.2f} US$",
+                 f"  bin cost     : {money(self.bin_cost):>14}",
+                 f"  routing cost : {money(self.routing_cost):>14}",
+                 f"  OVERALL cost : {money(self.overall_cost):>14}",
                  f"  feasible     : {self.feasible}"]
         if self.violations:
             lines += [f"    ! {v}" for v in self.violations]
@@ -237,7 +241,7 @@ def _choose_bins(wmax, n_visits, bin_cap, bin_service, bin_cost, ccv):
 
     Important: it is NOT simply the cheapest bin that fits. A cheaper bin can
     have a longer service time, and that service time is paid on every visit
-    at CCV US$/min. So the real objective per point is
+    at CCV per minute. So the real objective per point is
 
         CIN_b  +  CCV * S_b * (number of visits that week)
 
@@ -447,6 +451,7 @@ def decode(inst: Instance, pop: np.ndarray, mask: np.ndarray,
         bin_cost=float(bin_cost), routing_cost=float(routing_cost),
         overall_cost=float(overall), feasible=(penalty == 0.0),
         penalty=float(penalty), violations=violations,
+        currency=inst.currency, currency_symbol=inst.currency_symbol,
     )
 
 

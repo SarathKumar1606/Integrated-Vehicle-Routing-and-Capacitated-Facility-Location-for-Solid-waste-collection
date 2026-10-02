@@ -63,9 +63,25 @@ def repair(inst: Instance, mask: np.ndarray) -> np.ndarray:
     return mask
 
 
+LAM, GAMMA = 100.0, 1000.0      # Eq. (7) penalty weights, in the paper's US$
+
+
+def penalty_weights(inst: Instance, lam: float = LAM,
+                    gamma: float = GAMMA) -> tuple[float, float]:
+    """Penalty weights in the instance's currency.
+
+    lam and gamma are given in the paper's US$, like its costs. When an
+    instance's costs are converted (inst.cost_scale, e.g. the US$->INR rate),
+    the penalties must be converted too; otherwise they would become
+    cost_scale times weaker relative to the costs and the optimizer would be
+    solving a different problem. For the paper's instances cost_scale = 1.
+    """
+    return lam * inst.cost_scale, gamma * inst.cost_scale
+
+
 def fitness(inst: Instance, pop: np.ndarray, mask: np.ndarray,
-            lam: float = 100.0, gamma: float = 1000.0) -> float:
-    return evaluate(inst, pop, mask, lam, gamma)
+            lam: float = LAM, gamma: float = GAMMA) -> float:
+    return evaluate(inst, pop, mask, *penalty_weights(inst, lam, gamma))
 
 
 # ---------------------------------------------------------------------------
@@ -130,7 +146,7 @@ def initial_temperature(inst: Instance, rng: np.random.Generator,
 def simulated_annealing(inst: Instance, seed: int = 0, alpha: float = 0.9,
                         iters_per_temp: int = 200, t_final: float = 1e-6,
                         max_stall: int = 100,
-                        lam: float = 100.0, gamma: float = 1000.0) -> RunResult:
+                        lam: float = LAM, gamma: float = GAMMA) -> RunResult:
     rng = np.random.default_rng(seed)
     T0 = initial_temperature(inst, rng)
     T = T0
@@ -140,7 +156,8 @@ def simulated_annealing(inst: Instance, seed: int = 0, alpha: float = 0.9,
     best_f, best_pop, best_mask = f, pop.copy(), mask.copy()
 
     evals, stall, history = 0, 0, [best_f]
-    while T > t_final:
+    # t_final, like the penalties, is in the paper's US$ (see penalty_weights)
+    while T > t_final * inst.cost_scale:
         improved = False
         for _ in range(iters_per_temp):
             np_, nm = _neighbour(inst, pop, mask, rng)
@@ -222,7 +239,7 @@ def _mutate(inst, P, M, rng, perm_rate, bit_rate):
 def genetic_algorithm(inst: Instance, seed: int = 0, pop_size: int = 100,
                       generations: int = 300, crossover_rate: float = 0.8,
                       mutation_rate: float = 0.05, elite: int = 2,
-                      lam: float = 100.0, gamma: float = 1000.0) -> RunResult:
+                      lam: float = LAM, gamma: float = GAMMA) -> RunResult:
     rng = np.random.default_rng(seed)
     bit_rate = 1.0 / inst.n_points
 

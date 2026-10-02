@@ -53,3 +53,34 @@ the loader fix (bit-for-bit identical on all 12 dataset instances), 4 × 30
 feasible runs matched on evaluations, `results/summary.md` with figures,
 and the map JSON re-exported from the best solution (SA seed 28,
 223.72 US$/week, OSRM geometry on all 7 routes).
+
+---
+
+# Session 2026-10-02 — rupees, real depot, peak-hour scenario
+
+Appendix A validation before starting: 7/7.
+
+## Task 1 — currency
+
+- USD→INR rate: **96.3789**, mid-market, 2026-10-02, from
+  https://open.er-api.com/v6/latest/USD. Cross-check: the ECB reference
+  rate via api.frankfurter.dev was 96.33 for 2026-10-01 (−0.05%; today's ECB
+  fix was not yet published).
+- **Decision: penalty weights and SA's final temperature are scaled with
+  the costs.** Converting `bin_cost` and `ccv` to rupees multiplies every
+  cost by ~96, but the penalty weights of Eq. (7) (λ = 100, γ = 1000) and
+  SA's stopping temperature (`t_final = 1e-6`) are in the same money units.
+  Left unscaled, a fleet-size violation would cost ₹33 against routes
+  costing thousands of rupees, and the optimizer would be solving a
+  different, much less constrained problem. `optimizers.penalty_weights()`
+  and SA's stopping test therefore multiply them by `inst.cost_scale`. This
+  is in optimizers.py, runner.py and exporter.py; the decoder's model is
+  untouched. For the paper's instances `cost_scale` = 1.0 exactly, and seeded
+  SA/GA runs on i.12.1 were checked to be bit-identical to v1.0.
+- Scale invariance check (old Chennai instance, scratch copy): the best
+  solution decodes to the same bins and routes, at exactly 96.3789× the
+  cost (223.72 US$ → ₹21,561.85). A seeded SA run spends the same number of
+  evaluations but does not follow an identical trajectory: rounding in the
+  scaled values flips an occasional Metropolis decision, and SA amplifies
+  that. The rupee experiments are the same problem, not a replay of the
+  US$ runs.

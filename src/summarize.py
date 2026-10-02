@@ -20,12 +20,15 @@ import matplotlib.pyplot as plt          # noqa: E402
 import numpy as np                       # noqa: E402
 from scipy.stats import mannwhitneyu     # noqa: E402
 
+from loader import Instance, indian_grouping, load_instance  # noqa: E402
 from runner import summarize             # noqa: E402
 
 ROOT = Path(__file__).parent.parent
 RESULTS = ROOT / "results"
 FIGURES = RESULTS / "figures"
-INSTANCES = ["i.12.1", "chennai_guindy"]
+# runner.py name -> instance folder
+INSTANCES = {"i.12.1": ROOT / "data" / "12_1",
+             "chennai_guindy": ROOT / "data" / "chennai_guindy"}
 ALGOS = ["sa", "ga"]
 
 # Gonzalez et al. (2025): Table 9 (SA on i.12.1) and Table 10 (MILP optimum)
@@ -50,6 +53,20 @@ def read_rows(name: str, algo: str) -> list[dict]:
         r["evaluations"] = int(r["evaluations"])
         r["feasible"] = r["feasible"] == "True"
     return sorted(rows, key=lambda r: r["seed"])
+
+
+_INST: dict[str, Instance] = {}
+
+
+def inst_of(name: str) -> Instance:
+    """The instance behind a runner.py name -- for its currency and TL."""
+    if name not in _INST:
+        _INST[name] = load_instance(INSTANCES[name], name)
+    return _INST[name]
+
+
+def money(name: str, x: float) -> str:
+    return inst_of(name).money(x)
 
 
 def pct(ours: float, ref: float) -> str:
@@ -93,7 +110,9 @@ def convergence_plot(name: str) -> Path | None:
         ax.fill_between(grid, q1, q3, color=COLOR[algo], alpha=0.15, lw=0)
         ax.plot(grid, med, color=COLOR[algo], lw=2,
                 label=f"{LABEL[algo]} (median of {len(runs)} runs, IQR shaded)")
-        ax.annotate(f"{LABEL[algo]} {med[-1]:.1f}", (grid[-1], med[-1]),
+        end = (inst_of(name).money(med[-1], 0)
+               if inst_of(name).currency == "INR" else f"{med[-1]:.1f}")
+        ax.annotate(f"{LABEL[algo]} {end}", (grid[-1], med[-1]),
                     xytext=(6, 0), textcoords="offset points", va="center",
                     color=INK, fontsize=9)
         y_lo = min(y_lo, np.nanmin(q1))
@@ -104,7 +123,11 @@ def convergence_plot(name: str) -> Path | None:
     ax.set_ylim(y_lo - 0.02 * (y_hi - y_lo), y_hi)
     ax.set_xlim(0, x_max)
     ax.set_xlabel("Fitness evaluations", color=MUTED)
-    ax.set_ylabel("Best fitness so far (US$/week)", color=MUTED)
+    inst = inst_of(name)
+    ax.set_ylabel(f"Best fitness so far ({inst.currency_symbol}/week)", color=MUTED)
+    if inst.currency == "INR":
+        ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(
+            lambda v, _: "₹" + indian_grouping(v, 0)))
     ax.set_title(f"Convergence on {name}: SA vs GA at equal evaluations",
                  color=INK, loc="left", fontsize=11)
     ax.xaxis.set_major_formatter(
@@ -130,7 +153,19 @@ def main() -> None:
     data = {(n, a): read_rows(n, a) for n in INSTANCES for a in ALGOS}
     md = ["# Experiment summary", "",
           "Each run is one seed; SA and GA are matched on fitness-function "
-          "evaluations (see `results/calibration_*.txt`). Costs in US$/week.", ""]
+          "evaluations (see `results/calibration_*.txt`). All costs are per "
+          "week, in each instance's own currency:", ""]
+    for n in INSTANCES:
+        inst = inst_of(n)
+        if inst.currency == "USD":
+            md.append(f"- **{n}**: US dollars (US$), the paper's own cost "
+                      "parameters.")
+        else:
+            md.append(f"- **{n}**: Indian rupees (₹). These figures are an FX "
+                      "conversion of the paper's US$ cost parameters at "
+                      f"{inst.fx_rate} ₹/US$, **not** independently sourced "
+                      "Indian rates.")
+    md.append("")
 
     # --- per instance / algorithm -----------------------------------------
     md += ["## Results by instance and algorithm", "",
@@ -145,9 +180,10 @@ def main() -> None:
         s = summarize(rows)
         stats[(n, a)] = s
         ev = np.mean([r["evaluations"] for r in rows])
-        md.append(f"| {n} | {LABEL[a]} | {s['n']} | {s['min']:.2f} | "
-                  f"{s['median']:.2f} | {s['mean']:.2f} | "
-                  f"[{s['ci_low']:.2f}, {s['ci_high']:.2f}] | {ev:,.0f} | "
+        m = lambda x: money(n, x)  # noqa: E731
+        md.append(f"| {n} | {LABEL[a]} | {s['n']} | {m(s['min'])} | "
+                  f"{m(s['median'])} | {m(s['mean'])} | "
+                  f"[{m(s['ci_low'])}, {m(s['ci_high'])}] | {ev:,.0f} | "
                   f"{s['mean_runtime_s']:.1f} | {'yes' if s['all_feasible'] else 'NO'} |")
     md.append("")
 
@@ -167,7 +203,7 @@ def main() -> None:
     # --- paper comparison --------------------------------------------------
     md += ["## i.12.1 against the paper", "",
            "Paper: Table 9 (SA, min 188.0 / mean 193.7) and Table 10 "
-           "(MILP optimum, overall 178.42).", "",
+           "(MILP optimum, overall 178.42). Both sides in US$.", "",
            "| Metric | Ours | Paper | Difference |", "|---|---|---|---|"]
     for a in ALGOS:
         s = stats.get(("i.12.1", a))
@@ -197,25 +233,30 @@ def main() -> None:
         verdict = (f"significant — {better} lower" if p < 0.05
                    else "no significant difference")
         md.append(f"| {n} | {len(sa)}, {len(ga)} | {u:.1f} | {p:.3g} | "
-                  f"{np.median(sa):.2f} | {np.median(ga):.2f} | {verdict} |")
+                  f"{money(n, np.median(sa))} | {money(n, np.median(ga))} | "
+                  f"{verdict} |")
     md.append("")
 
     # --- Chennai cost split ------------------------------------------------
-    md += ["## Chennai (CEG Guindy): cost breakdown", "",
-           "| Algo | | Bin cost | Routing cost | Overall |", "|---|---|---|---|---|"]
-    for a in ALGOS:
-        rows = data[("chennai_guindy", a)]
-        if not rows:
-            continue
-        best = min(rows, key=lambda r: r["overall_cost"])
-        for label, f in (("mean", np.mean), ("median", np.median)):
-            md.append(f"| {LABEL[a]} | {label} | "
-                      f"{f([r['bin_cost'] for r in rows]):.2f} | "
-                      f"{f([r['routing_cost'] for r in rows]):.2f} | "
-                      f"{f([r['overall_cost'] for r in rows]):.2f} |")
-        md.append(f"| {LABEL[a]} | best (seed {best['seed']}) | {best['bin_cost']:.2f} | "
-                  f"{best['routing_cost']:.2f} | {best['overall_cost']:.2f} |")
-    md.append("")
+    for n in [k for k in INSTANCES if k.startswith("chennai")]:
+        m = lambda x, n=n: money(n, x)  # noqa: E731
+        md += [f"## {n}: cost breakdown ({inst_of(n).currency})", "",
+               "| Algo | | Bin cost | Routing cost | Overall |",
+               "|---|---|---|---|---|"]
+        for a in ALGOS:
+            rows = data[(n, a)]
+            if not rows:
+                continue
+            best = min(rows, key=lambda r: r["overall_cost"])
+            for label, f in (("mean", np.mean), ("median", np.median)):
+                md.append(f"| {LABEL[a]} | {label} | "
+                          f"{m(f([r['bin_cost'] for r in rows]))} | "
+                          f"{m(f([r['routing_cost'] for r in rows]))} | "
+                          f"{m(f([r['overall_cost'] for r in rows]))} |")
+            md.append(f"| {LABEL[a]} | best (seed {best['seed']}) | "
+                      f"{m(best['bin_cost'])} | {m(best['routing_cost'])} | "
+                      f"{m(best['overall_cost'])} |")
+        md.append("")
 
     # --- figures -----------------------------------------------------------
     md += ["## Convergence", "",
