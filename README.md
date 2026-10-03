@@ -157,7 +157,9 @@ python src/runner.py --instance data/12_1 --name i.12.1 --algo both --runs 30
 
 Runs are parallel across cores and checkpointed to `results/*.csv` after every
 seed; `--resume` continues an interrupted experiment from the seeds already
-done. `scripts/run_chennai_experiments.sh` runs both Chennai scenarios (SA,
+done. `--tl MINUTES` overrides the Eq. (10) shift limit, e.g.
+`scripts/run_scenario.sh chennai_guindy_peak_tl96 data/chennai_guindy_peak --tl 96`
+runs the peak scenario with the shift held at the free-flow 96 min. `scripts/run_chennai_experiments.sh` runs both Chennai scenarios (SA,
 GA calibration from the SA mean, GA), and `python src/summarize.py` writes
 `results/summary.md` and the convergence figures. **Increase `--iters-per-temp`**: the paper used ~1.7 million fitness
 evaluations per SA run, and the smoke tests here used ~50,000, which is why

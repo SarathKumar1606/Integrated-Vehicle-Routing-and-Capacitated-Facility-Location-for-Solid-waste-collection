@@ -32,8 +32,13 @@ FIGURES = RESULTS / "figures"
 # runner.py name -> instance folder
 INSTANCES = {"i.12.1": ROOT / "data" / "12_1",
              "chennai_guindy": ROOT / "data" / "chennai_guindy",
-             "chennai_guindy_peak": ROOT / "data" / "chennai_guindy_peak"}
-SCENARIOS = [("Free-flow", "chennai_guindy"), ("Peak (×1.5)", "chennai_guindy_peak")]
+             "chennai_guindy_peak": ROOT / "data" / "chennai_guindy_peak",
+             "chennai_guindy_peak_tl96": ROOT / "data" / "chennai_guindy_peak"}
+# load_instance overrides a runner.py name was run with (runner.py --tl)
+OVERRIDES = {"chennai_guindy_peak_tl96": {"TL": 96.0}}
+SCENARIOS = [("Free-flow", "chennai_guindy"),
+             ("Peak (×1.5)", "chennai_guindy_peak"),
+             ("Peak, shift limit held at 96 min", "chennai_guindy_peak_tl96")]
 ALGOS = ["sa", "ga"]
 
 # Gonzalez et al. (2025): Table 9 (SA on i.12.1) and Table 10 (MILP optimum)
@@ -57,6 +62,13 @@ def read_rows(name: str, algo: str) -> list[dict]:
         r["seed"] = int(r["seed"])
         r["evaluations"] = int(r["evaluations"])
         r["feasible"] = r["feasible"] == "True"
+        # columns added for the TL experiment; absent in older CSVs
+        for k in ("penalty", "shift_limit_min", "longest_route_min"):
+            if k in r:
+                r[k] = float(r[k])
+        for k in ("n_routes", "routes_over_tl"):
+            if k in r:
+                r[k] = int(r[k])
     return sorted(rows, key=lambda r: r["seed"])
 
 
@@ -66,7 +78,8 @@ _INST: dict[str, Instance] = {}
 def inst_of(name: str) -> Instance:
     """The instance behind a runner.py name -- for its currency and TL."""
     if name not in _INST:
-        _INST[name] = load_instance(INSTANCES[name], name)
+        _INST[name] = load_instance(INSTANCES[name], name,
+                                    **OVERRIDES.get(name, {}))
     return _INST[name]
 
 
@@ -87,13 +100,37 @@ def best_solution(name: str) -> tuple[str, Solution] | None:
     """Best saved solution for an instance (feasible first, then cheapest),
     the same rule exporter.py uses."""
     inst, best = inst_of(name), None
-    for f in sorted((RESULTS / "solutions").glob(f"{name}_*_seed*.npz")):
+    for f in solution_files(name):
         with np.load(f) as z:
             sol = decode(inst, z["pop"], z["mask"], *penalty_weights(inst))
         key = (not sol.feasible, sol.fitness)
         if best is None or key < best[0]:
             best = (key, f.stem, sol)
     return None if best is None else (best[1], best[2])
+
+
+def solution_files(name: str) -> list[Path]:
+    """Saved runs of exactly this instance. A prefix glob such as
+    f"{name}_*" would also catch chennai_guindy_peak_* for chennai_guindy."""
+    return sorted(f for algo in ALGOS
+                  for f in (RESULTS / "solutions").glob(f"{name}_{algo}_seed*.npz"))
+
+
+def run_stats(name: str) -> dict:
+    """Decode every saved run of an instance (SA and GA): how many are
+    feasible, and how many routes run past the shift limit."""
+    inst, st = inst_of(name), {"runs": 0, "feasible": 0, "runs_over": 0,
+                               "routes_over": 0, "routes": 0}
+    for f in solution_files(name):
+        with np.load(f) as z:
+            sol = decode(inst, z["pop"], z["mask"], *penalty_weights(inst))
+        over = sum(r.duration > inst.TL + 1e-9 for r in sol.routes)
+        st["runs"] += 1
+        st["feasible"] += sol.feasible
+        st["runs_over"] += over > 0
+        st["routes_over"] += over
+        st["routes"] += len(sol.routes)
+    return st
 
 
 def pct(ours: float, ref: float) -> str:
@@ -121,7 +158,7 @@ def convergence_plot(name: str) -> Path | None:
     fig, ax = plt.subplots(figsize=(8, 4.6), dpi=150)
     fig.patch.set_facecolor("#fcfcfb")
     ax.set_facecolor("#fcfcfb")
-    y_lo, y_hi = np.inf, 0.0
+    y_lo, y_hi, final_q3, ends = np.inf, 0.0, 0.0, []
     for algo, runs in curves.items():
         # best-so-far is a step function: value of the last entry <= x
         mat = np.full((len(runs), grid.size), np.nan)
@@ -139,15 +176,27 @@ def convergence_plot(name: str) -> Path | None:
                 label=f"{LABEL[algo]} (median of {len(runs)} runs, IQR shaded)")
         end = (inst_of(name).money(med[-1], 0)
                if inst_of(name).currency == "INR" else f"{med[-1]:.1f}")
-        ax.annotate(f"{LABEL[algo]} {end}", (grid[-1], med[-1]),
-                    xytext=(6, 0), textcoords="offset points", va="center",
-                    color=INK, fontsize=9)
+        ends.append((med[-1], f"{LABEL[algo]} {end}"))
+        final_q3 = max(final_q3, q3[-1])
         y_lo = min(y_lo, np.nanmin(q1))
         # frame the part of the curve after the first 5% of the budget, where
         # penalised infeasible starts no longer dominate the scale
         y_hi = max(y_hi, np.nanmax(q3[grid >= 0.05 * x_max]))
 
+    # penalised infeasible solutions can persist well past 5% of the budget
+    # (e.g. with a tight shift limit); never let them stretch the axis beyond
+    # 1.3x the final values
+    y_hi = min(y_hi, 1.3 * final_q3)
     ax.set_ylim(y_lo - 0.02 * (y_hi - y_lo), y_hi)
+
+    # end labels; push them apart when the curves finish close together
+    ends.sort()
+    close = len(ends) == 2 and ends[1][0] - ends[0][0] < 0.06 * (y_hi - y_lo)
+    for k, (y, text) in enumerate(ends):
+        dy = (-6 if k == 0 else 6) if close else 0
+        ax.annotate(text, (grid[-1], y), xytext=(6, dy),
+                    textcoords="offset points", va="center", color=INK,
+                    fontsize=9)
     ax.set_xlim(0, x_max)
     ax.set_xlabel("Fitness evaluations", color=MUTED)
     inst = inst_of(name)
@@ -285,60 +334,147 @@ def main() -> None:
                       f"{m(best['overall_cost'])} |")
         md.append("")
 
-    # --- free-flow vs peak --------------------------------------------------
-    scen = [(label, n, best_solution(n)) for label, n in SCENARIOS
-            if (n, "sa") in data and data[(n, "sa")]]
-    scen = [(label, n, b) for label, n, b in scen if b is not None]
-    if len(scen) == 2:
-        (la, na, (fa, sa_)), (lb, nb, (fb, sb_)) = scen
-        ia, ib = inst_of(na), inst_of(nb)
+    # --- free-flow vs peak ------------------------------------------------
+    scen = []
+    for label, n in SCENARIOS:
+        if data.get((n, "sa")):
+            b = best_solution(n)
+            if b is not None:
+                scen.append((label, n, b[0], b[1], inst_of(n)))
+    if len(scen) >= 2:
+        mon = scen[0][4].money
 
         def longest(sol):
-            r = max(sol.routes, key=lambda r: r.duration)
-            return r.duration
+            return max(r.duration for r in sol.routes)
 
-        def row(label, a, b, fmt):
-            diff = pct(b, a) if a else "—"
-            md.append(f"| {label} | {fmt(a)} | {fmt(b)} | {diff} |")
+        def over(sol, tl):
+            return sum(r.duration > tl + 1e-9 for r in sol.routes)
 
-        mon = lambda x: ia.money(x)  # noqa: E731
+        def row(label, values, fmt, change=True):
+            cells = []
+            for k, v in enumerate(values):
+                c = fmt(v)
+                if change and k > 0 and values[0]:
+                    c += f" ({pct(v, values[0])})"
+                cells.append(c)
+            md.append(f"| {label} | " + " | ".join(cells) + " |")
+
+        sols = [x[3] for x in scen]
+        insts = [x[4] for x in scen]
+        names = [x[1] for x in scen]
+        stats = [run_stats(n) for n in names]
         md += ["## Chennai: free-flow vs peak-hour traffic", "",
-               f"The peak scenario multiplies every OSRM travel time by "
-               f"{json_traffic(nb)}. Both use the same points, depot, bins and "
-               f"rupee cost parameters. Under Eq. (10) the shift limit TL is "
-               f"derived from the travel-time matrix, so it grows with traffic too "
-               f"({ia.TL:.0f} → {ib.TL:.0f} min).", "",
-               f"Best solution per scenario (`{fa}` and `{fb}`), plus the 30-run "
-               "SA mean:", "",
-               f"| | {la} | {lb} | Change |", "|---|---|---|---|"]
-        row("Overall cost (best)", sa_.overall_cost, sb_.overall_cost, mon)
-        row("Bin cost (best)", sa_.bin_cost, sb_.bin_cost, mon)
-        row("Routing cost (best)", sa_.routing_cost, sb_.routing_cost, mon)
+               "The peak scenarios multiply every OSRM travel time by "
+               f"{json_traffic('chennai_guindy_peak')}. All use the same points, "
+               "depot, bins and rupee cost parameters. Under Eq. (10) the shift "
+               "limit TL is derived from the travel-time matrix, so in the plain "
+               f"peak scenario it grows with traffic ({insts[0].TL:.0f} → "
+               f"{insts[1].TL:.0f} min). The third scenario holds TL at the "
+               "free-flow 96 min (`load_instance(..., TL=96)`, "
+               "`runner.py --tl 96`), so congestion has to be absorbed within "
+               "the original shift.", "",
+               "Best solution per scenario ("
+               + ", ".join(f"`{x[2]}`" for x in scen)
+               + "), the 30-run SA mean, and feasibility over all 60 runs "
+               "(30 SA + 30 GA). Changes in brackets are relative to free-flow.",
+               "",
+               "| | " + " | ".join(x[0] for x in scen) + " |",
+               "|---" * (len(scen) + 1) + "|"]
+        row("Shift limit TL (min)", [i.TL for i in insts], lambda x: f"{x:.0f}")
+        row("Overall cost (best)", [x.overall_cost for x in sols], mon)
+        row("Bin cost (best)", [x.bin_cost for x in sols], mon)
+        row("Routing cost (best)", [x.routing_cost for x in sols], mon)
         row("Overall cost (SA mean of 30)",
-            float(np.mean([r["overall_cost"] for r in data[(na, "sa")]])),
-            float(np.mean([r["overall_cost"] for r in data[(nb, "sa")]])), mon)
-        row("Routes per week", len(sa_.routes), len(sb_.routes), lambda x: f"{x}")
-        row("Total route time (min)", sum(r.duration for r in sa_.routes),
-            sum(r.duration for r in sb_.routes), lambda x: f"{x:.1f}")
-        row("Longest route (min)", longest(sa_), longest(sb_), lambda x: f"{x:.1f}")
-        row("Shift limit TL (min)", ia.TL, ib.TL, lambda x: f"{x:.0f}")
-        md.append(f"| Longest route / TL | {longest(sa_) / ia.TL:.0%} | "
-                  f"{longest(sb_) / ib.TL:.0%} | |")
-        md.append(f"| Feasible | {'yes' if sa_.feasible else 'NO'} | "
-                  f"{'yes' if sb_.feasible else 'NO'} | |")
-        same_bins = bool((sa_.bins == sb_.bins).all())
-        md += ["", f"Bin combinations are {'identical' if same_bins else 'different'} "
-               "in the two best solutions"
-               + ("" if same_bins else
-                  f" ({int((sa_.bins != sb_.bins).sum())} of {ia.n_points} points "
-                  "differ)") + ".", ""]
+            [float(np.mean([r["overall_cost"] for r in data[(n, "sa")]]))
+             for n in names], mon)
+        row("Routes per week (best)", [len(x.routes) for x in sols],
+            lambda x: f"{x}")
+        row("Total route time (min, best)",
+            [sum(r.duration for r in x.routes) for x in sols],
+            lambda x: f"{x:.1f}")
+        row("Longest route (min, best)", [longest(x) for x in sols],
+            lambda x: f"{x:.1f}")
+        row("Longest route / TL (best)",
+            [longest(x) / i.TL for x, i in zip(sols, insts)],
+            lambda x: f"{x:.0%}", change=False)
+        row("Routes over TL (best)",
+            [over(x, i.TL) for x, i in zip(sols, insts)],
+            lambda x: f"{x}", change=False)
+        row("Penalty (best)", [x.penalty for x in sols], mon, change=False)
+        row("Feasible (best)", [x.feasible for x in sols],
+            lambda x: "yes" if x else "NO", change=False)
+        row("Feasible runs (SA + GA)",
+            [f"{st['feasible']} / {st['runs']}" for st in stats],
+            lambda x: x, change=False)
+        row("Runs with a route over TL",
+            [f"{st['runs_over']} / {st['runs']}" for st in stats],
+            lambda x: x, change=False)
+        row("Routes over TL, all runs",
+            [f"{st['routes_over']} of {st['routes']}" for st in stats],
+            lambda x: x, change=False)
+        md.append("")
+
+        for k in range(1, len(scen)):
+            same = bool((sols[0].bins == sols[k].bins).all())
+            diff = int((sols[0].bins != sols[k].bins).sum())
+            md.append(f"- {scen[k][0]}: bin combinations "
+                      + ("identical to free-flow." if same else
+                         f"differ from free-flow at {diff} of "
+                         f"{insts[0].n_points} points."))
+        if len(scen) == 3:
+            peak, pinned, ip = sols[1], sols[2], insts[2]
+            gamma = penalty_weights(ip)[1]
+            md.append(
+                f"- The shift-length penalty (Eq. 7) is γ × minutes over the "
+                f"limit, here {ip.money(gamma, 0)} per minute (γ = 1000 US$, "
+                f"converted), about {gamma / ip.ccv:,.0f}× the cost of a minute "
+                "of route time. Any route over TL therefore dominates the "
+                "fitness, and the optimisers treat TL as a hard constraint.")
+            pinned_bad = [r for a in ALGOS for r in data[(names[2], a)]
+                          if not r["feasible"]]
+            for r in pinned_bad:
+                md.append(
+                    f"- Infeasible run: {r['algorithm']} seed {r['seed']} ended "
+                    f"with {r.get('routes_over_tl', '?')} route(s) over "
+                    f"{ip.TL:.0f} min (longest {r.get('longest_route_min', '?')} "
+                    f"min). Its penalty is {ip.money(r.get('penalty', 0))}, on "
+                    f"top of a {ip.money(r['overall_cost'])} plan, a fitness of "
+                    f"{ip.money(r['overall_cost'] + r.get('penalty', 0))}: that "
+                    "run never found a feasible plan cheaper than this "
+                    "penalised one.")
+            md += ["", f"**Does holding the shift at {ip.TL:.0f} min bind?** The "
+                   "plain-peak runs, re-checked against the pinned limit, and "
+                   "plain vs pinned overall cost (two-sided Mann-Whitney U):", "",
+                   f"| Algo | Plain-peak runs that would break {ip.TL:.0f} min "
+                   "| Longest plain-peak route (min) | Median cost plain → pinned "
+                   "| p-value |", "|---|---|---|---|---|"]
+            for a in ALGOS:
+                over_runs, worst = 0, 0.0
+                for f in solution_files(names[1]):
+                    if f"_{a}_seed" not in f.name:
+                        continue
+                    with np.load(f) as z:
+                        sol = decode(ip, z["pop"], z["mask"], *penalty_weights(ip))
+                    over_runs += over(sol, ip.TL) > 0
+                    worst = max(worst, longest(sol))
+                plain = [r["overall_cost"] for r in data[(names[1], a)]]
+                pin = [r["overall_cost"] for r in data[(names[2], a)]]
+                _, p = mannwhitneyu(plain, pin, alternative="two-sided")
+                md.append(f"| {LABEL[a]} | {over_runs} / {len(plain)} | "
+                          f"{worst:.1f} | {mon(np.median(plain))} → "
+                          f"{mon(np.median(pin))} ({pct(np.median(pin), np.median(plain))}) "
+                          f"| {p:.3g} |")
+            md.append("")
+        md.append("")
 
     # --- figures -----------------------------------------------------------
     md += ["## Convergence", "",
            "Median best fitness over all seeds against evaluations spent; the "
            "shaded band is the interquartile range. A run that stopped early "
-           "holds its final value. The y-axis starts after the first 5% of the "
-           "budget, where penalised infeasible starts would flatten the scale.",
+           "holds its final value. The y-axis leaves out penalised infeasible "
+           "solutions (it starts after the first 5% of the budget and is capped "
+           "at 1.3× the final values); where a curve enters from above the "
+           "frame, the median run was still infeasible.",
            ""]
     for n in INSTANCES:
         out = convergence_plot(n)

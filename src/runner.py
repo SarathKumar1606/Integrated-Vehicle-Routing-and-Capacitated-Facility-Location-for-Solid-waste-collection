@@ -30,8 +30,8 @@ SOLUTIONS_DIR = ROOT / "results" / "solutions"
 
 
 def _one_run(args):
-    folder, name, algo, seed, kwargs = args
-    inst = load_instance(folder, name)
+    folder, name, algo, seed, kwargs, overrides = args
+    inst = load_instance(folder, name, **overrides)
     t0 = time.time()
     res = (simulated_annealing(inst, seed=seed, **kwargs) if algo == "sa"
            else genetic_algorithm(inst, seed=seed, **kwargs))
@@ -59,6 +59,11 @@ def _one_run(args):
         "routing_cost": round(sol.routing_cost, 4),
         "currency": inst.currency,
         "feasible": sol.feasible,
+        "penalty": round(sol.penalty, 4),
+        "shift_limit_min": inst.TL,
+        "n_routes": len(sol.routes),
+        "routes_over_tl": sum(r.duration > inst.TL + 1e-9 for r in sol.routes),
+        "longest_route_min": round(max((r.duration for r in sol.routes), default=0.0), 2),
         "evaluations": res.evaluations,
         "runtime_s": round(time.time() - t0, 2),
     }
@@ -74,14 +79,20 @@ def _read_done(out_csv: Path) -> list[dict]:
         r["seed"] = int(r["seed"])
         r["evaluations"] = int(r["evaluations"])
         r["feasible"] = r["feasible"] == "True"
-        for k in ("overall_cost", "bin_cost", "routing_cost", "runtime_s"):
-            r[k] = float(r[k])
+        for k in ("overall_cost", "bin_cost", "routing_cost", "runtime_s",
+                  "penalty", "shift_limit_min", "longest_route_min"):
+            if k in r:
+                r[k] = float(r[k])
+        for k in ("n_routes", "routes_over_tl"):
+            if k in r:
+                r[k] = int(r[k])
     return rows
 
 
 def run_experiment(folder: str | Path, name: str, algo: str, runs: int = 10,
                    workers: int | None = None, out_csv: Path | None = None,
-                   resume: bool = False, **kwargs) -> list[dict]:
+                   resume: bool = False, overrides: dict | None = None,
+                   **kwargs) -> list[dict]:
     """Run seeds 0..runs-1. With resume=True, seeds that already have a row
     in the CSV and a saved solution are skipped and new rows are appended,
     so an interrupted experiment (crash, power loss) can be continued."""
@@ -95,7 +106,8 @@ def run_experiment(folder: str | Path, name: str, algo: str, runs: int = 10,
         if rows:
             print(f"  resuming: {len(rows)} seeds already done")
     done = {r["seed"] for r in rows}
-    jobs = [(str(folder), name, algo, s, kwargs) for s in range(runs)
+    jobs = [(str(folder), name, algo, s, kwargs, overrides or {})
+            for s in range(runs)
             if s not in done]
 
     with ProcessPoolExecutor(max_workers=workers) as ex:
@@ -157,6 +169,9 @@ def main() -> None:
     ap.add_argument("--workers", type=int, default=None)
     ap.add_argument("--iters-per-temp", type=int, default=1000)
     ap.add_argument("--generations", type=int, default=300)
+    ap.add_argument("--tl", type=float, default=None,
+                    help="override the shift limit TL (minutes) instead of "
+                         "deriving it from the matrix with Eq. (10)")
     ap.add_argument("--resume", action="store_true",
                     help="skip seeds already in the results CSV and append")
     args = ap.parse_args()
@@ -169,7 +184,8 @@ def main() -> None:
               else {"generations": args.generations})
         print(f"\n=== {name}  {algo.upper()}  x{args.runs} ===")
         rows = run_experiment(folder, name, algo, args.runs,
-                              workers=args.workers, resume=args.resume, **kw)
+                              workers=args.workers, resume=args.resume,
+                              overrides={"TL": args.tl} if args.tl else None, **kw)
         print_summary(name, algo, summarize(rows),
                       rows[0].get("currency", "USD") if rows else "USD")
 

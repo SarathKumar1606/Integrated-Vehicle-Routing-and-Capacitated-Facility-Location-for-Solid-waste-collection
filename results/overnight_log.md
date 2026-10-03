@@ -183,3 +183,30 @@ depot) and labels costs "US$ per week", so it does not show these
 results until it is regenerated from the new JSONs.
 
 Appendix A validation at the end of the session: 7/7. Decoder equivalence: BIT-FOR-BIT IDENTICAL on i.12.1, chennai_guindy and chennai_guindy_peak.
+
+---
+
+# 2026-10-03/04 — peak traffic with the shift limit held at 96 min
+
+Scenario `chennai_guindy_peak_tl96`: the peak instance loaded with
+`load_instance(..., TL=96)` (`runner.py --tl 96`), SA × 30 then GA × 30,
+GA generations from its own SA mean: 531,917 evals → `--generations 5318`
+(531,900, −0.00%). Run with `scripts/run_scenario.sh`. 22:55 → 00:07.
+The laptop started on battery and was plugged in at 23:19, but the CPU ran
+at ~40–55% of its rated speed throughout, so GA runs took ~22 min each.
+
+Results: SA 30/30 feasible; GA 29/30 feasible. GA seed 9 ended with one
+route of 96.37 min (0.37 min over), penalty ₹35,660, fitness ₹90,081.
+
+The limit hardly binds for good solutions. Only 2 of 30 plain-peak SA
+solutions would break 96 min, and SA cost plain vs pinned is not
+significantly different (p = 0.70). It does bind for GA: all 30 plain-peak
+GA solutions would break it (longest 126 min). Pinned, GA uses 8–10 routes
+instead of 7, and its median cost is +7.7% (p = 1.7e-9).
+
+Fixed along the way: summarize.py and exporter.py found an instance's
+solutions with a prefix glob (`{name}_*`), which also matched
+`chennai_guindy_peak_*` when looking for `chennai_guindy`, and would have
+matched `chennai_guindy_peak_tl96_*` for `chennai_guindy_peak`. Both now
+match `{name}_{sa,ga}_seed*.npz` exactly. The v2.0 summary and maps were not
+affected: re-checked, they pick the same best solutions (seeds 16 and 20).

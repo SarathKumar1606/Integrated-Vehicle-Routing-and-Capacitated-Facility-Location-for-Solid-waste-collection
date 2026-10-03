@@ -57,7 +57,10 @@ OSRM_PAUSE_S = 1.0          # be polite to the public demo server
 # ---------------------------------------------------------------------------
 def best_saved_solution(inst: Instance, name: str) -> tuple[Path, Solution]:
     """Decode every saved chromosome for this instance; keep the best."""
-    files = sorted(SOLUTIONS_DIR.glob(f"{name}_*.npz"))
+    # exact {name}_{sa,ga}_seed<N> names: a prefix glob would also catch
+    # e.g. chennai_guindy_peak_* when exporting chennai_guindy
+    files = sorted(f for algo in ("sa", "ga")
+                   for f in SOLUTIONS_DIR.glob(f"{name}_{algo}_seed*.npz"))
     if not files:
         raise SystemExit(
             f"No saved solutions for '{name}' in {SOLUTIONS_DIR}.\n"

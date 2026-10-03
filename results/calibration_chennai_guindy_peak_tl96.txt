@@ -1,0 +1,1 @@
+instance chennai_guindy_peak_tl96: SA n=30 mean evals 531,917 (range 492,500-562,500) -> GA --generations 5318 = 531,900 evals (-0.00%)
