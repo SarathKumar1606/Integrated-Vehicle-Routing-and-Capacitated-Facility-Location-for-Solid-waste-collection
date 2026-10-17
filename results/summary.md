@@ -121,6 +121,59 @@ Best solution per scenario (`chennai_guindy_sa_seed16`, `chennai_guindy_peak_sa_
 | GA | 30 / 30 | 126.1 | ₹45,048.30 → ₹48,533.59 (+7.74%) | 1.69e-09 |
 
 
+## Dynamic-programming route polish
+
+`src/dp_router.py` is an opt-in layer (`runner.py --polish`, `exporter.py --polish`, `src/polish_experiment.py`). For a solution found by SA or GA it keeps the schedule, bins and waste fixed and replaces each day's greedy route split with the exact optimum: Held–Karp gives the best closed tour for every subset of the day's points, and a partition DP picks the cheapest set of at most nV routes within Q and TL. A day is replaced only if that is strictly shorter, so bin cost is unchanged and routing cost cannot rise. SA and GA themselves are unchanged, and the Appendix A validation never touches this code. A worked example by hand is in `docs/dp_dry_run.md`.
+
+### Complexity against day size
+
+For n points in a day and a fleet of K = 3: Held–Karp does n²·2ⁿ steps and keeps an n·2ⁿ table; the partition DP looks at every (set, subset containing its first point) pair, (3ⁿ − 1)/2 of them, each for K route counts. Measured times are `dp_day_routes` on the Chennai matrix with 1 m³ per point (`polish_experiment.py --benchmark`, median of 5).
+
+| Points in the day | Held–Karp steps n²·2ⁿ | Partition steps K·(3ⁿ−1)/2 | DP tables (MB) | Measured time |
+|---|---|---|---|---|
+| 4 | 256 | 120 | 0.0 | 0.014 ms |
+| 6 | 2,304 | 1,092 | 0.0 | 0.049 ms |
+| 8 | 16,384 | 9,840 | 0.0 | 0.239 ms |
+| 10 | 102,400 | 88,572 | 0.2 | 1.733 ms |
+| 12 | 589,824 | 797,160 | 0.7 | 11.274 ms |
+| 13 | 1,384,448 | 2,391,483 | 1.5 | 30.937 ms |
+| 14 ← MAX_DP_POINTS | 3,211,264 | 7,174,452 | 3.1 | 82.935 ms |
+| 15 | 7,372,800 | 21,523,359 | 6.5 | 187.745 ms |
+| 16 | 16,777,216 | 64,570,080 | 13.6 | 535.759 ms |
+| 18 | 84,934,656 | 581,130,732 | 59.2 | ≈ 5 s (extrapolated ×3 per point) |
+| 21 | 924,844,032 | 15,690,529,803 | 530.6 | ≈ 130 s (extrapolated ×3 per point) |
+
+**Why the threshold is 14:** each extra point multiplies the work by about 3. At 14 points a day takes under 0.1 s, so polishing a whole week stays interactive; at 16 it is already about half a second per day.
+
+**Why not DP for the whole problem at 21 points:** routing alone for one 21-point day would need about 2·10¹⁰ partition steps (minutes per day) and over 0.5 GB of tables. That is too slow to sit inside SA or GA, which evaluate about 500,000 candidate schedules per run. Choosing the schedule as well is far beyond it: each of 21 points can be collected on any subset of 6 working days, 2¹²⁶ ≈ 10³⁸ schedules. Each schedule changes every day's loads through the waste accumulation (Eq. 2l) and every point's bin, so the problem does not split into independent days. DP is therefore used where it is exact and cheap: the routing of one day, once the metaheuristic has fixed the schedule.
+
+### Polishing the saved best solutions
+
+The best solution of each of the 30 SA and 30 GA seeds, as saved by the runs above, polished without re-running SA or GA (`python src/polish_experiment.py`; per-seed results in `results/polish_<instance>_<algo>.csv`).
+
+| Instance | Algo | Mean routing gain | Best overall before → after | Seeds changed | Days improved | Mean DP time / day | Days skipped (> 14 points) |
+|---|---|---|---|---|---|---|---|
+| i.12.1 | SA | 0.06 US$ (0.04%) | 186.47 US$ → 186.32 US$ | 14 / 30 | 17 / 180 | 0.17 ms | 0 |
+| i.12.1 | GA | 10.36 US$ (6.39%) | 205.47 US$ → 193.44 US$ | 30 / 30 | 163 / 180 | 0.26 ms | 0 |
+| chennai_guindy | SA | ₹55.85 (0.24%) | ₹29,250.84 → ₹29,242.51 | 19 / 30 | 26 / 180 | 3.10 ms | 0 |
+| chennai_guindy | GA | ₹2,421.64 (8.95%) | ₹33,597.28 → ₹31,272.39 | 30 / 30 | 165 / 179 | 4.05 ms | 0 |
+| chennai_guindy_peak | SA | ₹28.00 (0.09%) | ₹37,378.69 → ₹37,378.69 | 18 / 30 | 23 / 180 | 2.08 ms | 0 |
+| chennai_guindy_peak | GA | ₹4,017.52 (10.76%) | ₹43,256.16 → ₹39,715.24 | 30 / 30 | 178 / 180 | 3.50 ms | 0 |
+
+On i.12.1 the best SA solution polishes to 186.32 US$: +4.43% relative to the MILP optimum of 178.42 (Table 10), and -0.89% relative to the paper's SA minimum of 188.0. Polishing the paper's own Appendix A solution changes none of its 6 days: its published routes are already optimal for its schedule.
+
+### Does DP polish narrow the SA–GA gap?
+
+Mean overall cost of the 30 seeds, before and after polish, and a two-sided Mann-Whitney U test of SA+DP against GA+DP:
+
+| Instance | SA → SA+DP | GA → GA+DP | GA − SA gap before → after | Gap closed | U, p (SA+DP vs GA+DP) |
+|---|---|---|---|---|---|
+| i.12.1 | 190.77 US$ → 190.71 US$ | 210.68 US$ → 200.31 US$ | 19.91 US$ (10.4%) → 9.60 US$ (5.0%) | 52% | U = 8, p = 6.7e-11 |
+| chennai_guindy | ₹30,079.05 → ₹30,023.21 | ₹34,954.69 → ₹32,533.05 | ₹4,875.63 (16.2%) → ₹2,509.84 (8.4%) | 49% | U = 0, p = 3.02e-11 |
+| chennai_guindy_peak | ₹38,546.95 → ₹38,518.95 | ₹45,198.75 → ₹41,181.22 | ₹6,651.79 (17.3%) → ₹2,662.27 (6.9%) | 60% | U = 0, p = 3.02e-11 |
+
+DP polish closes 49%–60% of the gap. GA gains far more from polish than SA (6–11% of routing cost against under 0.3%). A likely reading: SA's exchange moves keep refining the visiting orders of a schedule, while GA's crossover recombines orders and leaves poor ones; that part of GA's deficit is route construction, which DP removes. The rest is the schedule itself (which days each point is collected, hence the bins and loads), which DP holds fixed. Mean bin cost, SA vs GA: i.12.1 47.27 US$ vs 48.65 US$; chennai_guindy ₹7,526.58 vs ₹8,020.17; chennai_guindy_peak ₹7,994.12 vs ₹7,965.91. SA+DP still beats GA+DP on every instance, so the ranking stands, but the margin by which GA loses is roughly halved.
+
 ## Convergence
 
 Median best fitness over all seeds against evaluations spent; the shaded band is the interquartile range. A run that stopped early holds its final value. The y-axis leaves out penalised infeasible solutions (it starts after the first 5% of the budget and is capped at 1.3× the final values); where a curve enters from above the frame, the median run was still infeasible.

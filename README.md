@@ -17,6 +17,7 @@ network around CEG Guindy, Anna University, Chennai.
 | M6 Experiment runner | `src/runner.py` | done |
 | M7 Exporter | `src/exporter.py` | done (OSRM road geometry) |
 | M9 Leaflet UI | `ui/index.html` | done (self-contained, embedded plan) |
+| M10 DP route polish | `src/dp_router.py` | done (opt-in, exact per-day routing) |
 
 ## Validation
 
@@ -186,4 +187,25 @@ Each route also carries its real street geometry from the OSRM route service,
 as GeoJSON. If OSRM is unreachable (or with `--offline`), routes are drawn as
 straight lines, and `geometry_source` says so per route.
 `--solution FILE.npz` exports a specific solution instead of the best.
+
+## Exact route polish (dynamic programming, opt-in)
+
+`src/dp_router.py` keeps a solution's schedule, bins and waste fixed and
+re-routes each day exactly: Held–Karp over every subset of the day's points,
+then a partition DP for the cheapest set of at most nV routes within Q and
+TL. Routing cost can only fall. Days with more than 14 points keep their
+greedy routes and are reported as skipped. SA, GA and the Appendix A
+validation are unchanged.
+
+```bash
+python src/runner.py ... --polish                 # also polish each seed's best
+python src/exporter.py --instance data/chennai_guindy --polish
+python src/polish_experiment.py                   # polish all saved best solutions
+python scripts/demo_replan.py                     # re-plan a day after a waste surge
+python tests/test_dp_router.py                    # DP == brute force, polish invariants
+python tests/test_dp_dry_run.py                   # the worked example in docs/
+```
+
+`docs/dp_dry_run.md` works a 4-point example by hand, and the DP section of
+`results/summary.md` covers complexity, polish gains and the SA–GA gap.
 

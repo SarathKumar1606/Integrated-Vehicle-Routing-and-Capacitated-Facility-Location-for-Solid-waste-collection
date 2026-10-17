@@ -133,6 +133,187 @@ def run_stats(name: str) -> dict:
     return st
 
 
+def read_polish(name: str, algo: str) -> list[dict]:
+    """Per-seed rows of results/polish_<name>_<algo>.csv (polish_experiment.py)."""
+    path = RESULTS / f"polish_{name}_{algo}.csv"
+    if not path.exists():
+        return []
+    with path.open() as fh:
+        rows = list(csv.DictReader(fh))
+    for r in rows:
+        for k, v in r.items():
+            if k in ("instance", "algorithm", "currency", "skipped_day_sizes"):
+                continue
+            if v in ("True", "False"):
+                r[k] = v == "True"
+            else:
+                r[k] = float(v)
+    return rows
+
+
+def dp_section(data: dict) -> list[str]:
+    """Exact per-day DP routing (src/dp_router.py): complexity, polish gains,
+    and whether polish narrows the SA-GA gap."""
+    from dp_router import MAX_DP_POINTS
+    md = ["## Dynamic-programming route polish", "",
+          "`src/dp_router.py` is an opt-in layer (`runner.py --polish`, "
+          "`exporter.py --polish`, `src/polish_experiment.py`). For a solution "
+          "found by SA or GA it keeps the schedule, bins and waste fixed and "
+          "replaces each day's greedy route split with the exact optimum: "
+          "Held–Karp gives the best closed tour for every subset of the day's "
+          "points, and a partition DP picks the cheapest set of at most nV "
+          "routes within Q and TL. A day is replaced only if that is strictly "
+          "shorter, so bin cost is unchanged and routing cost cannot rise. SA "
+          "and GA themselves are unchanged, and the Appendix A validation never "
+          "touches this code. A worked example by hand is in "
+          "`docs/dp_dry_run.md`.", ""]
+
+    # --- complexity ---------------------------------------------------------
+    timing = {}
+    tpath = RESULTS / "dp_timing.csv"
+    if tpath.exists():
+        with tpath.open() as fh:
+            timing = {int(r["n_points"]): float(r["median_ms"])
+                      for r in csv.DictReader(fh)}
+    K = 3
+    md += ["### Complexity against day size", "",
+           f"For n points in a day and a fleet of K = {K}: Held–Karp does "
+           "n²·2ⁿ steps and keeps an n·2ⁿ table; the partition DP looks at "
+           "every (set, subset containing its first point) pair, (3ⁿ − 1)/2 of "
+           "them, each for K route counts. Measured times are "
+           "`dp_day_routes` on the Chennai matrix with 1 m³ per point "
+           "(`polish_experiment.py --benchmark`, median of 5).", "",
+           "| Points in the day | Held–Karp steps n²·2ⁿ | Partition steps K·(3ⁿ−1)/2 "
+           "| DP tables (MB) | Measured time |",
+           "|---|---|---|---|---|"]
+    for n in (4, 6, 8, 10, 12, 13, 14, 15, 16, 18, 21):
+        hk = n * n * 2 ** n
+        part = K * (3 ** n - 1) // 2
+        # dp (float64) + parent (int8) of n*2^n, f and choice of (K+1)*2^n
+        mb = (n * 2 ** n * 9 + (K + 1) * 2 ** n * 16) / 1e6
+        if n in timing:
+            t = (f"{timing[n]:,.3f} ms" if timing[n] < 1000
+                 else f"{timing[n] / 1000:,.2f} s")
+        else:
+            est = timing.get(16, 0) * 3 ** (n - 16) / 1000
+            t = f"≈ {est:,.0f} s (extrapolated ×3 per point)" if timing else "—"
+        mark = " ← MAX_DP_POINTS" if n == MAX_DP_POINTS else ""
+        md.append(f"| {n}{mark} | {hk:,} | {part:,} | {mb:,.1f} | {t} |")
+    md += ["", f"**Why the threshold is {MAX_DP_POINTS}:** each extra point "
+           "multiplies the work by about 3. At 14 points a day takes under "
+           "0.1 s, so polishing a whole week stays interactive; at 16 it is "
+           "already about half a second per day.", "",
+           "**Why not DP for the whole problem at 21 points:** routing alone "
+           "for one 21-point day would need about 2·10¹⁰ partition steps "
+           "(minutes per day) and over 0.5 GB of tables. That is too slow to "
+           "sit inside SA or GA, which evaluate about 500,000 candidate "
+           "schedules per run. Choosing the schedule as well is far beyond "
+           "it: each of 21 points can be collected on any subset of 6 working "
+           "days, 2¹²⁶ ≈ 10³⁸ schedules. Each schedule changes every day's "
+           "loads through the waste accumulation (Eq. 2l) and every point's "
+           "bin, so the problem does not split into independent days. DP is "
+           "therefore used where it is exact and cheap: the routing of one "
+           "day, once the metaheuristic has fixed the schedule.", ""]
+
+    # --- polish gains -------------------------------------------------------
+    names = [n for n in INSTANCES if read_polish(n, "sa")]
+    if not names:
+        return md
+    md += ["### Polishing the saved best solutions", "",
+           "The best solution of each of the 30 SA and 30 GA seeds, as saved by "
+           "the runs above, polished without re-running SA or GA "
+           "(`python src/polish_experiment.py`; per-seed results in "
+           "`results/polish_<instance>_<algo>.csv`).", "",
+           "| Instance | Algo | Mean routing gain | Best overall before → after "
+           "| Seeds changed | Days improved | Mean DP time / day "
+           f"| Days skipped (> {MAX_DP_POINTS} points) |",
+           "|---|---|---|---|---|---|---|---|"]
+    for n in names:
+        m = lambda x, n=n: money(n, x)  # noqa: E731
+        for a in ALGOS:
+            rows = read_polish(n, a)
+            if not rows:
+                continue
+            gain = np.mean([r["routing_improvement"] for r in rows])
+            gpct = np.mean([r["routing_improvement_pct"] for r in rows])
+            before = min(r["overall_cost"] for r in rows)
+            after = min(r["polished_overall_cost"] for r in rows)
+            changed = sum(r["days_improved"] > 0 for r in rows)
+            days = sum(r["days"] for r in rows)
+            days_imp = sum(r["days_improved"] for r in rows)
+            skipped = sum(r["days_skipped"] for r in rows)
+            ms = np.mean([r["dp_ms_per_day"] for r in rows])
+            md.append(f"| {n} | {LABEL[a]} | {m(gain)} ({gpct:.2f}%) | "
+                      f"{m(before)} → {m(after)} | {changed} / {len(rows)} | "
+                      f"{int(days_imp)} / {int(days)} | {ms:.2f} ms | "
+                      f"{int(skipped)} |")
+    md.append("")
+    if "i.12.1" in names:
+        sa_best = min(r["polished_overall_cost"] for r in read_polish("i.12.1", "sa"))
+        # the paper's own Appendix A solution, polished
+        import validate_appendix as va
+        from dp_router import polish_with_report
+        app = inst_of("i.12.1")
+        app_sol = decode(app, va.POP, va.MASK, *penalty_weights(app))
+        _, app_rep = polish_with_report(app, app_sol)
+        app_changed = sum(d.status == "improved" for d in app_rep.days)
+        md += [f"On i.12.1 the best SA solution polishes to {sa_best:.2f} US$: "
+               f"{pct(sa_best, PAPER_MILP)} relative to the MILP optimum of "
+               f"{PAPER_MILP} (Table 10), and {pct(sa_best, PAPER_SA_MIN)} "
+               f"relative to the paper's SA minimum of {PAPER_SA_MIN}. "
+               + ("Polishing the paper's own Appendix A solution changes none "
+                  f"of its {len(app_rep.days)} days: its published routes are "
+                  "already optimal for its schedule." if app_changed == 0 else
+                  f"Polishing the paper's own Appendix A solution improves "
+                  f"{app_changed} of its {len(app_rep.days)} days."), ""]
+
+    # --- SA+DP vs GA+DP -----------------------------------------------------
+    md += ["### Does DP polish narrow the SA–GA gap?", "",
+           "Mean overall cost of the 30 seeds, before and after polish, and a "
+           "two-sided Mann-Whitney U test of SA+DP against GA+DP:", "",
+           "| Instance | SA → SA+DP | GA → GA+DP | GA − SA gap before → after "
+           "| Gap closed | U, p (SA+DP vs GA+DP) |",
+           "|---|---|---|---|---|---|"]
+    closed_share = []
+    for n in names:
+        m = lambda x, n=n: money(n, x)  # noqa: E731
+        sa, ga = read_polish(n, "sa"), read_polish(n, "ga")
+        if not sa or not ga:
+            continue
+        sa0 = np.mean([r["overall_cost"] for r in sa])
+        sa1 = np.mean([r["polished_overall_cost"] for r in sa])
+        ga0 = np.mean([r["overall_cost"] for r in ga])
+        ga1 = np.mean([r["polished_overall_cost"] for r in ga])
+        gap0, gap1 = ga0 - sa0, ga1 - sa1
+        share = (gap0 - gap1) / gap0 if gap0 else 0.0
+        closed_share.append(share)
+        u, p = mannwhitneyu([r["polished_overall_cost"] for r in sa],
+                            [r["polished_overall_cost"] for r in ga],
+                            alternative="two-sided")
+        md.append(f"| {n} | {m(sa0)} → {m(sa1)} | {m(ga0)} → {m(ga1)} | "
+                  f"{m(gap0)} ({gap0 / sa0:.1%}) → {m(gap1)} ({gap1 / sa1:.1%}) | "
+                  f"{share:.0%} | U = {u:.0f}, p = {p:.3g} |")
+    bin_gap = []
+    for n in names:
+        sa, ga = read_polish(n, "sa"), read_polish(n, "ga")
+        bin_gap.append((n, np.mean([r["bin_cost"] for r in sa]),
+                        np.mean([r["bin_cost"] for r in ga])))
+    md += ["", f"DP polish closes {min(closed_share):.0%}–{max(closed_share):.0%} "
+           "of the gap. GA gains far more from polish than SA (6–11% of "
+           "routing cost against under 0.3%). A likely reading: SA's "
+           "exchange moves keep refining the visiting orders of a schedule, "
+           "while GA's crossover recombines orders and leaves poor ones; that "
+           "part of GA's deficit is route construction, which DP removes. "
+           "The rest is the schedule itself (which days each point is "
+           "collected, hence the bins and loads), which DP holds fixed. "
+           "Mean bin cost, SA vs GA: "
+           + "; ".join(f"{n} {money(n, b_sa)} vs {money(n, b_ga)}"
+                       for n, b_sa, b_ga in bin_gap)
+           + ". SA+DP still beats GA+DP on every instance, so the ranking "
+           "stands, but the margin by which GA loses is roughly halved.", ""]
+    return md
+
+
 def pct(ours: float, ref: float) -> str:
     return f"{(ours - ref) / ref * 100:+.2f}%"
 
@@ -466,6 +647,8 @@ def main() -> None:
                           f"| {p:.3g} |")
             md.append("")
         md.append("")
+
+    md += dp_section(data)
 
     # --- figures -----------------------------------------------------------
     md += ["## Convergence", "",

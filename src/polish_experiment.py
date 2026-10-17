@@ -10,6 +10,7 @@ routes to results/solutions_polished/<name>_<algo>_seed<N>.npz.
 Usage:
     python src/polish_experiment.py                      # the three instances
     python src/polish_experiment.py --instance data/12_1 --name i.12.1
+    python src/polish_experiment.py --benchmark     # DP time vs day size
 """
 
 from __future__ import annotations
@@ -22,7 +23,8 @@ from pathlib import Path
 import numpy as np
 
 from decoder import decode
-from dp_router import MAX_DP_POINTS, polish_with_report, routes_to_arrays, warm_up
+from dp_router import (MAX_DP_POINTS, dp_day_routes, polish_with_report,
+                       routes_to_arrays, warm_up)
 from loader import load_instance
 from optimizers import penalty_weights
 
@@ -87,11 +89,44 @@ def polish_saved(name: str, folder: Path, algo: str) -> list[dict]:
     return rows
 
 
+def benchmark(sizes=range(4, 17), repeats=5) -> None:
+    """Wall time of dp_day_routes against the number of points in a day, on
+    the Chennai free-flow matrix with its real Q, TL and fleet. Loads of
+    1 m3 per point keep most subsets within capacity, close to the worst
+    case for the partition DP. Writes results/dp_timing.csv."""
+    inst = load_instance(ROOT / "data" / "chennai_guindy")
+    bins = np.zeros(inst.n_points, dtype=np.int64)
+    rows = []
+    for n in sizes:
+        pts = np.arange(n, dtype=np.int64)
+        waste = np.ones(n)
+        times = []
+        for _ in range(repeats):
+            t0 = time.perf_counter()
+            dp_day_routes(pts, waste, bins, inst.C, inst.bin_service,
+                          float(inst.Q), float(inst.TL), int(inst.n_vehicles),
+                          float(inst.tu))
+            times.append((time.perf_counter() - t0) * 1000.0)
+        rows.append({"n_points": n, "median_ms": round(float(np.median(times)), 3),
+                     "min_ms": round(min(times), 3)})
+        print(f"  n = {n:2d}: {rows[-1]['median_ms']:10.3f} ms")
+    with (RESULTS / "dp_timing.csv").open("w", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=list(rows[0]))
+        w.writeheader()
+        w.writerows(rows)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--instance", default=None)
     ap.add_argument("--name", default=None)
+    ap.add_argument("--benchmark", action="store_true",
+                    help="time dp_day_routes for day sizes 4..16 instead")
     args = ap.parse_args()
+    if args.benchmark:
+        warm_up()
+        benchmark()
+        return
     targets = ([(args.name or Path(args.instance).name, Path(args.instance))]
                if args.instance else DEFAULT)
     warm_up()
