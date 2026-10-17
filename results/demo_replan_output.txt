@@ -1,0 +1,13 @@
+Plan: chennai_guindy_sa_seed16.npz, overall ₹29,250.84/week
+Surge: CEG Main Canteen, CEG Square (bin 4.8 m3) is full on TUE, a day it was not scheduled. Its normal level that day: 1.14 m3.
+
+TUE as planned:
+  R1  20.67 m3   62.63 min  depot -> Phoenix Marketcity -> SPIC Building -> Kalaignar Arch -> Kamakshi Amman Temple -> Karaneeswarar Temple -> Chemparuthi Hostel -> College of Engineering Guindy (main gate) -> depot
+
+TUE re-planned (dp, feasible):
+  R1  20.67 m3   62.63 min  depot -> Phoenix Marketcity -> SPIC Building -> Kalaignar Arch -> Kamakshi Amman Temple -> Karaneeswarar Temple -> Chemparuthi Hostel -> College of Engineering Guindy (main gate) -> depot
+  R2   4.80 m3   38.71 min  depot -> CEG Main Canteen -> depot
+
+  route time   62.63 -> 101.34 min (+38.71)
+  cost change  ₹2,150.45 for TUE (CCV ₹55.55/min)
+  wall time    40.72 ms first call, 0.50 ms mean over 200 calls (DP itself: 0.46 ms)
