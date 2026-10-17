@@ -1,0 +1,7 @@
+MAX_DP_POINTS = 14
+  i.12.1               SA  mean routing gain 0.06 US$ (0.042%)  best 186.47 US$ -> 186.32 US$  changed 14/30  DP 0.172 ms/day  skipped days 0
+  i.12.1               GA  mean routing gain 10.36 US$ (6.385%)  best 205.47 US$ -> 193.44 US$  changed 30/30  DP 0.258 ms/day  skipped days 0
+  chennai_guindy       SA  mean routing gain ₹55.85 (0.244%)  best ₹29,250.84 -> ₹29,242.51  changed 19/30  DP 3.104 ms/day  skipped days 0
+  chennai_guindy       GA  mean routing gain ₹2,421.64 (8.954%)  best ₹33,597.28 -> ₹31,272.39  changed 30/30  DP 4.047 ms/day  skipped days 0
+  chennai_guindy_peak  SA  mean routing gain ₹28.00 (0.092%)  best ₹37,378.69 -> ₹37,378.69  changed 18/30  DP 2.084 ms/day  skipped days 0
+  chennai_guindy_peak  GA  mean routing gain ₹4,017.52 (10.763%)  best ₹43,256.16 -> ₹39,715.24  changed 30/30  DP 3.502 ms/day  skipped days 0
