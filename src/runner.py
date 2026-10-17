@@ -30,7 +30,7 @@ SOLUTIONS_DIR = ROOT / "results" / "solutions"
 
 
 def _one_run(args):
-    folder, name, algo, seed, kwargs, overrides = args
+    folder, name, algo, seed, kwargs, overrides, polish = args
     inst = load_instance(folder, name, **overrides)
     t0 = time.time()
     res = (simulated_annealing(inst, seed=seed, **kwargs) if algo == "sa"
@@ -48,10 +48,19 @@ def _one_run(args):
 
     # keep the chromosome so exporter.py can rebuild and map the solution,
     # and the history for convergence plots
+    # --polish: exact DP routes for each day of the best solution, stored as
+    # explicit routes (a DP partition need not be a greedy split of a
+    # permutation, so it cannot be written back into the chromosome)
+    polish_cols, polish_arrays = {}, {}
+    if polish:
+        from dp_router import polish_record
+        _, polish_cols, polish_arrays = polish_record(inst, sol)
+
     SOLUTIONS_DIR.mkdir(parents=True, exist_ok=True)
     np.savez(SOLUTIONS_DIR / f"{name}_{algo}_seed{seed}.npz",
              pop=res.best_pop, mask=res.best_mask, fitness=sol.fitness,
-             history=np.asarray(res.history), history_evals=history_evals)
+             history=np.asarray(res.history), history_evals=history_evals,
+             **polish_arrays)
     return {
         "instance": name, "algorithm": res.algorithm, "seed": seed,
         "overall_cost": round(sol.overall_cost, 4),
@@ -66,6 +75,7 @@ def _one_run(args):
         "longest_route_min": round(max((r.duration for r in sol.routes), default=0.0), 2),
         "evaluations": res.evaluations,
         "runtime_s": round(time.time() - t0, 2),
+        **polish_cols,
     }
 
 
@@ -80,10 +90,15 @@ def _read_done(out_csv: Path) -> list[dict]:
         r["evaluations"] = int(r["evaluations"])
         r["feasible"] = r["feasible"] == "True"
         for k in ("overall_cost", "bin_cost", "routing_cost", "runtime_s",
-                  "penalty", "shift_limit_min", "longest_route_min"):
+                  "penalty", "shift_limit_min", "longest_route_min",
+                  "polished_overall_cost", "polished_routing_cost",
+                  "polish_dp_ms_per_day", "polish_ms"):
             if k in r:
                 r[k] = float(r[k])
-        for k in ("n_routes", "routes_over_tl"):
+        if "polished_feasible" in r:
+            r["polished_feasible"] = r["polished_feasible"] == "True"
+        for k in ("n_routes", "routes_over_tl", "polish_days_improved",
+                  "polish_days_skipped"):
             if k in r:
                 r[k] = int(r[k])
     return rows
@@ -92,7 +107,7 @@ def _read_done(out_csv: Path) -> list[dict]:
 def run_experiment(folder: str | Path, name: str, algo: str, runs: int = 10,
                    workers: int | None = None, out_csv: Path | None = None,
                    resume: bool = False, overrides: dict | None = None,
-                   **kwargs) -> list[dict]:
+                   polish: bool = False, **kwargs) -> list[dict]:
     """Run seeds 0..runs-1. With resume=True, seeds that already have a row
     in the CSV and a saved solution are skipped and new rows are appended,
     so an interrupted experiment (crash, power loss) can be continued."""
@@ -106,7 +121,7 @@ def run_experiment(folder: str | Path, name: str, algo: str, runs: int = 10,
         if rows:
             print(f"  resuming: {len(rows)} seeds already done")
     done = {r["seed"] for r in rows}
-    jobs = [(str(folder), name, algo, s, kwargs, overrides or {})
+    jobs = [(str(folder), name, algo, s, kwargs, overrides or {}, polish)
             for s in range(runs)
             if s not in done]
 
@@ -172,6 +187,10 @@ def main() -> None:
     ap.add_argument("--tl", type=float, default=None,
                     help="override the shift limit TL (minutes) instead of "
                          "deriving it from the matrix with Eq. (10)")
+    ap.add_argument("--polish", action="store_true",
+                    help="also polish each seed's best solution with exact "
+                         "per-day DP routing (src/dp_router.py) and record "
+                         "the pre- and post-polish costs; off by default")
     ap.add_argument("--resume", action="store_true",
                     help="skip seeds already in the results CSV and append")
     args = ap.parse_args()
@@ -185,7 +204,8 @@ def main() -> None:
         print(f"\n=== {name}  {algo.upper()}  x{args.runs} ===")
         rows = run_experiment(folder, name, algo, args.runs,
                               workers=args.workers, resume=args.resume,
-                              overrides={"TL": args.tl} if args.tl else None, **kw)
+                              overrides={"TL": args.tl} if args.tl else None,
+                              polish=args.polish, **kw)
         print_summary(name, algo, summarize(rows),
                       rows[0].get("currency", "USD") if rows else "USD")
 

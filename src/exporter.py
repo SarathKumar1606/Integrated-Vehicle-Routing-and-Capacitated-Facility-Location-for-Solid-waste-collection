@@ -55,8 +55,11 @@ OSRM_PAUSE_S = 1.0          # be polite to the public demo server
 # ---------------------------------------------------------------------------
 # Choosing the solution
 # ---------------------------------------------------------------------------
-def best_saved_solution(inst: Instance, name: str) -> tuple[Path, Solution]:
-    """Decode every saved chromosome for this instance; keep the best."""
+def best_saved_solution(inst: Instance, name: str,
+                        polish: bool = False) -> tuple[Path, Solution]:
+    """Decode every saved chromosome for this instance; keep the best.
+    With polish=True each is first given exact DP routes per day, and the
+    best is chosen after polishing."""
     # exact {name}_{sa,ga}_seed<N> names: a prefix glob would also catch
     # e.g. chennai_guindy_peak_* when exporting chennai_guindy
     files = sorted(f for algo in ("sa", "ga")
@@ -69,10 +72,17 @@ def best_saved_solution(inst: Instance, name: str) -> tuple[Path, Solution]:
     for f in files:
         with np.load(f) as z:
             sol = decode(inst, z["pop"], z["mask"], *penalty_weights(inst))
+        if polish:
+            sol = _polish(inst, sol)
         key = (not sol.feasible, sol.fitness)
         if best is None or key < best[0]:
             best = (key, f, sol)
     return best[1], best[2]
+
+
+def _polish(inst: Instance, sol: Solution) -> Solution:
+    from dp_router import polish          # opt-in: only imported with --polish
+    return polish(inst, sol)
 
 
 def load_solution_file(inst: Instance, path: Path) -> Solution:
@@ -126,7 +136,8 @@ def _r(x: float, nd: int = 4) -> float:
 
 
 def build_export(inst: Instance, sol: Solution, folder: Path,
-                 source: str, offline: bool = False) -> dict:
+                 source: str, offline: bool = False,
+                 polished: bool = False) -> dict:
     names = point_names(folder, inst.n_points + 1)
     lonlat = lambda node: (float(inst.lon[node]), float(inst.lat[node]))  # noqa: E731
 
@@ -270,6 +281,7 @@ def build_export(inst: Instance, sol: Solution, folder: Path,
         },
         "provenance": {
             "solution_file": source,
+            "dp_polished": polished,
             "generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "geometry_sources": sorted({g["geometry_source"]
                                         for g in geometry_cache.values()}),
@@ -288,6 +300,10 @@ def main() -> None:
                     help="output JSON (default: ui/data/<name>.json)")
     ap.add_argument("--offline", action="store_true",
                     help="skip OSRM; draw straight lines between stops")
+    ap.add_argument("--polish", action="store_true",
+                    help="replace each day's routes by the exact DP optimum "
+                         "(src/dp_router.py); default output becomes "
+                         "ui/data/<name>_polished.json")
     args = ap.parse_args()
 
     folder = Path(args.instance)
@@ -297,8 +313,10 @@ def main() -> None:
     if args.solution:
         path = Path(args.solution)
         sol = load_solution_file(inst, path)
+        if args.polish:
+            sol = _polish(inst, sol)
     else:
-        path, sol = best_saved_solution(inst, name)
+        path, sol = best_saved_solution(inst, name, polish=args.polish)
     print(f"  exporting {path.name}: overall {inst.money(sol.overall_cost)}, "
           f"feasible {sol.feasible}, {len(sol.routes)} routes")
 
@@ -306,9 +324,12 @@ def main() -> None:
         source = path.resolve().relative_to(ROOT).as_posix()
     except ValueError:
         source = path.as_posix()
-    data = build_export(inst, sol, folder, source, offline=args.offline)
+    data = build_export(inst, sol, folder, source, offline=args.offline,
+                        polished=args.polish)
 
-    out = Path(args.out) if args.out else ROOT / "ui" / "data" / f"{name}.json"
+    suffix = "_polished" if args.polish else ""
+    out = (Path(args.out) if args.out
+           else ROOT / "ui" / "data" / f"{name}{suffix}.json")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n",
                    encoding="utf-8")

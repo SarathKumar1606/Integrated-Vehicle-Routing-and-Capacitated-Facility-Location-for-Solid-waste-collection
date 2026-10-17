@@ -514,3 +514,55 @@ def replan_day(inst: Instance, solution: Solution, day: int,
         for r in routes)
     return ReplanResult(day, routes, old_min, new_min,
                         inst.ccv * (new_min - old_min), method, feasible, ms)
+
+
+# ---------------------------------------------------------------------------
+# Recording polished solutions (runner.py / exporter.py / polish_experiment.py)
+# ---------------------------------------------------------------------------
+def routes_to_arrays(routes: list[Route]) -> dict[str, np.ndarray]:
+    """Explicit routes as flat arrays for np.savez: route r runs on
+    route_day[r] and visits route_stops[route_ptr[r]:route_ptr[r + 1]]."""
+    ptr = np.zeros(len(routes) + 1, dtype=np.int64)
+    for r, route in enumerate(routes):
+        ptr[r + 1] = ptr[r] + len(route.stops)
+    stops = np.array([s for r in routes for s in r.stops], dtype=np.int64)
+    days = np.array([r.day for r in routes], dtype=np.int64)
+    return {"polished_route_day": days, "polished_route_ptr": ptr,
+            "polished_route_stops": stops}
+
+
+_WARM = False
+
+
+def warm_up() -> None:
+    """Compile (or load from the on-disk cache) the DP kernels once, so the
+    first timed day does not include several seconds of JIT start-up."""
+    global _WARM
+    if _WARM:
+        return
+    C = np.array([[0.0, 1.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 0.0]])
+    dp_day_routes(np.array([0, 1], dtype=np.int64), np.array([1.0, 1.0]),
+                  np.array([0, 0], dtype=np.int64), C, np.array([1.0]),
+                  10.0, 100.0, 2, 1.0)
+    _WARM = True
+
+
+def polish_record(inst: Instance, sol: Solution) -> tuple[Solution, dict, dict]:
+    """Polish a decoded solution and return (polished solution, extra CSV
+    columns, extra arrays to save alongside the chromosome)."""
+    warm_up()
+    t0 = time.perf_counter()
+    pol, rep = polish_with_report(inst, sol)
+    ms = (time.perf_counter() - t0) * 1000.0
+    dp_days = [d for d in rep.days if d.status != "skipped_size"]
+    columns = {
+        "polished_overall_cost": round(pol.overall_cost, 4),
+        "polished_routing_cost": round(pol.routing_cost, 4),
+        "polished_feasible": pol.feasible,
+        "polish_days_improved": sum(d.status == "improved" for d in rep.days),
+        "polish_days_skipped": len(rep.skipped),
+        "polish_dp_ms_per_day": round(sum(d.dp_ms for d in dp_days)
+                                      / max(len(dp_days), 1), 3),
+        "polish_ms": round(ms, 2),
+    }
+    return pol, columns, routes_to_arrays(pol.routes)
