@@ -210,3 +210,32 @@ solutions with a prefix glob (`{name}_*`), which also matched
 matched `chennai_guindy_peak_tl96_*` for `chennai_guindy_peak`. Both now
 match `{name}_{sa,ga}_seed*.npz` exactly. The v2.0 summary and maps were not
 affected: re-checked, they pick the same best solutions (seeds 16 and 20).
+
+---
+
+# 2026-10-17 — dynamic-programming route polish (opt-in)
+
+Before: Appendix A 7/7; decoder equivalence BIT-FOR-BIT IDENTICAL.
+After: the same, plus tests/test_dp_router.py ALL PASSED and
+tests/test_dp_dry_run.py reproduced exactly. `dp_router` is not loaded when
+validate_appendix.py runs (checked through sys.modules); runner.py and
+exporter.py import it only under --polish, and runs without the flag
+produce byte-identical CSVs and .npz files (checked on seeded SA and GA).
+
+Nothing failed. Issues hit and fixed along the way:
+
+- The first exactness run reported 2 of 105 days differing from brute force
+  by one ulp (94.86 vs 94.85999999999999). The bug was in the test: its
+  partition generator did not order blocks by their lowest point, so the
+  brute force added route totals in a different order from the DP. With the
+  generator fixed (checked against the Bell numbers for 1–8 points), DP
+  equals brute force exactly on all 105 days.
+- The expected values first typed into tests/test_dp_dry_run.py were wrong
+  guesses; every disputed entry was re-derived by hand and the code was
+  right each time. docs/dp_dry_run.md is written from the verified values.
+- The toy instance in the brief has no fleet size or shift limit. The
+  example uses nV = 2 and TL = 30 min (Eq. 9 would give 1 truck, which
+  cannot carry a day's waste), stated in the document.
+
+Not done (outside this task): ui/index.html still embeds the v1.0 plan;
+`collection_plan_map.html` never arrived in the repo root.
