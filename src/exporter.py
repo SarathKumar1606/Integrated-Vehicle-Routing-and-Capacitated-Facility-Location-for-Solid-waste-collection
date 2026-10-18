@@ -34,6 +34,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import re
 import time
 import urllib.error
 from datetime import datetime, timezone
@@ -47,7 +48,8 @@ from loader import DAY_NAMES, Instance, load_instance
 from optimizers import penalty_weights
 
 ROOT = Path(__file__).parent.parent
-SOLUTIONS_DIR = ROOT / "results" / "solutions"
+RESULTS_DIR = ROOT / "results"
+SOLUTIONS_DIR = RESULTS_DIR / "solutions"
 OSRM_ROUTE_URL = "https://router.project-osrm.org/route/v1/driving/"
 OSRM_PAUSE_S = 1.0          # be polite to the public demo server
 
@@ -55,44 +57,89 @@ OSRM_PAUSE_S = 1.0          # be polite to the public demo server
 # ---------------------------------------------------------------------------
 # Choosing the solution
 # ---------------------------------------------------------------------------
-def best_saved_solution(inst: Instance, name: str,
-                        polish: bool = False) -> tuple[Path, Solution]:
-    """Decode every saved chromosome for this instance; keep the best.
-    With polish=True each is first given exact DP routes per day, and the
-    best is chosen after polishing."""
-    # exact {name}_{sa,ga}_seed<N> names: a prefix glob would also catch
-    # e.g. chennai_guindy_peak_* when exporting chennai_guindy
-    files = sorted(f for algo in ("sa", "ga")
-                   for f in SOLUTIONS_DIR.glob(f"{name}_{algo}_seed*.npz"))
+def solution_files(name: str, algo: str) -> list[Path]:
+    """Saved best solutions of one algorithm on one instance, by seed.
+    Exact {name}_{algo}_seed<N> names: a prefix glob would also catch e.g.
+    chennai_guindy_peak_* when exporting chennai_guindy."""
+    files = list(SOLUTIONS_DIR.glob(f"{name}_{algo}_seed*.npz"))
     if not files:
         raise SystemExit(
-            f"No saved solutions for '{name}' in {SOLUTIONS_DIR}.\n"
+            f"No saved {algo.upper()} solutions for '{name}' in {SOLUTIONS_DIR}.\n"
             f"Run first:  python src/runner.py --instance <folder> --name {name}")
+    return sorted(files, key=seed_of)
+
+
+def seed_of(path: Path) -> int:
+    m = re.search(r"_seed(\d+)\.npz$", path.name)
+    return int(m.group(1)) if m else -1
+
+
+def algo_of(path: Path) -> str | None:
+    m = re.search(r"_(sa|ga)_seed\d+\.npz$", path.name)
+    return m.group(1) if m else None
+
+
+def raw_and_polished(inst: Instance, path: Path):
+    """The saved solution decoded as SA/GA left it, and its DP polish."""
+    from dp_router import polish_with_report, warm_up
+    with np.load(path) as z:
+        raw = decode(inst, z["pop"], z["mask"], *penalty_weights(inst))
+    warm_up()
+    pol, report = polish_with_report(inst, raw)
+    return raw, pol, report
+
+
+def select_solution(inst: Instance, name: str, algo: str,
+                    select: str = "raw") -> Path:
+    """Best saved solution of `algo`: feasible first, then lowest fitness --
+    of the solution as saved (select="raw") or after DP polish
+    (select="polished"). Choosing by polished cost gives the raw and the
+    polished export of a pair the same seed."""
     best = None
-    for f in files:
-        with np.load(f) as z:
-            sol = decode(inst, z["pop"], z["mask"], *penalty_weights(inst))
-        if polish:
-            sol = _polish(inst, sol)
+    for f in solution_files(name, algo):
+        if select == "polished":
+            _, sol, _ = raw_and_polished(inst, f)
+        else:
+            with np.load(f) as z:
+                sol = decode(inst, z["pop"], z["mask"], *penalty_weights(inst))
         key = (not sol.feasible, sol.fitness)
         if best is None or key < best[0]:
-            best = (key, f, sol)
-    return best[1], best[2]
+            best = (key, f)
+    return best[1]
 
 
-def _polish(inst: Instance, sol: Solution) -> Solution:
-    from dp_router import polish          # opt-in: only imported with --polish
-    return polish(inst, sol)
+def polish_provenance(inst: Instance, name: str, algo: str | None, path: Path,
+                      raw: Solution, pol: Solution, report) -> dict:
+    """Raw and polished figures for the seed, identical in both files of a
+    raw/polished pair. The DP time per day is taken from the recorded polish
+    experiment for this seed (results/polish_<name>_<algo>.csv) when it
+    exists, so it does not vary between exports; otherwise it is measured."""
+    dp_days = [d for d in report.days if d.status != "skipped_size"]
+    dp_ms = round(sum(d.dp_ms for d in dp_days) / max(len(dp_days), 1), 4)
+    dp_ms_source = "measured at export"
+    rec = RESULTS_DIR / f"polish_{name}_{algo}.csv"
+    if algo and rec.exists():
+        with rec.open() as fh:
+            for r in csv.DictReader(fh):
+                if (int(r["seed"]) == seed_of(path) and abs(
+                        float(r["polished_overall_cost"])
+                        - round(pol.overall_cost, 4)) < 1e-6):
+                    dp_ms = float(r["dp_ms_per_day"])
+                    dp_ms_source = rec.relative_to(ROOT).as_posix()
+    return {
+        "algorithm": algo.upper() if algo else None,
+        "seed": seed_of(path),
+        "raw_overall_cost": round(raw.overall_cost, 4),
+        "raw_routing_cost": round(raw.routing_cost, 4),
+        "polished_overall_cost": round(pol.overall_cost, 4),
+        "polished_routing_cost": round(pol.routing_cost, 4),
+        "polish_days_improved": sum(d.status == "improved" for d in report.days),
+        "polish_days_skipped": len(report.skipped),
+        "polish_dp_ms_per_day": dp_ms,
+        "polish_dp_ms_source": dp_ms_source,
+    }
 
 
-def load_solution_file(inst: Instance, path: Path) -> Solution:
-    with np.load(path) as z:
-        return decode(inst, z["pop"], z["mask"], *penalty_weights(inst))
-
-
-# ---------------------------------------------------------------------------
-# Point names
-# ---------------------------------------------------------------------------
 def point_names(folder: Path, n_nodes: int) -> list[str]:
     """Names from the instance's points.csv (written by instance_builder.py);
     generic labels for instances that have none, such as the paper's."""
@@ -137,7 +184,7 @@ def _r(x: float, nd: int = 4) -> float:
 
 def build_export(inst: Instance, sol: Solution, folder: Path,
                  source: str, offline: bool = False,
-                 polished: bool = False) -> dict:
+                 polished: bool = False, extra: dict | None = None) -> dict:
     names = point_names(folder, inst.n_points + 1)
     lonlat = lambda node: (float(inst.lon[node]), float(inst.lat[node]))  # noqa: E731
 
@@ -281,7 +328,8 @@ def build_export(inst: Instance, sol: Solution, folder: Path,
         },
         "provenance": {
             "solution_file": source,
-            "dp_polished": polished,
+            "polished": polished,
+            **(extra or {}),
             "generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "geometry_sources": sorted({g["geometry_source"]
                                         for g in geometry_cache.values()}),
@@ -294,6 +342,15 @@ def main() -> None:
     ap.add_argument("--instance", required=True, help="instance folder")
     ap.add_argument("--name", default=None,
                     help="instance name used by runner.py (default: folder name)")
+    ap.add_argument("--algo", choices=["sa", "ga"], default="sa",
+                    help="export the best saved solution of this algorithm "
+                         "(default sa)")
+    ap.add_argument("--select", choices=["raw", "polished"], default="raw",
+                    help="choose the best seed by its cost as saved (raw, "
+                         "default) or after DP polish (polished; use it for "
+                         "both files of a raw/polished pair)")
+    ap.add_argument("--seed", type=int, default=None,
+                    help="export this seed instead of the best one")
     ap.add_argument("--solution", default=None,
                     help="a specific results/solutions/*.npz to export")
     ap.add_argument("--out", default=None,
@@ -312,20 +369,24 @@ def main() -> None:
 
     if args.solution:
         path = Path(args.solution)
-        sol = load_solution_file(inst, path)
-        if args.polish:
-            sol = _polish(inst, sol)
+    elif args.seed is not None:
+        path = SOLUTIONS_DIR / f"{name}_{args.algo}_seed{args.seed}.npz"
     else:
-        path, sol = best_saved_solution(inst, name, polish=args.polish)
-    print(f"  exporting {path.name}: overall {inst.money(sol.overall_cost)}, "
-          f"feasible {sol.feasible}, {len(sol.routes)} routes")
+        path = select_solution(inst, name, args.algo, args.select)
+    algo = algo_of(path) or args.algo
+    raw, pol, report = raw_and_polished(inst, path)
+    sol = pol if args.polish else raw
+    extra = polish_provenance(inst, name, algo, path, raw, pol, report)
+    print(f"  exporting {path.name} ({'DP-polished' if args.polish else 'raw'}): "
+          f"overall {inst.money(sol.overall_cost)}, feasible {sol.feasible}, "
+          f"{len(sol.routes)} routes")
 
     try:
         source = path.resolve().relative_to(ROOT).as_posix()
     except ValueError:
         source = path.as_posix()
     data = build_export(inst, sol, folder, source, offline=args.offline,
-                        polished=args.polish)
+                        polished=args.polish, extra=extra)
 
     suffix = "_polished" if args.polish else ""
     out = (Path(args.out) if args.out
