@@ -209,3 +209,16 @@ python tests/test_dp_dry_run.py                   # the worked example in docs/
 `docs/dp_dry_run.md` works a 4-point example by hand, and the DP section of
 `results/summary.md` covers complexity, polish gains and the SA–GA gap.
 
+
+## Data for a browser-side solver
+
+- `ui/data/solver_core.json` (`python src/export_solver_core.py`) has both
+  Chennai instances (matrix, waste, fleet, rupee costs, penalty weights,
+  bins, points), the i.12.1 Appendix A known-answer test, parity cases
+  with the exact Python decode, and `decoder_spec`, the decoder's steps in
+  exact floating-point order. Nothing in it is rounded.
+- `ui/data/geometry.json` (`python src/export_geometry.py`, resumable) has
+  OSRM road geometry for all 462 ordered node pairs, for drawing routes
+  computed in the browser.
+- `python scripts/verify_js_fixtures.py` checks both files against the live
+  Python solver; re-export if it fails.
